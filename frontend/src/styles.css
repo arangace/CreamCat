@@ -1,0 +1,30 @@
+.items {
+  padding: 5px;
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+ul {
+  list-style-type: none;
+}
+.items:nth-child(odd) {
+  background-color: rgb(248, 193, 193);
+}
+.items:nth-child(even) {
+  background-color: grey;
+}
+.items:hover {
+  background-color: rgba(0, 0, 128, 0);
+}
+.done {
+  color: darkgrey;
+  text-decoration: line-through;
+}
+.footer {
+  background-color: red;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
