@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styles from './styles.css';
 import NavBar from './Navbar';
-import Footer from './Footer';
-import Body from './Body';
+import HomePage from './HomePage';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 
 function App() {
@@ -14,9 +14,15 @@ function App() {
         <NavBar>
 
         </NavBar>
-        <Body></Body>
+
       </div>
-      <Footer></Footer>
+      <Switch>
+        <Route path="/Home">
+          <HomePage />
+        </Route>
+        <Route path="/Features">
+        </Route>
+      </Switch>
     </div >
   );
 }

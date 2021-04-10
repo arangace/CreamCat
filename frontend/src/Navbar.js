@@ -10,13 +10,12 @@ export default function NavBar() {
   return (
     <>
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">CreamCat</Navbar.Brand>
+        <Navbar.Brand href="Home">CreamCat</Navbar.Brand>
         <Nav className="mr-auto">
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#features">Features</Nav.Link>
-          <Nav.Link href="#about">About</Nav.Link>
-          <Nav.Link href="#support">Support</Nav.Link>
-          <Nav.Link href="#login">Login</Nav.Link>
+          <Nav.Link href="Features">Features</Nav.Link>
+          <Nav.Link href="About">About</Nav.Link>
+          <Nav.Link href="Support">Support</Nav.Link>
+          <Nav.Link href="Login">Login</Nav.Link>
         </Nav>
         <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
