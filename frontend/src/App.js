@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import styles from './styles.css';
 import NavBar from './Navbar';
 import HomePage from './HomePage';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import RoomPage from './Room';
+
 
 
 function App() {
@@ -21,6 +23,12 @@ function App() {
           <HomePage />
         </Route>
         <Route path="/Features">
+        </Route>
+        <Route path="/Room">
+          <RoomPage></RoomPage>
+        </Route>
+        <Route path="*">
+          <Redirect to="/Home" />
         </Route>
       </Switch>
     </div >
