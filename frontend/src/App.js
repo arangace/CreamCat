@@ -4,6 +4,8 @@ import styles from './styles.css';
 import NavBar from './Navbar';
 import HomePage from './HomePage';
 import RoomPage from './Room';
+import CreateRoomPage from './CreateRoom';
+import DummyPage from './Dummy';
 
 
 
@@ -26,6 +28,12 @@ function App() {
         </Route>
         <Route path="/Room">
           <RoomPage></RoomPage>
+        </Route>
+        <Route path="/CreateRoom">
+          <CreateRoomPage></CreateRoomPage>
+        </Route>
+        <Route path="/Dummy">
+          <DummyPage></DummyPage>
         </Route>
         <Route path="*">
           <Redirect to="/Home" />
