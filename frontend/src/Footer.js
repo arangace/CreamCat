@@ -48,8 +48,16 @@ export default function Footer() {
                             <Card.Title>Social media</Card.Title>
                             <Card.Text>
                                 Useful links from team CreamCat:
-                                <Button variant="outline-dark" ><img width="40px" height="40px" alt="No icon provided" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"></img></Button>
-                                <Button variant="outline-dark" ><img width="40px" height="40px" alt="No icon provided" src="https://icons-for-free.com/iconfiles/png/512/part+1+github-1320568339880199515.png"></img></Button>
+                                <Button variant="outline-dark" >
+                                    <img width="40px" height="40px" alt="No icon provided" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg">
+                                    </img>
+                                </Button>
+                                <Button variant="outline-dark" >
+                                    <a href='https://github.com/arangace/CreamCat'>
+                                        <img width="40px" height="40px" alt="No icon provided" src="https://icons-for-free.com/iconfiles/png/512/part+1+github-1320568339880199515.png">
+                                        </img>
+                                    </a>
+                                </Button>
                             </Card.Text>
                         </Card.Body>
                     </Card>
