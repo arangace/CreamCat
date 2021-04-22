@@ -10,7 +10,7 @@ export default function NavBar() {
   return (
     <>
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="/Home">CreamCat</Navbar.Brand>
+        <Navbar.Brand href="Home">CreamCat</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="Features">Features</Nav.Link>
           <Nav.Link href="About">About</Nav.Link>

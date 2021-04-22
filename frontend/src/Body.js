@@ -1,6 +1,7 @@
 
 import 'react-bootstrap';
 import { Card } from 'react-bootstrap';
+
 import { Jumbotron } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import styles from './styles.css';
@@ -20,9 +21,7 @@ export default function Footer() {
                                 Extensive library to search for any song and listen together with your friends!</p>
                         </Card.Text>
                         <Card.Text>
-                            <div className="landing-page-route">
-                                <p className="centered"><Button variant="dark" block="true" size="lg" href="Room">Login</Button></p>
-                            </div>
+                            <p className="centered"><Button variant="primary" size="lg">Login</Button></p>
                         </Card.Text>
                     </Card.ImgOverlay>
                 </Card>
