@@ -35,9 +35,9 @@ export default function CreateRoomPage() {
                                     placeholder="Enter password"
                                 />
                             </div>
-                            <button type="submit" className="landing-page-route create-room-button">
+                            <div type="submit" className="landing-page-route create-room-button">
                                 <Button variant="dark" block="true" size="lg" href="Dummy">Create Room</Button>
-                            </button>
+                            </div>
                         </form>
                     </div>
                 </Card>
