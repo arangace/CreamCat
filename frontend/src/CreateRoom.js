@@ -33,7 +33,7 @@ export default function CreateRoomPage() {
         }
         console.log(room)
         axios.post('http://localhost:3000/api/room/create/', room)
-        history.replace(`/dummy`)
+        history.replace(`/Dummy`)
     }
 
     return (
@@ -45,17 +45,18 @@ export default function CreateRoomPage() {
                     <div className="card col-lg-4 mt-2 input-form">
                         <form>
                             <div>
-                            <label className="black-title">Room Name</label>
-                            <input type="text" 
-                                id="name"
-                                className="form-control pad-bot" 
-                                value={state.name}
-                                onChange={handleChange}
-                                placeholder="Enter room name"/>
+                                <label className="black-title">Room Name</label>
+                                <input type="text" 
+                                    id="name"
+                                    className="form-control pad-bot" 
+                                    value={state.name}
+                                    onChange={handleChange}
+                                    placeholder="Enter room name"/>
                             </div>
                             <div>
                                 <label className="black-title">Description</label>
                                 <input type="text" 
+                                    id="description"
                                     className="form-control pad-bot"  
                                     value={state.description}
                                     onChange={handleChange}
