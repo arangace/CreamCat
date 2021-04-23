@@ -4,7 +4,7 @@ import styles from './styles.css';
 import NavBar from './Navbar';
 import HomePage from './HomePage';
 import RoomPage from './Room';
-
+import JoinRoomPage from './JoinRoom';
 
 
 function App() {
@@ -26,6 +26,9 @@ function App() {
         </Route>
         <Route path="/Room">
           <RoomPage></RoomPage>
+        </Route>
+        <Route path="/JoinRoom">
+          <JoinRoomPage></JoinRoomPage>
         </Route>
         <Route path="*">
           <Redirect to="/Home" />
