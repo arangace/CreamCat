@@ -3,9 +3,39 @@ import { Card } from 'react-bootstrap';
 import { Jumbotron } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import { Badge } from 'react-bootstrap';
+import axios from 'axios'
+import { useHistory } from 'react-router-dom';
+import React, {useState} from 'react';
 import styles from './styles.css';
 
 export default function CreateRoomPage() {
+    const history = useHistory();
+
+    const handleChange = (e) => {
+        const {id , value} = e.target   
+        setState(prevState => ({
+            ...prevState,
+            [id] : value
+        }))
+    }
+
+    const [state , setState] = useState({
+        name : "",
+        description: "",
+        password : ""
+    })
+
+    const handleSubmit = (e) => {
+        const room ={
+            name: state.name,
+            description: state.description,
+            password: state.password
+        }
+        console.log(room)
+        axios.post('http://localhost:3000/api/room/create/', room)
+        history.replace(`/dummy`)
+    }
+
     return (
         <>
             <div className="Room2">
@@ -17,13 +47,18 @@ export default function CreateRoomPage() {
                             <div>
                             <label className="black-title">Room Name</label>
                             <input type="text" 
+                                id="name"
                                 className="form-control pad-bot" 
+                                value={state.name}
+                                onChange={handleChange}
                                 placeholder="Enter room name"/>
                             </div>
                             <div>
                                 <label className="black-title">Description</label>
                                 <input type="text" 
                                     className="form-control pad-bot"  
+                                    value={state.description}
+                                    onChange={handleChange}
                                     placeholder="Enter description"
                                 />
                             </div>
@@ -32,11 +67,13 @@ export default function CreateRoomPage() {
                                 <input type="password" 
                                     className="form-control pad-bot" 
                                     id="password" 
+                                    value={state.password}
+                                    onChange={handleChange}
                                     placeholder="Enter password"
                                 />
                             </div>
                             <div type="submit" className="landing-page-route create-room-button">
-                                <Button variant="dark" block="true" size="lg" href="Dummy">Create Room</Button>
+                                <Button variant="dark" block="true" size="lg" onClick={handleSubmit}>Create Room</Button>
                             </div>
                         </form>
                     </div>
