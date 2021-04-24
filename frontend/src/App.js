@@ -1,32 +1,41 @@
-import { Redirect, Route, Switch } from "react-router-dom";
-import HomePage from "./components/HomePage";
-import JoinRoomPage from "./components/JoinRoom";
-import NavBar from "./components/Navbar";
-import JoinOrCreateRoomPage from "./components/JoinOrCreateRoom";
+import { useState } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import styles from './styles.css';
+import NavBar from './Navbar';
+import HomePage from './HomePage';
+import RoomPage from './Room';
+import JoinRoomPage from './JoinRoom';
+
 
 function App() {
-    return (
-        <div>
-            <div>
-                <NavBar></NavBar>
-            </div>
-            <Switch>
-                <Route path="/Home">
-                    <HomePage />
-                </Route>
-                <Route path="/Features"></Route>
-                <Route path="/JoinOrCreateRoom">
-                    <JoinOrCreateRoomPage/>
-                </Route>
-                <Route path="/JoinRoom">
-                    <JoinRoomPage></JoinRoomPage>
-                </Route>
-                <Route path="*">
-                    <Redirect to="/Home" />
-                </Route>
-            </Switch>
-        </div>
-    );
+
+  return (
+    <div>
+      <div>
+
+        <NavBar>
+
+        </NavBar>
+
+      </div>
+      <Switch>
+        <Route path="/Home">
+          <HomePage />
+        </Route>
+        <Route path="/Features">
+        </Route>
+        <Route path="/Room">
+          <RoomPage></RoomPage>
+        </Route>
+        <Route path="/JoinRoom">
+          <JoinRoomPage></JoinRoomPage>
+        </Route>
+        <Route path="*">
+          <Redirect to="/Home" />
+        </Route>
+      </Switch>
+    </div >
+  );
 }
 
 export default App;
