@@ -56,7 +56,7 @@ export default function CreateRoomPage() {
                             </div>
                             <div>
                                 <label className="black-title">
-                                    Description
+                                    Description(Optional)
                                 </label>
                                 <input
                                     type="text"
@@ -68,7 +68,7 @@ export default function CreateRoomPage() {
                                 />
                             </div>
                             <div>
-                                <label className="black-title">Password</label>
+                                <label className="black-title">Password(Optional)</label>
                                 <input
                                     type="password"
                                     className="form-control pad-bot"

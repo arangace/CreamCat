@@ -10,16 +10,16 @@ export default function NavBar() {
                     <Nav.Link href="Features">Features</Nav.Link>
                     <Nav.Link href="About">About</Nav.Link>
                     <Nav.Link href="Support">Support</Nav.Link>
-                    <Nav.Link href="Login">Login</Nav.Link>
+                    {/* <Nav.Link href="Login">Login</Nav.Link> */}
                 </Nav>
-                <Form inline>
+                {/* <Form inline>
                     <FormControl
                         type="text"
                         placeholder="Search"
                         className="mr-sm-2"
                     />
                     <Button variant="outline-info">Search</Button>
-                </Form>
+                </Form> */}
             </Navbar>
         </>
     );
