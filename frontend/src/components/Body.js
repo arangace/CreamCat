@@ -27,7 +27,7 @@ export default function Body() {
                                         variant="dark"
                                         block="true"
                                         size="lg"
-                                        href="Room"
+                                        href="RoomPage"
                                     >
                                         Login
                                     </Button>

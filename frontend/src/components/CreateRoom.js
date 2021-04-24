@@ -8,27 +8,28 @@ export default function CreateRoomPage() {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        setState((prevState) => ({
+        setNewRoom((prevState) => ({
             ...prevState,
             [id]: value,
         }));
     };
 
-    const [state, setState] = useState({
+    const [newRoom, setNewRoom] = useState({
         name: "",
         description: "",
         password: "",
     });
 
-    const handleSubmit = (e) => {
+    const createRoom = (e) => {
         const room = {
-            name: state.name,
-            description: state.description,
-            password: state.password,
+            name: newRoom.name,
+            description: newRoom.description,
+            password: newRoom.password,
         };
         console.log(room);
         axios.post("http://localhost:3000/api/room/create/", room);
-        history.replace(`/Dummy`);
+        
+        history.replace(`/Room`);
     };
 
     return (
@@ -46,7 +47,7 @@ export default function CreateRoomPage() {
                                     type="text"
                                     id="name"
                                     className="form-control pad-bot"
-                                    value={state.name}
+                                    value={newRoom.name}
                                     onChange={handleChange}
                                     placeholder="Enter room name"
                                 />
@@ -59,7 +60,7 @@ export default function CreateRoomPage() {
                                     type="text"
                                     id="description"
                                     className="form-control pad-bot"
-                                    value={state.description}
+                                    value={newRoom.description}
                                     onChange={handleChange}
                                     placeholder="Enter description"
                                 />
@@ -70,7 +71,7 @@ export default function CreateRoomPage() {
                                     type="password"
                                     className="form-control pad-bot"
                                     id="password"
-                                    value={state.password}
+                                    value={newRoom.password}
                                     onChange={handleChange}
                                     placeholder="Enter password"
                                 />
@@ -83,7 +84,7 @@ export default function CreateRoomPage() {
                                     variant="dark"
                                     block="true"
                                     size="lg"
-                                    onClick={handleSubmit}
+                                    onClick={createRoom}
                                 >
                                     Create Room
                                 </Button>

@@ -1,5 +1,5 @@
 {
-  "name": "cs732-lab01-ex04",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001/",

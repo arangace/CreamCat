@@ -4,11 +4,8 @@ import Body from './Body';
 export default function HomePage() {
     return (
         <>
-            <Body></Body>
-            <Footer></Footer>
+            <Body/>
+            <Footer/>
         </>
-
     )
-
-
 }

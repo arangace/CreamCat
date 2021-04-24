@@ -11,9 +11,7 @@ const router = express.Router();
 router.post('/create/', async (req, res) => {
     const room = {
         name: req.body.name,
-        description: req.body.description,
-        password: req.body.password
-
+        description: req.body.description
     };
 
     if(room.name){
@@ -31,6 +29,8 @@ router.post('/join/', async (req, res) => {
     const id = req.body._id;
     const password = req.body.password;
 
+    console.log(`Join room requested for ${id}`)
+
     const room = await retrieveRoom(id);
     if(room){
         if(room.password){
@@ -40,6 +40,7 @@ router.post('/join/', async (req, res) => {
             }
             else{
                 res.json('password incorrect!');
+                console.log()
             }
         }
         else{

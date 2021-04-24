@@ -1,6 +1,6 @@
 import { Redirect, Route, Switch } from "react-router-dom";
 import CreateRoomPage from "./components/CreateRoom";
-import DummyPage from "./components/Dummy";
+import Room from "./components/Room";
 import HomePage from "./components/HomePage";
 import JoinRoomPage from "./components/JoinRoom";
 import NavBar from "./components/Navbar";
@@ -17,14 +17,14 @@ function App() {
                     <HomePage/>
                 </Route>
                 <Route path="/Features"></Route>
-                <Route path="/Room">
+                <Route path="/RoomPage">
                     <RoomPage/>
                 </Route>
                 <Route path="/CreateRoom">
                     <CreateRoomPage/>
                 </Route>
-                <Route path="/Dummy">
-                    <DummyPage/>
+                <Route path="/Room">
+                    <Room/>
                 </Route>
                 <Route path="/JoinRoom">
                     <JoinRoomPage/>
