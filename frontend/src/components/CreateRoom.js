@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useContext } from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import { useHistory } from "react-router-dom";

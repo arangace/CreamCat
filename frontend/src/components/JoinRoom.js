@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Badge, Button, Card, Form } from "react-bootstrap";
@@ -30,7 +29,7 @@ export default function JoinRoomPage() {
         console.log(sessionData);
 
         const response = await joinRoom(sessionData);
-        if (response == "forward") {
+        if (response === "forward") {
             history.replace(`/Room`);             
         }
         else{
