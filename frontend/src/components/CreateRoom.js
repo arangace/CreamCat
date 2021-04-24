@@ -6,7 +6,7 @@ import { AppContext } from '../AppContextProvider';
 
 export default function CreateRoomPage() {
 
-    const { setRoomID, setName, setDescription } = useContext( AppContext );
+    const { createRoom } = useContext( AppContext );
 
     const history = useHistory();
 
@@ -24,17 +24,14 @@ export default function CreateRoomPage() {
         password: "",
     });
 
-    const createRoom = async (e) => {
+    const handleCreateRoom =  (e) => {
         const room = {
             name: newRoom.name,
             description: newRoom.description,
             password: newRoom.password,
         };
         console.log(room);
-        const response = await axios.post("http://localhost:3000/api/room/create/", room);
-        setRoomID(response.data._id);
-        setName(response.data.name);
-        setDescription(response.data.description);
+        createRoom(room);
         history.replace(`/Room`);
     };
 
@@ -90,7 +87,7 @@ export default function CreateRoomPage() {
                                     variant="dark"
                                     block="true"
                                     size="lg"
-                                    onClick={createRoom}
+                                    onClick={handleCreateRoom}
                                 >
                                     Create Room
                                 </Button>

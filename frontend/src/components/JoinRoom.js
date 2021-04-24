@@ -6,7 +6,7 @@ import { AppContext } from '../AppContextProvider';
 
 export default function JoinRoomPage() {
 
-    const { setRoomID, setName, setDescription } = useContext( AppContext );
+    const { joinRoom } = useContext( AppContext );
 
     const [ roomIdInput, setRoomIdInput ] = useState("");
     // const [ nameInput, setNameInput ] = useState("");
@@ -14,7 +14,7 @@ export default function JoinRoomPage() {
 
     const history = useHistory();
 
-    function joinRoom() {
+    async function handleJoinRoom() {
 
         console.log(roomIdInput);
         // console.log(nameInput);
@@ -29,22 +29,13 @@ export default function JoinRoomPage() {
         console.log("submitting info...");
         console.log(sessionData);
 
-        axios.post("http://localhost:3000/api/room/join/", sessionData)
-            .then((res) => {
-                const responseData = res.data;
-                if (responseData.name) {
-                    setRoomID(responseData._id);
-                    setName(responseData.name);
-                    setDescription(responseData.description);
-                    history.replace(`/Room`);             
-                }
-
-                if ( responseData === 'password incorrect!') {
-                    console.log(responseData);
-                }else if (responseData === 'room not found!'){
-                    console.log(responseData);
-                }
-            })    
+        const response = await joinRoom(sessionData);
+        if (response == "forward") {
+            history.replace(`/Room`);             
+        }
+        else{
+            console.log(response);
+        }
     }
     return (
         <>
@@ -88,7 +79,7 @@ export default function JoinRoomPage() {
                                 <Button
                                     variant="dark"
                                     type="button"
-                                    onClick={joinRoom}
+                                    onClick={handleJoinRoom}
                                 >
                                     Join
                                 </Button>
