@@ -6,23 +6,24 @@ import { AppContext } from '../AppContextProvider';
 
 export default function JoinRoomPage() {
 
-    const { roomID, setRoomID, name, setName } = useContext( AppContext );
-    const [ password, setPassword ] = useState("");
+    const { setRoomID } = useContext( AppContext );
+
+    const [ roomIdInput, setRoomIdInput ] = useState("");
+    const [ nameInput, setNameInput ] = useState("");
+    const [ passwordInput, setPasswordInput ] = useState("");
 
     const history = useHistory();
 
     function joinRoom() {
 
-        console.log(roomID);
-        console.log(name);
-        console.log(password);
-
-        setRoomID(roomID);
+        console.log(roomIdInput);
+        console.log(nameInput);
+        console.log(passwordInput);
 
         const sessionData = {
-            _id: roomID,
-            name: name,
-            password: password,
+            _id: roomIdInput,
+            name: nameInput,
+            password: passwordInput,
         };
 
         console.log("submitting info...");
@@ -32,7 +33,8 @@ export default function JoinRoomPage() {
             .then((res) => {
                 const responseData = res.data;
                 if (responseData.name) {
-                    history.replace(`/Room`);
+                    setRoomID(sessionData._id);
+                    history.replace(`/Room`);             
                 }
 
                 if ( responseData === 'password incorrect!') {
@@ -58,7 +60,7 @@ export default function JoinRoomPage() {
                                     <Form.Control
                                         // value={roomID}
                                         onInput={(e) =>
-                                            setRoomID(e.target.value)
+                                            setRoomIdInput(e.target.value)
                                         }
                                         placeholder="Room ID"
                                     />
@@ -67,7 +69,7 @@ export default function JoinRoomPage() {
                                     <Form.Label>Name (Optional)</Form.Label>
                                     <Form.Control
                                         // value={name}
-                                        onInput={(e) => setName(e.target.value)}
+                                        onInput={(e) => setNameInput(e.target.value)}
                                         placeholder="Name"
                                     />
                                 </Form.Group>
@@ -76,7 +78,7 @@ export default function JoinRoomPage() {
                                     <Form.Control
                                         // value={password}
                                         onInput={(e) =>
-                                            setPassword(e.target.value)
+                                            setPasswordInput(e.target.value)
                                         }
                                         placeholder="Password"
                                     />
