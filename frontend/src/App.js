@@ -6,6 +6,7 @@ import HomePage from './HomePage';
 import RoomPage from './Room';
 import CreateRoomPage from './CreateRoom';
 import DummyPage from './Dummy';
+import JoinRoomPage from './JoinRoom';
 
 
 
@@ -34,6 +35,8 @@ function App() {
         </Route>
         <Route path="/Dummy">
           <DummyPage></DummyPage>
+        <Route path="/JoinRoom">
+          <JoinRoomPage></JoinRoomPage>
         </Route>
         <Route path="*">
           <Redirect to="/Home" />

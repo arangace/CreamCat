@@ -55,6 +55,12 @@ ul {
   margin-left: 15%;
   margin-right: 15%;
 }
+.JoinRoom {
+  margin-top: 5%;
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+}
 .room-centered {
   margin-left: 25%;
   margin-right: 25%;
@@ -85,4 +91,11 @@ ul {
 }
 .pad-bot{
   margin-bottom: 5%;
+}
+
+.join-room-page {
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 40%;
+  height: 400px;
 }
