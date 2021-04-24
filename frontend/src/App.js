@@ -4,7 +4,10 @@ import styles from './styles.css';
 import NavBar from './Navbar';
 import HomePage from './HomePage';
 import RoomPage from './Room';
+import CreateRoomPage from './CreateRoom';
+import DummyPage from './Dummy';
 import JoinRoomPage from './JoinRoom';
+
 
 
 function App() {
@@ -27,6 +30,11 @@ function App() {
         <Route path="/Room">
           <RoomPage></RoomPage>
         </Route>
+        <Route path="/CreateRoom">
+          <CreateRoomPage></CreateRoomPage>
+        </Route>
+        <Route path="/Dummy">
+          <DummyPage></DummyPage>
         <Route path="/JoinRoom">
           <JoinRoomPage></JoinRoomPage>
         </Route>

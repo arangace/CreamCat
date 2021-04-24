@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import mongoose from 'mongoose';
 
 // Setup Express server
 const app = express();
@@ -10,6 +11,7 @@ app.use(express.json());
 
 // Setup routes
 import routes from './routes';
+import connectToDatabase from './rooms-data/db-connect';
 app.use('/', routes);
 
 // Make the "public" folder available statically
@@ -28,5 +30,7 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-// Start the server.
-app.listen(port, () => console.log(`App server listening on port ${port}!`));
+// Start the DB running. Then, once it's connected, start the server.
+connectToDatabase()
+    .then(() => app.listen(port, () => console.log(`App server listening on port ${port}!`)));
+//app.listen(port, () => console.log(`App server listening on port ${port}!`));
