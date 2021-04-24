@@ -7,12 +7,15 @@ function AppContextProvider({ children }) {
 
     const [roomID, setRoomID] = useState();
     const [name, setName] = useState("");
+    const [description, setDescription] = useState();
     // The context value that will be supplied to any descendants of this component.
     const context = {
         roomID,
         setRoomID,
         name,
-        setName
+        setName,
+        description,
+        setDescription
     };
 
     // Wraps the given child components in a Provider for the above context.

@@ -1,9 +1,13 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { AppContext } from '../AppContextProvider';
 
 export default function CreateRoomPage() {
+
+    const { setRoomID, setName, setDescription } = useContext( AppContext );
+
     const history = useHistory();
 
     const handleChange = (e) => {
@@ -20,15 +24,17 @@ export default function CreateRoomPage() {
         password: "",
     });
 
-    const createRoom = (e) => {
+    const createRoom = async (e) => {
         const room = {
             name: newRoom.name,
             description: newRoom.description,
             password: newRoom.password,
         };
         console.log(room);
-        axios.post("http://localhost:3000/api/room/create/", room);
-        
+        const response = await axios.post("http://localhost:3000/api/room/create/", room);
+        setRoomID(response.data._id);
+        setName(response.data.name);
+        setDescription(response.data.description);
         history.replace(`/Room`);
     };
 

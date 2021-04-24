@@ -6,10 +6,10 @@ import { AppContext } from '../AppContextProvider';
 
 export default function JoinRoomPage() {
 
-    const { setRoomID } = useContext( AppContext );
+    const { setRoomID, setName, setDescription } = useContext( AppContext );
 
     const [ roomIdInput, setRoomIdInput ] = useState("");
-    const [ nameInput, setNameInput ] = useState("");
+    // const [ nameInput, setNameInput ] = useState("");
     const [ passwordInput, setPasswordInput ] = useState("");
 
     const history = useHistory();
@@ -17,12 +17,12 @@ export default function JoinRoomPage() {
     function joinRoom() {
 
         console.log(roomIdInput);
-        console.log(nameInput);
+        // console.log(nameInput);
         console.log(passwordInput);
 
         const sessionData = {
             _id: roomIdInput,
-            name: nameInput,
+            // name: nameInput,
             password: passwordInput,
         };
 
@@ -33,7 +33,9 @@ export default function JoinRoomPage() {
             .then((res) => {
                 const responseData = res.data;
                 if (responseData.name) {
-                    setRoomID(sessionData._id);
+                    setRoomID(responseData._id);
+                    setName(responseData.name);
+                    setDescription(responseData.description);
                     history.replace(`/Room`);             
                 }
 
@@ -65,14 +67,14 @@ export default function JoinRoomPage() {
                                         placeholder="Room ID"
                                     />
                                 </Form.Group>
-                                <Form.Group controlId="formBasicPassword">
+                                {/* <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Name (Optional)</Form.Label>
                                     <Form.Control
                                         // value={name}
                                         onInput={(e) => setNameInput(e.target.value)}
                                         placeholder="Name"
                                     />
-                                </Form.Group>
+                                </Form.Group> */}
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Password (Optional)</Form.Label>
                                     <Form.Control

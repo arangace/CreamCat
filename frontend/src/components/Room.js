@@ -3,11 +3,13 @@ import {useContext} from 'react';
 import {AppContext} from '../AppContextProvider';
 
 export default function Room() {
-    const { roomID } = useContext(AppContext);
+    const { roomID, name, description } = useContext(AppContext);
     console.log(`Created room (ID: ${roomID})`);
     return (
         <>
-            <div></div>
+            <div>{roomID}</div>
+            <div>{name}</div>
+            <div>{description}</div>
         </>
     );
 }

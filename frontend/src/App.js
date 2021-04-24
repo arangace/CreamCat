@@ -30,7 +30,7 @@ function App() {
                     <JoinRoomPage/>
                 </Route>
                 <Route path="*">
-                    <Redirect to="/Home" />
+                    <Redirect to="/RoomPage" />
                 </Route>
             </Switch>
         </div>
