@@ -1,0 +1,76 @@
+.items {
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+ul {
+    list-style-type: none;
+}
+.items:nth-child(odd) {
+    background-color: rgb(248, 193, 193);
+}
+.items:nth-child(even) {
+    background-color: grey;
+}
+.items:hover {
+    background-color: rgba(0, 0, 128, 0);
+}
+.done {
+    color: darkgrey;
+    text-decoration: line-through;
+}
+.footer {
+    background-color: rgb(61, 60, 66);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.body {
+    font-size: 20px;
+    height: 100%;
+}
+.body-text {
+    font-size: 50px;
+    text-align: center;
+    margin-top: 10%;
+}
+.centered {
+    text-align: center;
+}
+.image-sizing {
+    width: 100%;
+    height: 700px;
+}
+.landing-page-route {
+    margin-left: 30%;
+    margin-right: 30%;
+    width: 40%;
+}
+.CreateOrJoinRoom {
+    margin-top: 15%;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+.JoinRoom {
+    margin-top: 5%;
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+.room-centered {
+    margin-left: 25%;
+    margin-right: 25%;
+    text-align: center;
+    width: 50%;
+    margin-bottom: 5%;
+}
+.join-room-page {
+    margin-left: 30%;
+    margin-right: 30%;
+    width: 40%;
+    height: 400px;
+}

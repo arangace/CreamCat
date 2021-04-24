@@ -1,12 +1,8 @@
 
-import 'react-bootstrap';
-import { Card } from 'react-bootstrap';
-import { Jumbotron } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
-import { Badge } from 'react-bootstrap';
-import { Form } from 'react-bootstrap';
-import styles from './styles.css';
 import { useState } from 'react';
+import styles from "./styles.css";
+import { Badge, Button, Card, Form } from 'react-bootstrap';
+
 
 export default function JoinRoomPage() {
     const [RoomID, setRoomID] = useState('');
