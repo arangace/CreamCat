@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Badge, Button, Card, Form } from "react-bootstrap";
@@ -6,43 +5,36 @@ import { AppContext } from '../AppContextProvider';
 
 export default function JoinRoomPage() {
 
-    const { setRoomID } = useContext( AppContext );
+    const { joinRoom } = useContext( AppContext );
 
     const [ roomIdInput, setRoomIdInput ] = useState("");
-    const [ nameInput, setNameInput ] = useState("");
+    // const [ nameInput, setNameInput ] = useState("");
     const [ passwordInput, setPasswordInput ] = useState("");
 
     const history = useHistory();
 
-    function joinRoom() {
+    async function handleJoinRoom() {
 
         console.log(roomIdInput);
-        console.log(nameInput);
+        // console.log(nameInput);
         console.log(passwordInput);
 
         const sessionData = {
             _id: roomIdInput,
-            name: nameInput,
+            // name: nameInput,
             password: passwordInput,
         };
 
         console.log("submitting info...");
         console.log(sessionData);
 
-        axios.post("http://localhost:3000/api/room/join/", sessionData)
-            .then((res) => {
-                const responseData = res.data;
-                if (responseData.name) {
-                    setRoomID(sessionData._id);
-                    history.replace(`/Room`);             
-                }
-
-                if ( responseData === 'password incorrect!') {
-                    console.log(responseData);
-                }else if (responseData === 'room not found!'){
-                    console.log(responseData);
-                }
-            })    
+        const response = await joinRoom(sessionData);
+        if (response === "forward") {
+            history.replace(`/Room`);             
+        }
+        else{
+            console.log(response);
+        }
     }
     return (
         <>
@@ -65,14 +57,14 @@ export default function JoinRoomPage() {
                                         placeholder="Room ID"
                                     />
                                 </Form.Group>
-                                <Form.Group controlId="formBasicPassword">
+                                {/* <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Name (Optional)</Form.Label>
                                     <Form.Control
                                         // value={name}
                                         onInput={(e) => setNameInput(e.target.value)}
                                         placeholder="Name"
                                     />
-                                </Form.Group>
+                                </Form.Group> */}
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Password (Optional)</Form.Label>
                                     <Form.Control
@@ -86,7 +78,7 @@ export default function JoinRoomPage() {
                                 <Button
                                     variant="dark"
                                     type="button"
-                                    onClick={joinRoom}
+                                    onClick={handleJoinRoom}
                                 >
                                     Join
                                 </Button>

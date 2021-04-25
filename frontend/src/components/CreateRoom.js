@@ -1,9 +1,12 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { AppContext } from '../AppContextProvider';
 
 export default function CreateRoomPage() {
+
+    const { createRoom } = useContext( AppContext );
+
     const history = useHistory();
 
     const handleChange = (e) => {
@@ -20,15 +23,14 @@ export default function CreateRoomPage() {
         password: "",
     });
 
-    const createRoom = (e) => {
+    const handleCreateRoom =  (e) => {
         const room = {
             name: newRoom.name,
             description: newRoom.description,
             password: newRoom.password,
         };
         console.log(room);
-        axios.post("http://localhost:3000/api/room/create/", room);
-        
+        createRoom(room);
         history.replace(`/Room`);
     };
 
@@ -54,7 +56,7 @@ export default function CreateRoomPage() {
                             </div>
                             <div>
                                 <label className="black-title">
-                                    Description
+                                    Description(Optional)
                                 </label>
                                 <input
                                     type="text"
@@ -66,7 +68,7 @@ export default function CreateRoomPage() {
                                 />
                             </div>
                             <div>
-                                <label className="black-title">Password</label>
+                                <label className="black-title">Password(Optional)</label>
                                 <input
                                     type="password"
                                     className="form-control pad-bot"
@@ -84,7 +86,7 @@ export default function CreateRoomPage() {
                                     variant="dark"
                                     block="true"
                                     size="lg"
-                                    onClick={createRoom}
+                                    onClick={handleCreateRoom}
                                 >
                                     Create Room
                                 </Button>
