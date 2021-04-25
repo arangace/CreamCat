@@ -44,7 +44,7 @@ export default function JoinRoomPage() {
                         <h1>CreamCat</h1>
                     </Badge>
                     <Card.Text>
-                        <div className="join-room-page ">
+                        <div className="join-room-page">
                             <Form>
                                 <h1>Join Room</h1>
                                 <Form.Group controlId="RoomID">
