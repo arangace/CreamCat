@@ -1,7 +1,7 @@
-import "react-bootstrap";
-import youtube from './youtubeSearch';
+import youtube from './youtubeSearch' 
 import React,{useState} from 'react'
-import { Button} from "react-bootstrap";
+import Modal from 'react-modal';
+import { Form, FormControl, Button } from "react-bootstrap";
 
 
 export default function SearchBar(){
@@ -19,42 +19,63 @@ export default function SearchBar(){
     }
 
     const handleSubmit = async (e) => {
-        console.log("start")
+
         const term = searchQuery.search
-        const response = await youtube.get('/search', {
+        /*const response = await youtube.get('/search', {
             params:{
                 q: term
             }
-        })
-        console.log(response.data.items)
+        })*/
+        const response = {
+            data: term
+        }
+        console.log(term)
+        openModal()
+    }
+
+    const [modalIsOpen,setIsOpen] = React.useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal(){
+        setIsOpen(false);
     }
 
     return (
         <>
-            <div className='search-bar ui segment'>
-                <form>
-                    <div>
-                        <label className="black-title">Search Music</label>
-                        <input
-                            type="text"
-                            id="search"
-                            className="form-control"
-                            value={searchQuery.term}
-                            onChange={handleChange}
-                            placeholder="Search"
-                        />
-                    </div>
-                    <div
-                        type="submit"
-                        >
-                        <Button
-                            onClick={handleSubmit}
-                        >
-                            Search
-                        </Button>
-                    </div>
+            <div>
+                <Form inline>
+                    <FormControl
+                        type="text"
+                        id="search"
+                        className="mr-sm-2"
+                        value={searchQuery.term}
+                        onChange={handleChange}
+                        placeholder="Search"  
+                    />
+ 
+                    <Button
+                        variant="outline-info"
+                        onClick={handleSubmit}
+                    >
+                        Search
+                    </Button>
 
-                </form>
+                </Form>
+
+                <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Example Modal"
+                >
+                    <div>cant see</div>
+                    <div>I am a modal</div>
+                    <div>This modal will display the search results from youtube</div>
+                    <button onClick={closeModal}>close</button>
+                </Modal>
+
             </div>
         </>
     )
