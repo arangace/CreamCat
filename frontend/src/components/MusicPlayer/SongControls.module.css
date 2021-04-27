@@ -1,0 +1,13 @@
+.songControls {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.prevSong,
+.playBtn,
+.nextSong {
+  background: #343a40;
+  border: #343a40;
+  color: gray;
+}
