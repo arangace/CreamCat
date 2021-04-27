@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Button, ButtonGroup, Container } from "react-bootstrap";
+import { FaStepBackward, FaPlay, FaPause, FaStepForward } from "react-icons/fa";
 import styles from "./SongControls.module.css";
 
 export default function SongControls() {
     // need context
     const [playing, setPlaying] = useState(false);
-    const [playButtonText, setPlayButtonText] = useState("Play");
+    const [playButtonText, setPlayButtonText] = useState(FaPlay);
     const [elapsedTime, setElapsedTime] = useState("");
     const songs = [];
     const songDetails = [];
@@ -17,12 +18,12 @@ export default function SongControls() {
     const prevSong = () => {};
 
     const pauseSong = () => {
-        setPlayButtonText("Play");
+        setPlayButtonText(FaPlay);
         setPlaying(!playing);
     };
 
     const resumeSong = () => {
-        setPlayButtonText("Pause");
+        setPlayButtonText(FaPause);
         setPlaying(!playing);
     };
 
@@ -66,18 +67,18 @@ export default function SongControls() {
 
     return (
         <Container className={styles.songControls}>
-                <Button className={styles.prevSong} onClick={prevSong}>
-                    Prev
-                </Button>
-                <Button
-                    className={styles.playBtn}
-                    onClick={playing ? pauseSong : resumeSong}
-                >
-                    {playButtonText}
-                </Button>
-                <Button className={styles.nextSong} onClick={nextSong}>
-                    Next
-                </Button>
+            <Button className={styles.prevSong} onClick={prevSong}>
+                <FaStepBackward />
+            </Button>
+            <Button
+                className={styles.playBtn}
+                onClick={playing ? pauseSong : resumeSong}
+            >
+                {playButtonText}
+            </Button>
+            <Button className={styles.nextSong} onClick={nextSong}>
+                <FaStepForward />
+            </Button>
         </Container>
     );
 }
