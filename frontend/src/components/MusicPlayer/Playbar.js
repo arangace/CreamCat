@@ -10,14 +10,14 @@ export default function Playbar() {
     return (
         <>
             <Container fluid className={styles.playbar}>
-            <ProgressBar now={60} />
+                <ProgressBar now={60} />
                 <Container fluid className={styles.playbarContainer}>
                     <SongInfo className={styles.songInfo} />
 
                     <SongControls className={styles.songControls} />
 
                     <Container className={styles.volumeControls}>
-                        <input type="range" className={styles.volumeSlider}/>
+                        <input type="range" className={styles.volumeSlider} />
                     </Container>
                 </Container>
             </Container>

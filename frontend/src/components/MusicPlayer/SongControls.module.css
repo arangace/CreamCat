@@ -1,29 +1,13 @@
 .songControls {
-    display: block;
-    margin: auto;
-    text-align: center;
+  display: block;
+  margin: auto;
+  text-align: center;
 }
 
 .prevSong,
 .playBtn,
 .nextSong {
-    background: #343a40;
-    border: #343a40;
-    color: gray;
-}
-
-.prevSong:hover,
-.playBtn:hover,
-.nextSong:hover {
-    background: #343a40;
-    border: #343a40;
-    color: white;
-}
-
-.prevSong:active,
-.playBtn:active,
-.nextSong:active {
-    background: #343a40;
-    border: #343a40;
-    color: white;
+  background: #343a40;
+  border: #343a40;
+  color: gray;
 }

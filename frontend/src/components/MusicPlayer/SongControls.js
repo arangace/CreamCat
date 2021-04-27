@@ -13,9 +13,9 @@ export default function SongControls() {
     const songName = "Song Title";
     const artistName = "Artist Name";
 
-    const nextSong = () => {};
+    const nextSong = () => { };
 
-    const prevSong = () => {};
+    const prevSong = () => { };
 
     const pauseSong = () => {
         setPlayButtonText(FaPlay);
@@ -69,13 +69,13 @@ export default function SongControls() {
         <Container className={styles.songControls}>
             <Button className={styles.prevSong} onClick={prevSong}>
                 <FaStepBackward />
-            </Button>
+            </Button>{' '}
             <Button
                 className={styles.playBtn}
                 onClick={playing ? pauseSong : resumeSong}
             >
                 {playButtonText}
-            </Button>
+            </Button>{' '}
             <Button className={styles.nextSong} onClick={nextSong}>
                 <FaStepForward />
             </Button>
