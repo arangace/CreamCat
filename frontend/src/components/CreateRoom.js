@@ -23,14 +23,14 @@ export default function CreateRoomPage() {
         password: "",
     });
 
-    const handleCreateRoom =  (e) => {
+    const handleCreateRoom =  async (e) => {
         const room = {
             name: newRoom.name,
             description: newRoom.description,
             password: newRoom.password,
         };
         console.log(room);
-        createRoom(room);
+        await createRoom(room);
         history.replace(`/Room`);
     };
 
