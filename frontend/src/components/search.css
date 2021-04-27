@@ -1,0 +1,8 @@
+.searchModal{
+    position: absolute;
+    background-color: white;
+    Height: 80%;
+    Width: 70%; 
+    margin-left: 15%;
+    margin-top: 5%;
+}

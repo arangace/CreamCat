@@ -2,13 +2,16 @@ import youtube from './youtubeSearch'
 import React,{useState} from 'react'
 import Modal from 'react-modal';
 import { Form, FormControl, Button } from "react-bootstrap";
+import styles from './search.css'
 
+Modal.setAppElement('#root')
 
 export default function SearchBar(){
 
     const [searchQuery, setSearchQuery] = useState({
         search: ""
     });
+    const [searchResults, setSearchResults] = useState([]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -19,23 +22,21 @@ export default function SearchBar(){
     }
 
     const handleSubmit = async (e) => {
-
+        console.log("start")
         const term = searchQuery.search
-        /*const response = await youtube.get('/search', {
+        const response = await youtube.get('/search', {
             params:{
                 q: term
             }
-        })*/
-        const response = {
-            data: term
-        }
-        console.log(term)
+        })
+        setSearchResults(response.data.items)
         openModal()
     }
 
     const [modalIsOpen,setIsOpen] = React.useState(false);
 
     function openModal() {
+        console.log(searchResults)
         setIsOpen(true);
     }
 
@@ -69,11 +70,16 @@ export default function SearchBar(){
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
                     contentLabel="Example Modal"
+                    className="searchModal"
                 >
-                    <div>cant see</div>
-                    <div>I am a modal</div>
-                    <div>This modal will display the search results from youtube</div>
-                    <button onClick={closeModal}>close</button>
+                    <button onClick={closeModal} className="close">X</button>
+                    <div>
+                        <br></br>
+                        {searchResults.map((data, index) => (
+                            <p> {index+1}, {data.snippet.title} </p>)
+                        )}
+                    </div>
+
                 </Modal>
 
             </div>
