@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player';
 import axios from 'axios';
 
 export default function Player() {
-    const { roomID, name, description, password, playing, handleplay, handleSetDuration, handleSongLength } = useContext(AppContext);
+    const { roomID, name, description, password, playing, handleplay, handleSetDuration, handleSongLength, volume } = useContext(AppContext);
 
     const [keyword, setKeyword] = useState();
 
@@ -115,7 +115,7 @@ export default function Player() {
             <ReactPlayer url={"https://www.youtube.com/watch?v=5TrM0rFaclw&ab_channel=GiveonVEVO"}
                 onProgress={e => (handleonProgress(e))}
                 playing={playing}
-                volume={0.5}
+                volume={volume}
                 onDuration={e => (handleSongLengthChange(e))}
                 height='0'
                 width='0' />

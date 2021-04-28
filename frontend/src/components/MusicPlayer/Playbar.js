@@ -8,10 +8,7 @@ import SongInfo from "./SongInfo";
 import { useContext } from 'react';
 import { AppContext } from '../../AppContextProvider';
 export default function Playbar() {
-    const { duration, songLength } = useContext(AppContext);
-    function updateTextInput(val) {
-        console.log(val);
-    }
+    const { duration, songLength, handleVolume, volume } = useContext(AppContext);
 
     return (
 
@@ -24,8 +21,18 @@ export default function Playbar() {
                     <SongControls className={styles.songControls} />
 
                     <Container className={styles.volumeControls}>
-                        <input id="textInput" type="range" min="0" max="100" className={styles.volumeSlider} onchange={e => (updateTextInput(e))} />
+                        <input
+                            type="range"
+                            min={0}
+                            max={1}
+                            step={0.02}
+                            value={volume}
+                            onChange={event => {
+                                handleVolume(event.target.valueAsNumber)
+                            }}
+                        />
                     </Container>
+
                 </Container>
             </Container>
         </>
