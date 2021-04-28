@@ -11,7 +11,8 @@ const router = express.Router();
 router.post('/create/', async (req, res) => {
     const room = {
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        password: req.body.password
     };
 
     if(room.name){

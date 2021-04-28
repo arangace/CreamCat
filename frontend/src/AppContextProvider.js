@@ -9,6 +9,7 @@ function AppContextProvider({ children }) {
     const [roomID, setRoomID] = useState();
     const [name, setName] = useState("");
     const [description, setDescription] = useState();
+    const [password, setPassword] = useState();
 
 
     async function createRoom(room){
@@ -16,6 +17,7 @@ function AppContextProvider({ children }) {
         setRoomID(response.data._id);
         setName(response.data.name);
         setDescription(response.data.description);
+        setPassword(response.data.password);
     }
 
     async function joinRoom(room){
@@ -24,6 +26,7 @@ function AppContextProvider({ children }) {
             setRoomID(response.data._id);
             setName(response.data.name);
             setDescription(response.data.description);
+            setPassword(response.data.password);
             return "forward";
         }
         else{
@@ -40,6 +43,7 @@ function AppContextProvider({ children }) {
         roomID,
         name,
         description,
+        password,
         createRoom,
         joinRoom
     };
