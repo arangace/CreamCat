@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Button, ButtonGroup, Container } from "react-bootstrap";
 import { FaStepBackward, FaPlay, FaPause, FaStepForward } from "react-icons/fa";
+import { AppContext } from '../../AppContextProvider';
 import styles from "./SongControls.module.css";
-
 export default function SongControls() {
     // need context
-    const [playing, setPlaying] = useState(false);
+    const { playing, handleplay } = useContext(AppContext);
     const [playButtonText, setPlayButtonText] = useState(FaPlay);
     const [elapsedTime, setElapsedTime] = useState("");
     const songs = [];
@@ -13,18 +13,21 @@ export default function SongControls() {
     const songName = "Song Title";
     const artistName = "Artist Name";
 
+
     const nextSong = () => { };
 
     const prevSong = () => { };
 
     const pauseSong = () => {
         setPlayButtonText(FaPlay);
-        setPlaying(!playing);
+        handleplay(!playing);
+        console.log(playing);
     };
 
     const resumeSong = () => {
         setPlayButtonText(FaPause);
-        setPlaying(!playing);
+        handleplay(!playing);
+        console.log(playing);
     };
 
     const elapsedTimeDisplay = () => {

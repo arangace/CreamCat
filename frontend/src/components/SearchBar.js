@@ -1,12 +1,12 @@
-import youtube from './youtubeSearch' 
-import React,{useState} from 'react'
+import youtube from './youtubeSearch'
+import React, { useState } from 'react'
 import Modal from 'react-modal';
 import { Form, FormControl, Button } from "react-bootstrap";
 import styles from './search.css'
 
 Modal.setAppElement('#root')
 
-export default function SearchBar(){
+export default function SearchBar() {
 
     const [searchQuery, setSearchQuery] = useState({
         search: ""
@@ -25,7 +25,7 @@ export default function SearchBar(){
         console.log("start")
         const term = searchQuery.search
         const response = await youtube.get('/search', {
-            params:{
+            params: {
                 q: term
             }
         })
@@ -33,14 +33,14 @@ export default function SearchBar(){
         openModal()
     }
 
-    const [modalIsOpen,setIsOpen] = React.useState(false);
+    const [modalIsOpen, setIsOpen] = React.useState(false);
 
     function openModal() {
         console.log(searchResults)
         setIsOpen(true);
     }
 
-    function closeModal(){
+    function closeModal() {
         setIsOpen(false);
     }
 
@@ -54,9 +54,9 @@ export default function SearchBar(){
                         className="mr-sm-2"
                         value={searchQuery.term}
                         onChange={handleChange}
-                        placeholder="Search"  
+                        placeholder="Search"
                     />
- 
+
                     <Button
                         variant="outline-info"
                         onClick={handleSubmit}
@@ -76,7 +76,7 @@ export default function SearchBar(){
                     <div>
                         <br></br>
                         {searchResults.map((data, index) => (
-                            <p> {index+1}, {data.snippet.title} </p>)
+                            <p> {index + 1}, {data.snippet.title} </p>)
                         )}
                     </div>
 

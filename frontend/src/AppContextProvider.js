@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from 'react'
+import { useState } from 'react'
 import axios from "axios";
 
 const AppContext = React.createContext();
@@ -9,29 +9,31 @@ function AppContextProvider({ children }) {
     const [roomID, setRoomID] = useState();
     const [name, setName] = useState("");
     const [description, setDescription] = useState();
+    const [playing, setPlaying] = useState(true);
 
-
-    async function createRoom(room){
+    async function createRoom(room) {
         const response = await axios.post("http://localhost:3000/api/room/create/", room);
         setRoomID(response.data._id);
         setName(response.data.name);
         setDescription(response.data.description);
     }
 
-    async function joinRoom(room){
+    async function joinRoom(room) {
         const response = await axios.post("http://localhost:3000/api/room/join/", room);
-        if(response.data.name){
+        if (response.data.name) {
             setRoomID(response.data._id);
             setName(response.data.name);
             setDescription(response.data.description);
             return "forward";
         }
-        else{
+        else {
             return response.data;
         }
     }
 
-
+    function handleplay() {
+        setPlaying(!playing);
+    }
 
 
 
@@ -40,8 +42,10 @@ function AppContextProvider({ children }) {
         roomID,
         name,
         description,
+        playing,
         createRoom,
-        joinRoom
+        joinRoom,
+        handleplay
     };
 
     // Wraps the given child components in a Provider for the above context.
