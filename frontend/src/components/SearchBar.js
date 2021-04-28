@@ -1,14 +1,17 @@
-import "react-bootstrap";
-import youtube from './youtubeSearch';
+import youtube from './youtubeSearch' 
 import React,{useState} from 'react'
-import { Button} from "react-bootstrap";
+import Modal from 'react-modal';
+import { Form, FormControl, Button } from "react-bootstrap";
+import styles from './search.css'
 
+Modal.setAppElement('#root')
 
 export default function SearchBar(){
 
     const [searchQuery, setSearchQuery] = useState({
         search: ""
     });
+    const [searchResults, setSearchResults] = useState([]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -26,35 +29,59 @@ export default function SearchBar(){
                 q: term
             }
         })
-        console.log(response.data.items)
+        setSearchResults(response.data.items)
+        openModal()
+    }
+
+    const [modalIsOpen,setIsOpen] = React.useState(false);
+
+    function openModal() {
+        console.log(searchResults)
+        setIsOpen(true);
+    }
+
+    function closeModal(){
+        setIsOpen(false);
     }
 
     return (
         <>
-            <div className='search-bar ui segment'>
-                <form>
+            <div>
+                <Form inline>
+                    <FormControl
+                        type="text"
+                        id="search"
+                        className="mr-sm-2"
+                        value={searchQuery.term}
+                        onChange={handleChange}
+                        placeholder="Search"  
+                    />
+ 
+                    <Button
+                        variant="outline-info"
+                        onClick={handleSubmit}
+                    >
+                        Search
+                    </Button>
+
+                </Form>
+
+                <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Example Modal"
+                    className="searchModal"
+                >
+                    <button onClick={closeModal} className="close">X</button>
                     <div>
-                        <label className="black-title">Search Music</label>
-                        <input
-                            type="text"
-                            id="search"
-                            className="form-control"
-                            value={searchQuery.term}
-                            onChange={handleChange}
-                            placeholder="Search"
-                        />
-                    </div>
-                    <div
-                        type="submit"
-                        >
-                        <Button
-                            onClick={handleSubmit}
-                        >
-                            Search
-                        </Button>
+                        <br></br>
+                        {searchResults.map((data, index) => (
+                            <p> {index+1}, {data.snippet.title} </p>)
+                        )}
                     </div>
 
-                </form>
+                </Modal>
+
             </div>
         </>
     )
