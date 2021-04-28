@@ -62,7 +62,7 @@ router.post('/join/', async (req, res) => {
             res.json('Room ID is required!')
         }
     }catch{
-        res.sendStatus(HTTP_BAD_REQUEST);
+        res.json('Room not found!');
     }
 });
 

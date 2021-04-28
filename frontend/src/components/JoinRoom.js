@@ -11,6 +11,8 @@ export default function JoinRoomPage() {
     // const [ nameInput, setNameInput ] = useState("");
     const [ passwordInput, setPasswordInput ] = useState("");
 
+    const [message, setMessage] = useState("");
+
     const history = useHistory();
 
     async function handleJoinRoom() {
@@ -27,13 +29,17 @@ export default function JoinRoomPage() {
 
         console.log("submitting info...");
         console.log(sessionData);
-
-        const response = await joinRoom(sessionData);
-        if (response === "forward") {
-            history.replace(`/Room`);             
+        if(sessionData._id){
+            const response = await joinRoom(sessionData);
+            if (response === "forward") {
+                history.replace(`/Room`);             
+            }
+            else{
+                setMessage(response);
+            }
         }
         else{
-            console.log(response);
+            setMessage("Room ID is required!");
         }
     }
     return (
@@ -82,6 +88,9 @@ export default function JoinRoomPage() {
                                 >
                                     Join
                                 </Button>
+                                <div>
+                                <span style={{color: 'red'}}>{message}</span>
+                                </div>
                             </Form>
                         </div>
                     </Card.Text>
