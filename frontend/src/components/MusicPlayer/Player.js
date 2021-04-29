@@ -12,7 +12,6 @@ export default function Player() {
         handleSetDuration(e.playedSeconds.toFixed(0));
     }
     function handleSongLengthChange(e) {
-
         handleSongLength(e.toFixed(0) - 1);
     }
     return (

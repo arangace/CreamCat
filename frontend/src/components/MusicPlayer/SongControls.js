@@ -6,7 +6,7 @@ import styles from "./SongControls.module.css";
 export default function SongControls() {
     // need context
     const { playing, handleplay } = useContext(AppContext);
-    const [playButtonText, setPlayButtonText] = useState(FaPlay);
+    const [playButtonText, setPlayButtonText] = useState(FaPause);
 
     const nextSong = () => { };
 
