@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./Playlist.module.css";
 import axios from 'axios'
@@ -21,6 +21,7 @@ export default function Playlist() {
     const [statusText, setStatusText] = useState("Paused...");
     const [currentSongTitle, setCurrentSongTitle] = useState(tracks[0].title);
     const [playing, setPlaying] = useState(false);
+    const [version,setVersion] = useState(false);
 
     // initialize playlist and controls
     const trackCount = tracks.length;
@@ -52,7 +53,7 @@ export default function Playlist() {
         // add audio playing functionality here
     };
 
-    async function getPlaylist(){
+   {/*} async function getPlaylist(){
         const response = await axios.post('http://localhost:3000/api/Playlist/getall/', room);
 
         if(response.data.length > 0){
@@ -62,11 +63,20 @@ export default function Playlist() {
             [{title: "Empty Queue"}]
             )
         };
-    };
+    }; */}
+    
+    useEffect(() => {
+        async function fetchData() {
+            const response = await axios.post("http://localhost:3000/api/playlist/getall/", room);
+            const songs = response.data;
+            console.log(songs);
+            setTracks(songs);
+        }
+        fetchData();
+    },[version]);
 
 
     const buildPlaylist = tracks.map((song, index) => {
-        getPlaylist();
         return (
             <li key={index}>
                 <div className={styles.playlistItem}>
