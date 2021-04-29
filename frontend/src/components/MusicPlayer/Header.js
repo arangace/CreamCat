@@ -1,11 +1,15 @@
-import { Navbar, Form, FormControl, Button } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
+import React, { useContext } from "react";
+import { AppContext } from "../../AppContextProvider";
 import SearchBar from "../SearchBar";
 import styles from "./Header.module.css";
 
+
 export default function Header() {
+    const {name, roomID} = useContext(AppContext)
     // need context
-    const roomName = "Room Name";
-    const roomID = "Room ID (Can add an event listener that copies ID into clipboard)";
+    const roomName = name;
+    //const roomID = roomID;
 
     {/*const handleSearch = () => {
         // add search song functionality here

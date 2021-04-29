@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { AppContext } from '../AppContextProvider';
+import { AppContext } from '../AppContextProvider'
 
 export default function CreateRoomPage() {
 

@@ -1,17 +1,31 @@
 import youtube from './youtubeSearch' 
-import React,{useState} from 'react'
+import React,{useContext, useState} from 'react'
 import Modal from 'react-modal';
 import { Form, FormControl, Button } from "react-bootstrap";
+import { AppContext } from '../AppContextProvider'
+import axios from 'axios'
 import styles from './search.css'
 
 Modal.setAppElement('#root')
 
 export default function SearchBar(){
-
+    const {roomID} = useContext(AppContext)
+    
     const [searchQuery, setSearchQuery] = useState({
         search: ""
     });
     const [searchResults, setSearchResults] = useState([]);
+
+    const addSong = (e) =>{
+        const index = e.target.getAttribute("data-index")
+        const songToAdd = {
+            roomid: roomID,
+            title: searchResults[index].snippet.title, 
+            content: "https://www.youtube.com/watch?v="+searchResults[index].id.videoId
+        }
+        console.log(songToAdd)
+        axios.post('http://localhost:3000/api/Playlist/add/', songToAdd)
+    };
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -36,13 +50,13 @@ export default function SearchBar(){
     const [modalIsOpen,setIsOpen] = React.useState(false);
 
     function openModal() {
-        console.log(searchResults)
         setIsOpen(true);
     }
 
     function closeModal(){
         setIsOpen(false);
     }
+
 
     return (
         <>
@@ -76,12 +90,14 @@ export default function SearchBar(){
                     <div>
                         <br></br>
                         {searchResults.map((data, index) => (
-                            <p> {index+1}, {data.snippet.title} </p>)
+                            <li>
+                                <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-info">Add Song</Button>
+                                &emsp; {data.snippet.title}, https://www.youtube.com/watch?v={data.id.videoId}
+                            </li>
+                            )
                         )}
                     </div>
-
                 </Modal>
-
             </div>
         </>
     )

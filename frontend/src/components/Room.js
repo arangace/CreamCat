@@ -10,9 +10,6 @@ export default function Room() {
     return(
         <>
             <MusicPlayer/>
-            <div>{roomID}</div>
-            <div>{name}</div>
-            <div>{description}</div>
         </>
     );
 }
