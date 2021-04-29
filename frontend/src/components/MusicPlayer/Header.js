@@ -1,14 +1,19 @@
-import { Navbar, Form, FormControl, Button } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
+import React, { useContext } from "react";
+import { AppContext } from "../../AppContextProvider";
+import SearchBar from "../SearchBar";
 import styles from "./Header.module.css";
 
-export default function Header() {
-    // need context
-    const roomName = "Room Name";
-    const roomID = "Room ID (Can add an event listener that copies ID into clipboard)";
 
-    const handleSearch = () => {
+export default function Header() {
+    const {name, roomID} = useContext(AppContext)
+    // need context
+    const roomName = name;
+    //const roomID = roomID;
+
+    {/*const handleSearch = () => {
         // add search song functionality here
-    }
+    } */}
 
     return (
         <>
@@ -19,14 +24,15 @@ export default function Header() {
                     <Navbar.Collapse>
                         <Navbar.Text>Room ID: {roomID}</Navbar.Text>
                     </Navbar.Collapse>
-                    <Form inline>
+                    {/*<Form inline>
                         <FormControl
                             type="text"
                             placeholder="Search"
                             className="mr-sm-2"
                         />
                         <Button variant="outline-info" onClick={handleSearch}>Search</Button>
-                    </Form>
+                    </Form>*/}
+                    <SearchBar/>
                 </Navbar>
             </div>
         </>
