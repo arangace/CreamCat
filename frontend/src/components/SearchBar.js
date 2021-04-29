@@ -9,7 +9,7 @@ import styles from './search.css'
 Modal.setAppElement('#root')
 
 export default function SearchBar(){
-    const {roomID} = useContext(AppContext)
+    const {roomID, password} = useContext(AppContext)
     
     const [searchQuery, setSearchQuery] = useState({
         search: ""
@@ -20,6 +20,7 @@ export default function SearchBar(){
         const index = e.target.getAttribute("data-index")
         const songToAdd = {
             roomid: roomID,
+            password: password,
             title: searchResults[index].snippet.title, 
             content: "https://www.youtube.com/watch?v="+searchResults[index].id.videoId
         }
