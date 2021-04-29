@@ -91,7 +91,7 @@ export default function SearchBar(){
                     <div>
                         <br></br>
                         {searchResults.map((data, index) => (
-                            <li>
+                            <li key={index}>
                                 <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-info">Add Song</Button>
                                 &emsp; {data.snippet.title}, https://www.youtube.com/watch?v={data.id.videoId}
                             </li>
