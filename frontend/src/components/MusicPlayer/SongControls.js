@@ -7,12 +7,6 @@ export default function SongControls() {
     // need context
     const { playing, handleplay } = useContext(AppContext);
     const [playButtonText, setPlayButtonText] = useState(FaPlay);
-    const [elapsedTime, setElapsedTime] = useState("");
-    const songs = [];
-    const songDetails = [];
-    const songName = "Song Title";
-    const artistName = "Artist Name";
-
 
     const nextSong = () => { };
 
@@ -26,43 +20,6 @@ export default function SongControls() {
         }
         handleplay(!playing);
     }
-    const elapsedTimeDisplay = () => {
-        return "elapsed time";
-    };
-
-    const remainingTimeDisplay = () => {
-        return "remaining rime";
-    };
-
-    // replace with useEffect?
-    const calculateTime = () => {
-        const intervalId = setInterval(() => {
-            if (elapsedTime === 30) {
-                //hook to stop song
-            } else if (!playing) {
-                setElapsedTime(elapsedTime + 1);
-            }
-        }, 1000);
-
-        this.setState({
-            intervalId: intervalId,
-        });
-    };
-
-    const getSongIndex = () => {
-        const currentIndex = songs
-            .map((song, index) => {
-                if (song.track === songDetails) {
-                    return index;
-                } else {
-                    return undefined;
-                }
-            })
-            .filter((item) => {
-                return item !== undefined;
-            })[0];
-        return currentIndex;
-    };
 
     return (
         <>
