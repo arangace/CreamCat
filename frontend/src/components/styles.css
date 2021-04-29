@@ -68,10 +68,10 @@ ul {
   width: 50%;
   margin-bottom: 5%;
 }
-.create-room-button{
-  border: 0
+.create-room-button {
+  border: 0;
 }
-.input-form{
+.input-form {
   margin-top: 10%;
   margin-bottom: 10%;
   padding: 2%;
@@ -85,11 +85,11 @@ ul {
   margin-right: 15%;
 }
 
-.black-title{
+.black-title {
   color: black;
   font-size: 1.5em;
 }
-.pad-bot{
+.pad-bot {
   margin-bottom: 5%;
 }
 
@@ -98,4 +98,7 @@ ul {
   margin-right: 30%;
   width: 40%;
   height: 400px;
+}
+.temp-gap {
+  margin-top: 100px;
 }
