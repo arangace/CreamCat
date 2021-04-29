@@ -1,11 +1,13 @@
 import React, { useState, useContext } from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { AppContext } from '../AppContextProvider'
+import { AppContext } from '../AppContextProvider';
 
 export default function CreateRoomPage() {
 
     const { createRoom } = useContext( AppContext );
+
+    const [message, setMessage] = useState("");
 
     const history = useHistory();
 
@@ -29,9 +31,13 @@ export default function CreateRoomPage() {
             description: newRoom.description,
             password: newRoom.password,
         };
-        console.log(room);
-        await createRoom(room);
-        history.replace(`/Room`);
+        if(room.name){
+            await createRoom(room);
+            history.replace(`/Room`);
+        }
+        else{
+            setMessage("Room name is required!");
+        }
     };
 
     return (
@@ -90,6 +96,9 @@ export default function CreateRoomPage() {
                                 >
                                     Create Room
                                 </Button>
+                            </div>
+                            <div>
+                                <span style={{color: 'red'}}>{message}</span>
                             </div>
                         </form>
                     </div>
