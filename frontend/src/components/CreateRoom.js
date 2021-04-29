@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Badge, Button, Card } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { AppContext } from '../AppContextProvider';
+import { AppContext } from '../AppContextProvider'
 
 export default function CreateRoomPage() {
 
@@ -23,14 +23,14 @@ export default function CreateRoomPage() {
         password: "",
     });
 
-    const handleCreateRoom =  (e) => {
+    const handleCreateRoom =  async (e) => {
         const room = {
             name: newRoom.name,
             description: newRoom.description,
             password: newRoom.password,
         };
         console.log(room);
-        createRoom(room);
+        await createRoom(room);
         history.replace(`/Room`);
     };
 

@@ -13,11 +13,14 @@ function AppContextProvider({ children }) {
     const [duration, setDuration] = useState(0);
     const [songLength, setSongLength] = useState(0);
     const [volume, setVolume] = useState(100);
+    const [password, setPassword] = useState();
+
     async function createRoom(room) {
         const response = await axios.post("http://localhost:3000/api/room/create/", room);
         setRoomID(response.data._id);
         setName(response.data.name);
         setDescription(response.data.description);
+        setPassword(response.data.password);
     }
 
     async function joinRoom(room) {
@@ -26,6 +29,7 @@ function AppContextProvider({ children }) {
             setRoomID(response.data._id);
             setName(response.data.name);
             setDescription(response.data.description);
+            setPassword(response.data.password);
             return "forward";
         }
         else {
@@ -57,6 +61,7 @@ function AppContextProvider({ children }) {
         duration,
         songLength,
         volume,
+        password,
         createRoom,
         joinRoom,
         handleplay,
