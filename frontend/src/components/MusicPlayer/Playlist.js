@@ -1,21 +1,25 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../../AppContextProvider";
 import styles from "./Playlist.module.css";
+import axios from 'axios'
 
 export default function Playlist() {
     //placeholder playlist
-    const tracks = [
-        {
-            track: 1,
-            name: "All This Is - Joe L.'s Studio",
-            duration: "2:46",
-            file: "JLS_ATI",
-        }
-    ];
+    const [tracks, setTracks] = useState(
+        [{
+            title: "Empty Queue"
+        }]
+    );
+    const { roomID, password } = useContext(AppContext)
+    const room = {
+        roomid: roomID,
+        password: password
+    }
 
     const [index, setIndex] = useState(0);
     const [extension, setExtension] = useState(0);
     const [statusText, setStatusText] = useState("Paused...");
-    const [currentSongTitle, setCurrentSongTitle] = useState(tracks[0].name);
+    const [currentSongTitle, setCurrentSongTitle] = useState(tracks[0].title);
     const [playing, setPlaying] = useState(false);
 
     // initialize playlist and controls
@@ -48,15 +52,27 @@ export default function Playlist() {
         // add audio playing functionality here
     };
 
+    async function getPlaylist(){
+        const response = await axios.post('http://localhost:3000/api/Playlist/getall/', room);
+
+        if(response.data.length > 0){
+            setTracks(response.data)
+        } else {
+            setTracks(        
+            [{title: "Empty Queue"}]
+            )
+        };
+    };
+
+
     const buildPlaylist = tracks.map((song, index) => {
-        const trackNumber =
-            song.track.toString().length === 1 ? "0" + song.track : song.track;
+        getPlaylist();
         return (
-            <li>
+            <li key={index}>
                 <div className={styles.playlistItem}>
-                    <span className={styles.songNumber}>{trackNumber}</span>
-                    <span className={styles.songTitle}>{song.name}</span>
-                    <span className={styles.songLength}>{song.duration}</span>
+                    <span className={styles.songNumber}>{index+1}</span>
+                    <span className={styles.songTitle}>{song.title}</span>
+                    {/*<span className={styles.songLength}>{song.duration}</span>*/}
                 </div>
             </li>
         );
