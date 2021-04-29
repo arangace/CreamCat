@@ -81,12 +81,13 @@ export default function Player() {
 
     }
     function handleonProgress(e) {
-        handleSetDuration(e.playedSeconds);
-        console.log(e.playedSeconds);
+        handleSetDuration(e.playedSeconds.toFixed(0));
+        console.log(e.playedSeconds.toFixed(0));
     }
     function handleSongLengthChange(e) {
-        console.log("time" + e)
-        handleSongLength(e);
+
+        handleSongLength(e.toFixed(0) - 1);
+        console.log("time" + e.toFixed(0))
     }
     return (
         <>
@@ -117,6 +118,7 @@ export default function Player() {
                 playing={playing}
                 volume={volume}
                 onDuration={e => (handleSongLengthChange(e))}
+                loop={true}
                 height='0'
                 width='0' />
             <button onClick={handleplayClick}>{playing ? <p>pause</p> : <p>play</p>}</button>

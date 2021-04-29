@@ -17,19 +17,15 @@ export default function SongControls() {
     const nextSong = () => { };
 
     const prevSong = () => { };
-
-    const pauseSong = () => {
-        setPlayButtonText(FaPlay);
+    function PlayButton() {
+        if (playing) {
+            setPlayButtonText(FaPlay);
+        }
+        else {
+            setPlayButtonText(FaPause);
+        }
         handleplay(!playing);
-        console.log(playing);
-    };
-
-    const resumeSong = () => {
-        setPlayButtonText(FaPause);
-        handleplay(!playing);
-        console.log(playing);
-    };
-
+    }
     const elapsedTimeDisplay = () => {
         return "elapsed time";
     };
@@ -69,19 +65,22 @@ export default function SongControls() {
     };
 
     return (
-        <Container className={styles.songControls}>
-            <Button className={styles.prevSong} onClick={prevSong}>
-                <FaStepBackward />
-            </Button>{' '}
-            <Button
-                className={styles.playBtn}
-                onClick={playing ? pauseSong : resumeSong}
-            >
-                {playButtonText}
-            </Button>{' '}
-            <Button className={styles.nextSong} onClick={nextSong}>
-                <FaStepForward />
-            </Button>
-        </Container>
+        <>
+
+            <Container className={styles.songControls}>
+                <Button className={styles.prevSong} onClick={prevSong}>
+                    <FaStepBackward />
+                </Button>{' '}
+                <Button
+                    className={styles.playBtn}
+                    onClick={PlayButton}
+                >
+                    {playButtonText}
+                </Button>{' '}
+                <Button className={styles.nextSong} onClick={nextSong}>
+                    <FaStepForward />
+                </Button>
+            </Container>
+        </>
     );
 }
