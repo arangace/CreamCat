@@ -2,6 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./Playlist.module.css";
 import axios from 'axios'
+import { RoomContext } from "../../RoomContextProvider";
+
 
 export default function Playlist() {
     //placeholder playlist
@@ -10,7 +12,8 @@ export default function Playlist() {
             title: "Empty Queue"
         }]
     );
-    const { roomID, password } = useContext(AppContext)
+    const { roomID, password } = useContext(AppContext);
+    const { version } = useContext(RoomContext);
     const room = {
         roomid: roomID,
         password: password
@@ -21,7 +24,7 @@ export default function Playlist() {
     const [statusText, setStatusText] = useState("Paused...");
     const [currentSongTitle, setCurrentSongTitle] = useState(tracks[0].title);
     const [playing, setPlaying] = useState(false);
-    const [version, setVersion] = useState(false);
+    
 
     // initialize playlist and controls
     const trackCount = tracks.length;
@@ -64,6 +67,9 @@ export default function Playlist() {
             )
         };
     }; */}
+
+     //socket.on('update', () => setVersion(!version));
+    // console.log(roomID);
 
     useEffect(() => {
         async function fetchData() {

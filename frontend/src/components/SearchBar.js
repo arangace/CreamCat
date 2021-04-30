@@ -4,19 +4,21 @@ import Modal from 'react-modal';
 import { Form, FormControl, Button } from "react-bootstrap";
 import { AppContext } from '../AppContextProvider'
 import axios from 'axios'
-import styles from './search.css'
+import { RoomContext } from '../RoomContextProvider';
+
 
 Modal.setAppElement('#root')
 
 export default function SearchBar() {
-    const { roomID, password } = useContext(AppContext)
+    const { roomID, password } = useContext(AppContext);
+    const { socket, version } = useContext(RoomContext);
 
     const [searchQuery, setSearchQuery] = useState({
         search: ""
     });
     const [searchResults, setSearchResults] = useState([]);
 
-    const addSong = (e) => {
+    const addSong =  (e) => {
         const index = e.target.getAttribute("data-index")
         const songToAdd = {
             roomid: roomID,
@@ -25,7 +27,11 @@ export default function SearchBar() {
             content: "https://www.youtube.com/watch?v=" + searchResults[index].id.videoId
         }
         console.log(songToAdd)
-        axios.post('http://localhost:3000/api/Playlist/add/', songToAdd)
+        axios.post('http://localhost:3000/api/Playlist/add/', songToAdd);
+        //const socket = io({query: {roomID, password}});
+        console.log(version);
+        socket.emit('update');
+        console.log(version);
     };
 
     const handleChange = (e) => {
