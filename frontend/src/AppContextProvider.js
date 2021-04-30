@@ -14,6 +14,8 @@ function AppContextProvider({ children }) {
     const [songLength, setSongLength] = useState(0);
     const [volume, setVolume] = useState(100);
     const [password, setPassword] = useState();
+    const [userCount, setUserCount] = useState(1);
+    const [ playlist, setPlaylist ] = useState([]);
 
     async function createRoom(room) {
         const response = await axios.post("http://localhost:3000/api/room/create/", room);
@@ -55,6 +57,7 @@ function AppContextProvider({ children }) {
     // The context value that will be supplied to any descendants of this component.
     const context = {
         roomID,
+        setRoomID,
         name,
         description,
         playing,
@@ -62,6 +65,11 @@ function AppContextProvider({ children }) {
         songLength,
         volume,
         password,
+        setPassword,
+        userCount,
+        setUserCount,
+        playlist,
+        setPlaylist,
         createRoom,
         joinRoom,
         handleplay,
