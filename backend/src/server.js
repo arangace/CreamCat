@@ -1,6 +1,6 @@
 import express from 'express';
+import connectToDatabase from './rooms-data/db-connect';
 import path from 'path';
-import mongoose from 'mongoose';
 
 // Setup Express server
 const app = express();
@@ -11,7 +11,6 @@ app.use(express.json());
 
 // Setup routes
 import routes from './routes';
-import connectToDatabase from './rooms-data/db-connect';
 app.use('/', routes);
 
 // Make the "public" folder available statically
@@ -30,7 +29,16 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
+// Setup socket.io server
+import http from 'http';
+import socketIo from 'socket.io';
+import onConnection from './socket-io/socket-api';
+import createSocketIoConnection from './socket-io/socket-api';
+const server = http.createServer(app);
+const io = createSocketIoConnection(server);
+app.set('socketio', io);
+
 // Start the DB running. Then, once it's connected, start the server.
 connectToDatabase()
-    .then(() => app.listen(port, () => console.log(`App server listening on port ${port}!`)));
+    .then(() => server.listen(port, () => console.log(`App server listening on port ${port}!`)));
 //app.listen(port, () => console.log(`App server listening on port ${port}!`));

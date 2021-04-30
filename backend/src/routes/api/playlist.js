@@ -10,6 +10,7 @@ const HTTP_BAD_REQUEST = 400;
 const router = express.Router();
 
 router.post('/add/', async (req, res) => {
+    const io = req.app.get('socketio');
     try{
         const room = await retrieveRoom(req.body.roomid);
         if(room){
@@ -28,6 +29,12 @@ router.post('/add/', async (req, res) => {
                     const newSong = await addSong(song);
                     res.status(HTTP_CREATED)
                     .json(newSong);
+
+                    // broadcast new song
+
+                    console.log(`Broadcasting new song ${newSong}`);
+                    io.emit("FromAPI on addSong", newSong);
+
                 }
                 else{
                     res.sendStatus(HTTP_BAD_REQUEST);

@@ -2,9 +2,9 @@ import React from 'react';
 import { useState } from 'react'
 import axios from "axios";
 
-const AppContext = React.createContext();
+const PlayerContext = React.createContext();
 
-function AppContextProvider({ children }) {
+function PlayerContextProvider({ children }) {
 
     const [roomID, setRoomID] = useState();
     const [name, setName] = useState("");
@@ -40,7 +40,7 @@ function AppContextProvider({ children }) {
         }
     }
 
-    function handleplay() {
+    function handlePlay() {
         setPlaying(!playing);
     }
 
@@ -65,17 +65,7 @@ function AppContextProvider({ children }) {
         duration,
         songLength,
         volume,
-        password,
-        setPassword,
-        userCount,
-        setUserCount,
-        playlist,
-        setPlaylist,
-        socket,
-        setSocket,
-        createRoom,
-        joinRoom,
-        handleplay,
+        handlePlay,
         handleSetDuration,
         handleSongLength,
         handleVolume
@@ -83,13 +73,13 @@ function AppContextProvider({ children }) {
 
     // Wraps the given child components in a Provider for the above context.
     return (
-        <AppContext.Provider value={context}>
+        <PlayerContext.Provider value={context}>
             {children}
-        </AppContext.Provider>
+        </PlayerContext.Provider>
     );
 }
 
 export {
-    AppContext,
-    AppContextProvider
+    PlayerContext,
+    PlayerContextProvider
 };
