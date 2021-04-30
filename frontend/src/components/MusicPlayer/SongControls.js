@@ -11,6 +11,7 @@ export default function SongControls() {
     const nextSong = () => { };
 
     const prevSong = () => { };
+
     function PlayButton() {
         if (playing) {
             setPlayButtonText(FaPlay);

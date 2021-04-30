@@ -7,12 +7,14 @@ import SongControls from "./SongControls";
 import SongInfo from "./SongInfo";
 import { useContext } from 'react';
 import { AppContext } from '../../AppContextProvider';
+import Player from './Player';
 export default function Playbar() {
     const { duration, songLength, handleVolume, volume } = useContext(AppContext);
 
     return (
 
         <>
+            <Player></Player>
             <Container fluid className={styles.playbar}>
                 <ProgressBar now={duration} min="0" max={songLength} />
                 <Container fluid className={styles.playbarContainer}>

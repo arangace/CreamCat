@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player';
 import axios from 'axios';
 
 export default function Player() {
-    const { playing, handleSetDuration, handleSongLength, volume } = useContext(AppContext);
+    const { playing, handleSetDuration, handleSongLength, volume, tracks } = useContext(AppContext);
 
 
     function handleonProgress(e) {
