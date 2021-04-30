@@ -5,6 +5,7 @@ import { Form, FormControl, Button } from "react-bootstrap";
 import { AppContext } from '../AppContextProvider'
 import axios from 'axios'
 import { RoomContext } from '../RoomContextProvider';
+import styles from './search.css';
 
 
 Modal.setAppElement('#root')

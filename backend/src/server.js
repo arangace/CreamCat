@@ -17,8 +17,6 @@ app.use(express.json());
 // Setup routes
 import routes from './routes';
 import connectToDatabase from './rooms-data/db-connect';
-import { retrieveRoom } from './rooms-data/rooms-dao';
-import { retrieveAllSongs } from './rooms-data/songs-dao';
 import onConnection from './socket.io/socket-api';
 app.use('/', routes);
 
