@@ -21,7 +21,7 @@ export default function Playlist() {
     const [statusText, setStatusText] = useState("Paused...");
     const [currentSongTitle, setCurrentSongTitle] = useState(tracks[0].title);
     const [playing, setPlaying] = useState(false);
-    const [version,setVersion] = useState(false);
+    const [version, setVersion] = useState(false);
 
     // initialize playlist and controls
     const trackCount = tracks.length;
@@ -53,7 +53,7 @@ export default function Playlist() {
         // add audio playing functionality here
     };
 
-   {/*} async function getPlaylist(){
+    {/*} async function getPlaylist(){
         const response = await axios.post('http://localhost:3000/api/Playlist/getall/', room);
 
         if(response.data.length > 0){
@@ -64,29 +64,30 @@ export default function Playlist() {
             )
         };
     }; */}
-    
+
     useEffect(() => {
         async function fetchData() {
             const response = await axios.post("http://localhost:3000/api/playlist/getall/", room);
-            if (response.data.length > 0){
-            const songs = response.data;
-            console.log(songs);
-            setTracks(songs);
-            } else {
+            if (response.data.length > 0) {
+                const songs = response.data;
+                console.log(songs);
+                setTracks(songs);
+            }
+            else {
                 setTracks([{
                     title: "Empty Queue"
                 }]);
             }
         }
         fetchData();
-    },[version]);
+    }, [version]);
 
 
     const buildPlaylist = tracks.map((song, index) => {
         return (
             <li key={index}>
                 <div className={styles.playlistItem}>
-                    <span className={styles.songNumber}>{index+1}</span>
+                    <span className={styles.songNumber}>{index + 1}</span>
                     <span className={styles.songTitle}>{song.title}</span>
                     {/*<span className={styles.songLength}>{song.duration}</span>*/}
                 </div>
