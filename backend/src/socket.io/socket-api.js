@@ -4,8 +4,6 @@ import { retrieveRoom } from "../rooms-data/rooms-dao";
 
 export default async function onConnection(socket, io) {
     const { roomID, password } = socket.handshake.query;
-    const a = socket.handshake.query;
-    console.log(a);
     const room = await retrieveRoom(roomID);
     console.log('a user connected');
     if(room){

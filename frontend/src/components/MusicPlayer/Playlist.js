@@ -68,8 +68,7 @@ export default function Playlist() {
         };
     }; */}
 
-     //socket.on('update', () => setVersion(!version));
-    // console.log(roomID);
+
 
     useEffect(() => {
         async function fetchData() {

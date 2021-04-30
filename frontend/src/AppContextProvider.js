@@ -15,7 +15,7 @@ function AppContextProvider({ children }) {
     const [songLength, setSongLength] = useState(0);
     const [volume, setVolume] = useState(100);
     const [password, setPassword] = useState();
-    console.log("234");
+
     async function createRoom(room) {
         const response = await axios.post("http://localhost:3000/api/room/create/", room);
         setRoomID(response.data._id);

@@ -12,7 +12,7 @@ Modal.setAppElement('#root')
 
 export default function SearchBar() {
     const { roomID, password } = useContext(AppContext);
-    const { socket, version } = useContext(RoomContext);
+    const { socket } = useContext(RoomContext);
 
     const [searchQuery, setSearchQuery] = useState({
         search: ""
@@ -30,9 +30,7 @@ export default function SearchBar() {
         console.log(songToAdd)
         axios.post('http://localhost:3000/api/Playlist/add/', songToAdd);
         //const socket = io({query: {roomID, password}});
-        console.log(version);
         socket.emit('update');
-        console.log(version);
     };
 
     const handleChange = (e) => {
