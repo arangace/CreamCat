@@ -68,9 +68,15 @@ export default function Playlist() {
     useEffect(() => {
         async function fetchData() {
             const response = await axios.post("http://localhost:3000/api/playlist/getall/", room);
+            if (response.data.length > 0){
             const songs = response.data;
             console.log(songs);
             setTracks(songs);
+            } else {
+                setTracks([{
+                    title: "Empty Queue"
+                }]);
+            }
         }
         fetchData();
     },[version]);
