@@ -1,24 +1,22 @@
 import "react-bootstrap";
 import { useContext } from 'react';
-import { AppContext } from '../../AppContextProvider';
 import ReactPlayer from 'react-player';
-import axios from 'axios';
+import { PlayerContext } from "../../PlayerContextProvider";
 
 export default function Player() {
-    const { playing, handleSetDuration, handleSongLength, volume, tracks } = useContext(AppContext);
+    const { playing, setDuration, setSongLength, volume } = useContext(PlayerContext);
 
 
-    function handleonProgress(e) {
-        handleSetDuration(e.playedSeconds.toFixed(0));
+    function handleOnProgress(e) {
+        setDuration(e.playedSeconds.toFixed(0));
     }
     function handleSongLengthChange(e) {
-        handleSongLength(e.toFixed(0) - 1);
+        setSongLength(e.toFixed(0) - 1);
     }
     return (
         <>
-
             <ReactPlayer url={"https://www.youtube.com/watch?v=5TrM0rFaclw&ab_channel=GiveonVEVO"}
-                onProgress={e => (handleonProgress(e))}
+                onProgress={e => (handleOnProgress(e))}
                 playing={playing}
                 volume={volume}
                 onDuration={e => (handleSongLengthChange(e))}

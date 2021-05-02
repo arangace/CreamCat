@@ -6,14 +6,7 @@ import styles from "./Header.module.css";
 
 
 export default function Header() {
-    const {name, roomID} = useContext(AppContext)
-    // need context
-    const roomName = name;
-    //const roomID = roomID;
-
-    {/*const handleSearch = () => {
-        // add search song functionality here
-    } */}
+    const {roomName, roomID} = useContext(AppContext);
 
     return (
         <>
