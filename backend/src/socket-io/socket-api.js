@@ -15,7 +15,14 @@ async function onConnection(socket) {
 
     // Retrieve Room ID from client handshake query
     const { roomID, password } = socket.handshake.query;
-    console.log (`Room ID: ${roomID}`);
+    retrieveRoom(roomID).then(room => {
+            if(room && room.password == password) {
+                socket.join(roomID);
+                console.log(`Client joined room ${roomID}`);
+            }
+        }
+    ).catch(err => console.error(err));
+
 
     // WARNING: password validation logic not implemented
 
@@ -40,20 +47,9 @@ async function onConnection(socket) {
      * }
      */
 
-    // Try get all songs in database with the provided Room ID
-    let playlist;
-    try {
-        playlist = await retrieveAllSongs(roomID);
-          console.log(`${playlist.length} songs found`);
-
-    } catch (err) {
-        console.log(`Failed to get playlist. RoomID: ${roomID}`);
-        console.log(err);
-    }
 
     // Construct response data that will be sent to the client
-    const responseData = {
-        playlist: playlist,      
+    const responseData = { 
         // userCount: newUserCount,
         userCount: 1, //WARNING: placeholder userCount. Replace with the line above when userCount implemented
     };
