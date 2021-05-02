@@ -1,17 +1,17 @@
 import "react-bootstrap";
 import { useContext } from 'react';
-import { PlayerContext } from '../../PlayerContextProvider';
 import ReactPlayer from 'react-player';
+import { PlayerContext } from "../../PlayerContextProvider";
 
 export default function Player() {
-    const { playing, handleSetDuration, handleSongLength, volume } = useContext(PlayerContext);
+    const { playing, setDuration, setSongLength, volume } = useContext(PlayerContext);
 
 
     function handleOnProgress(e) {
-        handleSetDuration(e.playedSeconds.toFixed(0));
+        setDuration(e.playedSeconds.toFixed(0));
     }
     function handleSongLengthChange(e) {
-        handleSongLength(e.toFixed(0) - 1);
+        setSongLength(e.toFixed(0) - 1);
     }
     return (
         <>

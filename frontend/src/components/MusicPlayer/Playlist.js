@@ -21,7 +21,6 @@ export default function Playlist() {
                 .then((response) => {
                     if (response.data.length > 0) {
                         const songs = response.data;
-                        console.log(songs);
                         setPlaylist(songs);
                     } else {
                         setPlaylist([]);
@@ -34,7 +33,6 @@ export default function Playlist() {
 
     function buildPlaylist() {
         if (playlist && playlist.length > 0) {
-            console.log(playlist);
             console.log(`Playlist contains ${playlist.length} songs`);
             return playlist.map((song, index) => {
                 const trackNumber = (index + 1).toLocaleString("en-US", {
