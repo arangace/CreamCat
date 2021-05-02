@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./Playlist.module.css";
-import axios from 'axios'
+import axios from "axios";
 
 export default function Playlist() {
     //placeholder playlist
@@ -9,30 +9,32 @@ export default function Playlist() {
 
     const room = {
         roomid: roomID,
-        password: password
-    }
+        password: password,
+    };
 
     const [version, setVersion] = useState(false);
 
-
     useEffect(() => {
         async function fetchData() {
-            const response = await axios.post("http://localhost:3000/api/playlist/getall/", room);
-            if (response.data.length > 0) {
-                const songs = response.data;
-                console.log(songs);
-                setPlaylist(songs);
-            }
-            else {
-                setPlaylist([]);
-            }
+            await axios
+                .post("http://localhost:3000/api/playlist/getall/", room)
+                .then((response) => {
+                    if (response.data.length > 0) {
+                        const songs = response.data;
+                        console.log(songs);
+                        setPlaylist(songs);
+                    } else {
+                        setPlaylist([]);
+                    }
+                })
+                .catch((error) => console.error(error.response.data));
         }
         fetchData();
     }, [version]);
 
-
     function buildPlaylist() {
         if (playlist && playlist.length > 0) {
+            console.log(playlist);
             console.log(`Playlist contains ${playlist.length} songs`);
             return playlist.map((song, index) => {
                 const trackNumber = (index + 1).toLocaleString("en-US", {
@@ -41,7 +43,7 @@ export default function Playlist() {
                 });
 
                 return (
-                    <li>
+                    <li key={index}>
                         <div className={styles.playlistItem}>
                             <span className={styles.songNumber}>
                                 {trackNumber}
