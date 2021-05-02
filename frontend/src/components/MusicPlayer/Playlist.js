@@ -5,16 +5,15 @@ import axios from "axios";
 
 export default function Playlist() {
     //placeholder playlist
-    const { roomID, password, playlist, setPlaylist } = useContext(AppContext);
+    const { roomID, password, playlist, setPlaylist, version } = useContext(AppContext);
 
     const room = {
         roomid: roomID,
         password: password,
     };
 
-    const [version, setVersion] = useState(false);
-
     useEffect(() => {
+        console.log(`playlist rerendered: version is ${version}`)
         async function fetchData() {
             await axios
                 .post("http://localhost:3000/api/playlist/getall/", room)

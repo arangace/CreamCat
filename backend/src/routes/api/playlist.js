@@ -36,7 +36,6 @@ router.post('/add/', async (req, res) => {
                     .json(newSong);
 
                     // broadcast new song
-
                     console.log(`Broadcasting new song ${newSong}`);
                     io.emit("FromAPI on addSong", newSong);
 

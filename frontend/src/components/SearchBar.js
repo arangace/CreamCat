@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { Form, FormControl, Button } from "react-bootstrap";
 import { AppContext } from '../AppContextProvider'
 import axios from 'axios'
-import styles from './search.css'
+import './SearchBar.css'
 
 Modal.setAppElement('#root')
 

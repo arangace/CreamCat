@@ -1,6 +1,6 @@
 import "react-bootstrap";
 import { io } from "socket.io-client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../AppContextProvider";
 import MusicPlayer from "./MusicPlayer";
 
@@ -9,9 +9,8 @@ export default function Room() {
     const {
         roomID,
         password,
-        playlist,
-        setPlaylist,
         setUserCount,
+        setVersion
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -27,13 +26,18 @@ export default function Room() {
             const { userCount } = data;
             setUserCount(userCount);
         });
-        socket.on("FromAPI on addSong", (newSong) => {
-            console.log(playlist)
-            const newPlaylist = {...playlist, newSong};
-            console.log(newPlaylist);
-            setPlaylist(newPlaylist);
-        });
+        socket.on("FromAPI on addSong", () => addSongCallback());
     }, []);
+
+    let version = false;
+    function addSongCallback(){
+        console.log(`New song message received from socket...`);
+            // console.log(`room.js version is ${version}`);
+            version = !version;
+            setVersion( version );
+            //console.log(`room.js version is changed to ${version}`);
+            console.log(`new version is ${version}`);
+    }
 
     return (
         <>
