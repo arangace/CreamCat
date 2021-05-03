@@ -13,7 +13,7 @@ export default function Playlist() {
     };
 
     useEffect(() => {
-        console.log(`playlist rerendered: version is ${version}`)
+        // console.log(`playlist rerendered: version is ${version}`)
         async function fetchData() {
             await axios
                 .post("http://localhost:3000/api/playlist/getall/", room)
@@ -24,6 +24,8 @@ export default function Playlist() {
                         console.log(`Setting current song to ${songs[0]._id}...`)
                         setCurrentSong(songs[0]);
                     } else {
+                        console.log(`Playlist is empty`)
+                        setCurrentSong();
                         setPlaylist([]);
                     }
                 })
