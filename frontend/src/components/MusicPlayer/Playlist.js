@@ -1,15 +1,15 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./Playlist.module.css";
 import axios from "axios";
 
 export default function Playlist() {
     //placeholder playlist
-    const { roomID, password, playlist, setPlaylist, version, setCurrentSong } = useContext(AppContext);
+    const { currentRoom, playlist, setPlaylist, version, setCurrentSong } = useContext(AppContext);
 
     const room = {
-        roomID: roomID,
-        password: password,
+        roomID: currentRoom._id,
+        password: currentRoom.password,
     };
 
     useEffect(() => {

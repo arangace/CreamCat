@@ -4,10 +4,9 @@ import axios from "axios";
 const AppContext = React.createContext();
 
 function AppContextProvider({ children }) {
-    const [roomID, setRoomID] = useState(localStorage.getItem("roomID"));
-    const [roomName, setRoomName] = useState(localStorage.getItem("roomName"));
-    const [roomDesc, setRoomDesc] = useState();
-    const [password, setPassword] = useState(localStorage.getItem("password"));
+    const [currentRoom, setCurrentRoom] = useState(
+        JSON.parse(localStorage.getItem("currentRoom"))
+    );
 
     const [userCount, setUserCount] = useState(0);
 
@@ -26,13 +25,8 @@ function AppContextProvider({ children }) {
         );
 
         console.log(`Creating room...`);
-        localStorage.setItem("roomID", response.data._id);
-        localStorage.setItem("roomName", response.data.name);
-        localStorage.setItem("password", response.data.password);
-        setRoomID(localStorage.getItem("roomID"));
-        setRoomName(localStorage.getItem("roomName"));
-        setRoomDesc(response.data.description);
-        setPassword(localStorage.getItem("password"));
+        localStorage.setItem("currentRoom", JSON.stringify(response.data));
+        setCurrentRoom(JSON.parse(localStorage.getItem("currentRoom")));
     }
 
     async function joinRoom(room) {
@@ -42,20 +36,8 @@ function AppContextProvider({ children }) {
         );
         console.log(`Joining room...`);
         if (response.data.name) {
-            localStorage.setItem("roomID", response.data._id);
-            localStorage.setItem("roomName", response.data.name);
-            localStorage.setItem("password", response.data.password);
-            console.log(
-                `[localStorage updated] room=${localStorage.getItem(
-                    "roomName"
-                )}, pw=${localStorage.getItem(
-                    "password"
-                )}, ID=${localStorage.getItem("roomID")}\n `
-            );
-            setRoomID(localStorage.getItem("roomID"));
-            setRoomName(localStorage.getItem("roomName"));
-            setRoomDesc(response.data.description);
-            setPassword(localStorage.getItem("password"));
+            localStorage.setItem("currentRoom", JSON.stringify(response.data));
+            setCurrentRoom(JSON.parse(localStorage.getItem("currentRoom")));
 
             return "forward";
         } else {
@@ -65,12 +47,8 @@ function AppContextProvider({ children }) {
 
     // The context value that will be supplied to any descendants of this component.
     const context = {
-        roomID,
-        setRoomID,
-        roomName,
-        roomDesc,
-        password,
-        setPassword,
+        currentRoom,
+        setCurrentRoom,
         userCount,
         setUserCount,
         playlist,

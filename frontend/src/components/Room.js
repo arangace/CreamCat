@@ -7,8 +7,7 @@ import MusicPlayer from "./MusicPlayer";
 export default function Room() {
     // TODO: add state for userCount in AppContext
     const {
-        roomID,
-        password,
+        currentRoom,
         setUserCount,
         setVersion,
         setSocket,
@@ -19,8 +18,8 @@ export default function Room() {
         // Connect to socket on localhost server and pass roomId
         const socket = io({
             query: {
-                roomID: roomID,
-                password: password,
+                roomID: currentRoom._id,
+                password: currentRoom.password,
             },
         });
         socket.on("FromAPI on connect", (data) => {

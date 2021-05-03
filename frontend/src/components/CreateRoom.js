@@ -26,13 +26,8 @@ export default function CreateRoomPage() {
     });
 
     const handleCreateRoom =  async (e) => {
-        const room = {
-            name: newRoom.name,
-            description: newRoom.description,
-            password: newRoom.password,
-        };
-        if(room.name){
-            await createRoom(room);
+        if(newRoom.name){
+            await createRoom(newRoom);
             history.replace(`/Room`);
         }
         else{

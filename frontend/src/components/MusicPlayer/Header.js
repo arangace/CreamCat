@@ -6,16 +6,16 @@ import styles from "./Header.module.css";
 
 
 export default function Header() {
-    const {roomName, roomID} = useContext(AppContext);
+    const {currentRoom} = useContext(AppContext);
 
     return (
         <>
             <div className={styles.navRoom}>
                 <Navbar fixed="top" variant="dark" bg="dark" className={styles.navRoom}>
-                    <Navbar.Brand >{roomName}</Navbar.Brand>
+                    <Navbar.Brand >{currentRoom.name}</Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse>
-                        <Navbar.Text>Room ID: {roomID}</Navbar.Text>
+                        <Navbar.Text>Room ID: {currentRoom._id}</Navbar.Text>
                     </Navbar.Collapse>
                     {/*<Form inline>
                         <FormControl
