@@ -37,6 +37,7 @@ export default function SearchBar() {
     }
 
     const handleSubmit = async (e) => {
+        e.preventDefault() 
         console.log("start")
         const term = searchQuery.search
         const response = await youtube.get('/search', {
@@ -47,6 +48,7 @@ export default function SearchBar() {
         setSearchResults(response.data.items)
         openModal()
     }
+
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -62,7 +64,7 @@ export default function SearchBar() {
     return (
         <>
             <div>
-                <Form inline>
+                <Form inline onSubmit={handleSubmit}>
                     <FormControl
                         type="text"
                         id="search"
