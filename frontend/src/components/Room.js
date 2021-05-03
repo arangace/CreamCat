@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../AppContextProvider";
 import MusicPlayer from "./MusicPlayer";
+import { PlayerContext } from "../PlayerContextProvider";
 
 export default function Room() {
     // TODO: add state for userCount in AppContext
@@ -12,6 +13,7 @@ export default function Room() {
         setUserCount,
         setVersion,
         setSocket,
+        setKey
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -29,6 +31,13 @@ export default function Room() {
             setSocket(socket);
         });
         socket.on("FromAPI on addSong", () => addSongCallback());
+
+        socket.on("FromAPI refetch", () => {
+            console.log(`Refetch called by API`);
+            setVersion(v =>!v);
+            setKey(k => k+1);
+        });
+
     }, []);
 
     function addSongCallback(){

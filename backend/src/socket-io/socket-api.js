@@ -6,11 +6,11 @@ export default function createSocketIoConnection(server) {
     const io = socketIo(server);
 
     // Listen to connection events on socket
-    io.on("connection", (socket) => onConnection(socket));
+    io.on("connection", (socket) => onConnection(socket, io));
     return io;
 }
 // Callback function for connection event
-async function onConnection(socket) {
+async function onConnection(socket, io) {
     console.log(`New client connected`);
 
     // Retrieve Room ID from client handshake query
@@ -71,7 +71,7 @@ async function onConnection(socket) {
                     if (room.password == password) {
                         await deleteSong(song._id).then(() => {
                             console.log(`Sending refetch event`);
-                            socket.emit("FromAPI refetch");
+                            io.emit("FromAPI refetch");
                         });
                     }
                 }

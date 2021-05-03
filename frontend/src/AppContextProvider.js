@@ -14,6 +14,7 @@ function AppContextProvider({ children }) {
     const [socket, setSocket] = useState();
     const [currentSong, setCurrentSong] = useState();
     const versionRef = useRef(version);
+    const [key, setKey] = useState(0);
 
     async function createRoom(room) {
         const response = await axios.post(
@@ -74,7 +75,9 @@ function AppContextProvider({ children }) {
         setSocket,
         currentSong,
         setCurrentSong,
-        versionRef
+        versionRef,
+        key,
+        setKey
     };
 
     // Wraps the given child components in a Provider for the above context.

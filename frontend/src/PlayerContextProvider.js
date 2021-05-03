@@ -11,7 +11,6 @@ function PlayerContextProvider({ children }) {
     const [duration, setDuration] = useState(0);
     const [songLength, setSongLength] = useState(0);
     const [volume, setVolume] = useState(100);
-    const [key, setKey] = useState(0);
     
     // The context value that will be supplied to any descendants of this component.
     const context = {
@@ -27,8 +26,6 @@ function PlayerContextProvider({ children }) {
         setSongLength,
         volume,
         setVolume,
-        key,
-        setKey
     };
 
     // Wraps the given child components in a Provider for the above context.
