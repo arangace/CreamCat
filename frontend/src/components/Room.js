@@ -3,7 +3,6 @@ import { io } from "socket.io-client";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../AppContextProvider";
 import MusicPlayer from "./MusicPlayer";
-import { PlayerContext } from "../PlayerContextProvider";
 
 export default function Room() {
     // TODO: add state for userCount in AppContext
