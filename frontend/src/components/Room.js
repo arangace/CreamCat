@@ -12,7 +12,6 @@ export default function Room() {
         setUserCount,
         setVersion,
         setSocket,
-        versionRef,
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -32,11 +31,9 @@ export default function Room() {
         socket.on("FromAPI on addSong", () => addSongCallback());
     }, []);
 
-    let version = false;
     function addSongCallback(){
         console.log(`New song message received from socket...`);
-            version = !version;
-            setVersion( version );
+            setVersion( v => !v );
     }
 
     return (
