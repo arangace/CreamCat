@@ -10,7 +10,9 @@ export default function Room() {
         roomID,
         password,
         setUserCount,
-        setVersion
+        setVersion,
+        setSocket,
+        versionRef,
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -25,6 +27,7 @@ export default function Room() {
             // Parse response into AppContext
             const { userCount } = data;
             setUserCount(userCount);
+            setSocket(socket);
         });
         socket.on("FromAPI on addSong", () => addSongCallback());
     }, []);
@@ -32,11 +35,8 @@ export default function Room() {
     let version = false;
     function addSongCallback(){
         console.log(`New song message received from socket...`);
-            // console.log(`room.js version is ${version}`);
             version = !version;
             setVersion( version );
-            //console.log(`room.js version is changed to ${version}`);
-            console.log(`new version is ${version}`);
     }
 
     return (

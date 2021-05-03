@@ -1,11 +1,27 @@
 import "react-bootstrap";
-import { useContext } from 'react';
-import ReactPlayer from 'react-player';
+import { useContext, useEffect } from "react";
+import ReactPlayer from "react-player";
 import { PlayerContext } from "../../PlayerContextProvider";
+import { AppContext } from "../../AppContextProvider";
 
 export default function Player() {
-    const { playing, setDuration, setSongLength, volume } = useContext(PlayerContext);
+    const {
+        playing,
+        setPlaying,
+        setDuration,
+        setSongLength,
+        volume,
+    } = useContext(PlayerContext);
+    const { socket, currentSong, setVersion, version } = useContext(AppContext);
 
+    function currentSongContext() {
+        if (currentSong) {
+            console.log(currentSong.content);
+            return currentSong.content;
+        } else {
+            console.log(`No current song!`);
+        }
+    }
 
     function handleOnProgress(e) {
         setDuration(e.playedSeconds.toFixed(0));
@@ -13,16 +29,34 @@ export default function Player() {
     function handleSongLengthChange(e) {
         setSongLength(e.toFixed(0) - 1);
     }
+
+    function handleOnEnded(e) {
+        console.log("Playing ended");
+        socket.emit("song end", currentSong);
+        socket.on("FromAPI refetch", () => {
+            console.log(`Refetch called by API`);
+            setVersion(!version);
+        });
+
+        // wait listen for new song
+    }
     return (
         <>
-            <ReactPlayer url={"https://www.youtube.com/watch?v=5TrM0rFaclw&ab_channel=GiveonVEVO"}
-                onProgress={e => (handleOnProgress(e))}
+            <ReactPlayer
+                url={currentSongContext()}
+                onProgress={(e) => handleOnProgress(e)}
+                onReady={() => {
+                    console.log(`onReady`);
+                    setPlaying(false);
+                    setPlaying(true);
+                }}
                 playing={playing}
                 volume={volume}
-                onDuration={e => (handleSongLengthChange(e))}
-                loop={true}
-                height='0'
-                width='0' />
+                onDuration={(e) => handleSongLengthChange(e)}
+                onEnded={(e) => handleOnEnded(e)}
+                height="0"
+                width="0"
+            />
         </>
     );
 }

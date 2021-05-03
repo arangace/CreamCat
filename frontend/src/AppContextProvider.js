@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from "axios";
 
 const AppContext = React.createContext();
@@ -11,6 +11,9 @@ function AppContextProvider({ children }) {
     const [userCount, setUserCount] = useState(0);
     const [playlist, setPlaylist] = useState([]);
     const [version, setVersion] = useState(false);
+    const [socket, setSocket] = useState();
+    const [currentSong, setCurrentSong] = useState();
+    const versionRef = useRef(version);
 
     async function createRoom(room) {
         const response = await axios.post(
@@ -67,6 +70,11 @@ function AppContextProvider({ children }) {
         joinRoom,
         version,
         setVersion,
+        socket,
+        setSocket,
+        currentSong,
+        setCurrentSong,
+        versionRef
     };
 
     // Wraps the given child components in a Provider for the above context.

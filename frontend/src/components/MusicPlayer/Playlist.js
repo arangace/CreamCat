@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default function Playlist() {
     //placeholder playlist
-    const { roomID, password, playlist, setPlaylist, version } = useContext(AppContext);
+    const { roomID, password, playlist, setPlaylist, version, setCurrentSong } = useContext(AppContext);
 
     const room = {
         roomid: roomID,
@@ -21,6 +21,8 @@ export default function Playlist() {
                     if (response.data.length > 0) {
                         const songs = response.data;
                         setPlaylist(songs);
+                        console.log(`Setting current song to ${songs[0]._id}...`)
+                        setCurrentSong(songs[0]);
                     } else {
                         setPlaylist([]);
                     }
