@@ -11,6 +11,8 @@ export default function Player() {
         setDuration,
         setSongLength,
         volume,
+        key,
+        setKey
     } = useContext(PlayerContext);
     const { socket, currentSong, setVersion, version } = useContext(AppContext);
 
@@ -36,6 +38,7 @@ export default function Player() {
         socket.on("FromAPI refetch", () => {
             console.log(`Refetch called by API`);
             setVersion(!version);
+            setKey(k => k+1);
         });
 
         // wait listen for new song
@@ -47,9 +50,9 @@ export default function Player() {
                 onProgress={(e) => handleOnProgress(e)}
                 onReady={() => {
                     console.log(`onReady`);
-                    setPlaying(false);
-                    setPlaying(true);
+                    // setPlaying(true);
                 }}
+                key={key}
                 playing={playing}
                 volume={volume}
                 onDuration={(e) => handleSongLengthChange(e)}
