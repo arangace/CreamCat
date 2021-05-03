@@ -8,9 +8,9 @@ export async function addSong(song) {
     return dbSong;
 }
 
-export async function retrieveAllSongs(roomid) {
-    console.log(roomid);
-    return await Song.find({ roomid: `${roomid}`});
+export async function retrieveAllSongs(roomID) {
+    console.log(roomID);
+    return await Song.find({ roomID: `${roomID}`});
 }
 
 export async function retrieveSong(songid) {
@@ -20,8 +20,8 @@ export async function retrieveSong(songid) {
 export async function updateSong(song) {
     const dbSong = await Song.findById(song._id);
     if(dbSong) {
-        if(song.roomid){
-            dbSong.roomid = song.roomid;
+        if(song.roomID){
+            dbSong.roomID = song.roomID;
         }
         if(song.title){
             dbSong.title = song.title;

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const songSchema = new Schema({
-    roomid: {type: String, required: true},
+    roomID: {type: String, required: true},
     image: String,
     title: {type: String, required: true},
     description: String,

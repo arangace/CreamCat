@@ -8,7 +8,7 @@ export default function Playlist() {
     const { roomID, password, playlist, setPlaylist, version, setCurrentSong } = useContext(AppContext);
 
     const room = {
-        roomid: roomID,
+        roomID: roomID,
         password: password,
     };
 

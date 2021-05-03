@@ -19,7 +19,7 @@ export default function SearchBar() {
     const addSong = (e) => {
         const index = e.target.getAttribute("data-index")
         const songToAdd = {
-            roomid: roomID,
+            roomID: roomID,
             password: password,
             title: searchResults[index].snippet.title,
             content: "https://www.youtube.com/watch?v=" + searchResults[index].id.videoId

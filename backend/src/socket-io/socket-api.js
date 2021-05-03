@@ -59,14 +59,14 @@ async function onConnection(socket, io) {
     // Listen to song end event
     socket.on("song end", async (song) => {
         // pop song once
-        console.log(`Song ended on ${song.roomid}`);
+        console.log(`Song ended on ${song.roomID}`);
         console.log (song)
 
         try {
-            if (!song.roomid) {
+            if (!song.roomID) {
                 throw "Room ID not in request body";
             }
-                await retrieveRoom(song.roomid).then( async room => {
+                await retrieveRoom(song.roomID).then( async room => {
                 if (room) {
                     if (room.password == password) {
                         await deleteSong(song._id).then(() => {
