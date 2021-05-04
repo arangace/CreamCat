@@ -35,7 +35,9 @@ export default function Playbar() {
         console.log("Playing ended");
         socket.emit("song end", currentSong);
     }
-
+    useEffect(() => {
+        setVolume(0.5);
+    }, []);
     return (
         <>
             <ReactPlayer
