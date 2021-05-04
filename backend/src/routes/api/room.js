@@ -1,5 +1,6 @@
 import express from 'express';
 import { createRoom, deleteRoom, retrieveRoom, updateRoom } from '../../rooms-data/rooms-dao';
+import dayjs from 'dayjs';
 
 const HTTP_CREATED = 201;
 const HTTP_NOT_FOUND = 404;
@@ -15,7 +16,7 @@ router.post('/create/', async (req, res) => {
             description: req.body.description,
             password: req.body.password,
             userCount: 0,
-            lastActive: '2077-02-21'
+            lastActive: dayjs()
         };
 
         if(room.name){

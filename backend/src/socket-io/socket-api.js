@@ -27,25 +27,48 @@ async function onConnection(socket, io) {
             // Increment room user count
             const userCount = room.userCount;
             const newUserCount = userCount + 1;
-            const newRoom = {
+            if(newUserCount > 1){
+                const newRoom = {
                 _id: room._id,
                 name: room.name,
                 description: room.description,
                 password: room.password,
                 userCount: newUserCount,
                 lastActive: '2077-02-21',
-            }
+                }
             // Update database
-            updateRoom(newRoom)
-                .then(() => {
-                    console.log(
-                        `Update successful. userCount: ${userCount}->${newUserCount}`
-                    );
-                })
-                .catch((err) => {
-                    console.log(`Failed to update room`);
-                    console.log(err);
-                });
+                updateRoom(newRoom)
+                    .then(() => {
+                        console.log(
+                            `Update successful. userCount: ${userCount}->${newUserCount}`
+                        );
+                    })
+                    .catch((err) => {
+                        console.log(`Failed to update room`);
+                        console.log(err);
+                    });
+            }else{
+                const newRoom = {
+                    _id: room._id,
+                    name: room.name,
+                    description: room.description,
+                    password: room.password,
+                    userCount: newUserCount,
+                    lastActive: room.lastActive
+                    }
+                // Update database
+                    updateRoom(newRoom)
+                        .then(() => {
+                            console.log(
+                                `Update successful. userCount: ${userCount}->${newUserCount}`
+                            );
+                        })
+                        .catch((err) => {
+                            console.log(`Failed to update room`);
+                            console.log(err);
+                        });
+            }
+
         })
         .catch((err) => console.error(err));
 
@@ -118,7 +141,6 @@ async function onDisconnect(roomID) {
                 password: roomToUpdate.password,
                 userCount: newUserCount,
                 lastActive: lastActive,
-                startTime: roomToUpdate.startTime
             }
             await updateRoom(newRoom);
             console.log("room stale");
