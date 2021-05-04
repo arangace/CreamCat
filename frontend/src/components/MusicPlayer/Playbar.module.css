@@ -1,35 +1,46 @@
 .playbar {
-    position: fixed;
-    right: 0;
-    left: 0;
-    width: 100vw;
-    bottom: 0;
-    background: #343a40;
+  position: fixed;
+  right: 0;
+  left: 0;
+  width: 100vw;
+  height: 120px;
+  bottom: 0;
+  background: #343a40;
 }
 
 .playbarContainer {
-    margin: 0;
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-template-areas: "left center right";
-}
-
-.songInfo {
-    grid-area: left;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas: "left center right";
 }
 
 .songControls {
-    grid-area: center;
-    
+  grid-area: center;
 }
 
 .volumeControls {
-    display:block;
-    grid-area: right;
-    background: #343a40;
-    margin: auto;
+  display: block;
+  grid-area: right;
+  background: #343a40;
+  margin: auto;
 }
 
-.volumeSlider{
-    float: right;
+.volumeSlider {
+  float: right;
+}
+.songInfo {
+  grid-area: left;
+}
+.songInfoText {
+  grid-area: left;
+  width: 350px;
+  height: 100px;
+}
+.limitTextLength {
+  display: block;
+  width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

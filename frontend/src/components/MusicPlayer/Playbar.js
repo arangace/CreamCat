@@ -55,8 +55,9 @@ export default function Playbar() {
             <Container fluid className={styles.playbar}>
                 <ProgressBar now={duration} min="0" max={songLength} />
                 <Container fluid className={styles.playbarContainer}>
-                    <SongInfo className={styles.songInfo} />
-
+                    <div className={styles.songInfo}>
+                        <SongInfo />
+                    </div>
                     <SongControls className={styles.songControls} />
 
                     <Container className={styles.volumeControls}>
