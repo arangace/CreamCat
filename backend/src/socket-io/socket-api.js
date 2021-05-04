@@ -1,5 +1,5 @@
 import socketIo, { Server } from "socket.io";
-import { retrieveRoom, updateRoom } from "../rooms-data/rooms-dao";
+import { deleteRoom, retrieveRoom, updateRoom } from "../rooms-data/rooms-dao";
 import { deleteSong, retrieveAllSongs } from "../rooms-data/songs-dao";
 
 export default function createSocketIoConnection(server) {
@@ -21,52 +21,41 @@ async function onConnection(socket, io) {
                 socket.join(roomID);
                 console.log(`Client joined room ${roomID}`);
             }
+
+            // Increment room user count
+            const userCount = room.userCount;
+            const newUserCount = userCount + 1;
+            const newRoom = { ...room, userCount: newUserCount };
+            // Update database
+            updateRoom(roomID, newRoom)
+                .then(() => {
+                    console.log(
+                        `Update successful. userCount: ${userCount}->${newUserCount}`
+                    );
+                })
+                .catch((err) => {
+                    console.log(`Failed to update room`);
+                    console.log(err);
+                });
         })
         .catch((err) => console.error(err));
 
+    // Emit on connect message to client
+    socket.emit("FromAPI on connect");
+
     // WARNING: password validation logic not implemented
-
-    // TODO: update database
-
-    /** Uncomment when rooms schema matches. Needs extra field: userCount
-     * // Increment room user count
-     * try {
-     *
-     *     // TODO: Possibly encapsulate operation into a function that also sends an update to all connected clients
-     *
-     *     const roomToUpdate = retrieveRoom(roomID);
-     *     const userCount = roomToUpdate.userCount;
-     *     const newUserCount = userCount + 1;
-     *     const newRoom = { ...roomToUpdate, userCount: newUserCount };
-     *     updateRoom(roomID, newRoom);
-     *
-     *     console.log(`Update successful. userCount: ${userCount}->${newUserCount}`)
-     * } catch (err) {
-     *     console.log(`Failed to update room`);
-     *     console.log(err);
-     * }
-     */
-
-    // Construct response data that will be sent to the client
-    const responseData = {
-        // userCount: newUserCount,
-        userCount: 1, //WARNING: placeholder userCount. Replace with the line above when userCount implemented
-    };
-
-    // Emit response data to client
-    socket.emit("FromAPI on connect", responseData);
 
     // Listen to song end event
     socket.on("song end", async (song) => {
         // pop song once
         console.log(`Song ended on ${song.roomID}`);
-        console.log (song)
+        console.log(song);
 
         try {
             if (!song.roomID) {
                 throw "Room ID not in request body";
             }
-                await retrieveRoom(song.roomID).then( async room => {
+            await retrieveRoom(song.roomID).then(async (room) => {
                 if (room) {
                     if (room.password == password) {
                         await deleteSong(song._id).then(() => {
@@ -75,8 +64,7 @@ async function onConnection(socket, io) {
                         });
                     }
                 }
-            })
-            
+            });
         } catch (err) {
             console.log(err);
         }
@@ -89,24 +77,26 @@ async function onConnection(socket, io) {
 // Callback function for disconnect events
 function onDisconnect(roomID) {
     console.log("Client disconnected");
+    // Decrement room userCount
+    try {
+        // TODO: Possibly encapsulate operation into a function that also sends an update to all connected clients
+        //       and check if updated userCount meets condition for room deletion
 
-    /** Uncomment when rooms schema matches. Needs extra field: userCount
-     * // Decrement room userCount
-     * try {
-     *
-     *     // TODO: Possibly encapsulate operation into a function that also sends an update to all connected clients
-     *     //       and check if updated userCount meets condition for room deletion
-     *
-     *     const roomToUpdate = retrieveRoom(roomID);
-     *     const userCount = roomToUpdate.userCount;
-     *     const newUserCount = userCount - 1;
-     *     const newRoom = { ...roomToUpdate, userCount: newUserCount };
-     *     updateRoom(roomID, newRoom);
-     *
-     *     console.log(`Update successful. userCount: ${userCount}->${newUserCount}`)
-     * } catch (err) {
-     *     console.log(`Failed to update room`);
-     *     console.log(err);
-     * }
-     */
+        const roomToUpdate = retrieveRoom(roomID);
+        const userCount = roomToUpdate.userCount;
+        const newUserCount = userCount - 1;
+        if (newUserCount > 0) {
+            const newRoom = { ...roomToUpdate, userCount: newUserCount };
+            updateRoom(roomID, newRoom);
+
+            console.log(
+                `Update successful. userCount: ${userCount}->${newUserCount}`
+            );
+        } else {
+            deleteRoom(roomID);
+        }
+    } catch (err) {
+        console.log(`Failed to update room`);
+        console.log(err);
+    }
 }
