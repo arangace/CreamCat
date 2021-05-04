@@ -13,12 +13,14 @@ export default function SongControls() {
     const prevSong = () => { };
 
     function handlePlayPause() {
+        if(currentSong){
         setPlaying(!playing);
+        }
     }
 
 
     useEffect(() => {
-        if (playing && currentSong) {
+        if (playing) {
             setPlayButtonText(<FaPause />);
         }
         else {
