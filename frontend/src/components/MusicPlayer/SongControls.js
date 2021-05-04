@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Button, ButtonGroup, Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { FaStepBackward, FaPlay, FaPause, FaStepForward } from "react-icons/fa";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./SongControls.module.css";
