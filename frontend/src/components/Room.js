@@ -13,7 +13,6 @@ export default function Room() {
         setSocket,
         setKey
     } = useContext(AppContext);
-
     useEffect(() => {
         // Connect to socket on localhost server and pass roomId
         const socket = io({
@@ -32,15 +31,15 @@ export default function Room() {
 
         socket.on("FromAPI refetch", () => {
             console.log(`Refetch called by API`);
-            setVersion(v =>!v);
-            setKey(k => k+1);
+            setVersion(v => !v);
+            setKey(k => k + 1);
         });
 
     }, []);
 
-    function addSongCallback(){
+    function addSongCallback() {
         console.log(`New song message received from socket...`);
-            setVersion( v => !v );
+        setVersion(v => !v);
     }
 
     return (

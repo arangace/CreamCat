@@ -1,12 +1,11 @@
 import { Navbar, Tooltip, OverlayTrigger, Button } from "react-bootstrap";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../../AppContextProvider";
 import SearchBar from "../SearchBar";
 import styles from "./Header.module.css";
 
 export default function Header() {
     const { currentRoom } = useContext(AppContext);
-
     function handleClick(RoomIDCopiedValue) {
         console.log(RoomIDCopiedValue);
         navigator.clipboard.writeText(RoomIDCopiedValue)
@@ -21,7 +20,7 @@ export default function Header() {
                     <Navbar.Toggle />
                     <Navbar.Collapse>
                         <div className={styles.RoomIDCopy} onClick={() => (handleClick(currentRoom._id))}>
-                            <OverlayTrigger placement="bottom" overlay={<Tooltip >Copy ID to clipboard</Tooltip>}>
+                            <OverlayTrigger placement="bottom" overlay={<Tooltip>Copy ID to clipboard</Tooltip>}>
                                 <span className="d-inline-block">
                                     <Navbar.Text >Room ID: {currentRoom._id}
                                         <div className={styles.copyClipboard}>

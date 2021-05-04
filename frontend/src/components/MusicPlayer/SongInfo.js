@@ -9,7 +9,7 @@ export default function SongInfo() {
     return (
         <Card bg="dark" text="light">
             <Card.Body className={styles.songInfoText}>
-                <Card.Title >{currentSong ? currentSong.title : "No song in queue..."}</Card.Title>
+                <Card.Title className={styles.titleText}>{currentSong ? currentSong.title : "No song in queue..."}</Card.Title>
                 <Card.Subtitle className={styles.limitTextLength}>
                     {currentSong ? currentSong.content : "Try adding a song from the search bar!"}
                 </Card.Subtitle>
