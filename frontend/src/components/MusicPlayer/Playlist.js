@@ -46,7 +46,7 @@ export default function Playlist() {
 
                 return (
                     <li key={index}>
-                        <div className={styles.playlistItem}>
+                        <div className={styles.playlistItem} style={{color: index == 0 ? "red" : ""}}>
                             <span className={styles.songNumber}>
                                 {trackNumber}
                             </span>
