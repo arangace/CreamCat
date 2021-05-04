@@ -5,7 +5,7 @@ import { AppContext } from "../../AppContextProvider";
 import styles from "./SongControls.module.css";
 export default function SongControls() {
     // need context
-    const { playing, setPlaying } = useContext(AppContext);
+    const { playing, setPlaying, currentSong } = useContext(AppContext);
     const [playButtonText, setPlayButtonText] = useState(<FaPause />);
 
     const nextSong = () => { };
@@ -18,7 +18,7 @@ export default function SongControls() {
 
 
     useEffect(() => {
-        if (playing) {
+        if (playing && currentSong) {
             setPlayButtonText(<FaPause />);
         }
         else {

@@ -53,7 +53,6 @@ export default function Playlist() {
                             <span className={styles.songTitle}>
                                 {song.title}
                             </span>
-                            <span className={styles.songLength}>Duration</span>
                         </div>
                     </li>
                 );
