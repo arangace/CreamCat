@@ -9,7 +9,7 @@ import './SearchBar.css'
 Modal.setAppElement('#root')
 
 export default function SearchBar() {
-    const { roomID, password } = useContext(AppContext)
+    const { currentRoom } = useContext(AppContext)
 
     const [searchQuery, setSearchQuery] = useState({
         search: ""
@@ -19,8 +19,8 @@ export default function SearchBar() {
     const addSong = (e) => {
         const index = e.target.getAttribute("data-index")
         const songToAdd = {
-            roomid: roomID,
-            password: password,
+            roomID: currentRoom._id,
+            password: currentRoom.password,
             title: searchResults[index].snippet.title,
             content: "https://www.youtube.com/watch?v=" + searchResults[index].id.videoId
         }
@@ -37,6 +37,7 @@ export default function SearchBar() {
     }
 
     const handleSubmit = async (e) => {
+        e.preventDefault() 
         console.log("start")
         const term = searchQuery.search
         const response = await youtube.get('/search', {
@@ -47,6 +48,7 @@ export default function SearchBar() {
         setSearchResults(response.data.items)
         openModal()
     }
+
 
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -62,7 +64,7 @@ export default function SearchBar() {
     return (
         <>
             <div>
-                <Form inline>
+                <Form inline onSubmit={handleSubmit}>
                     <FormControl
                         type="text"
                         id="search"

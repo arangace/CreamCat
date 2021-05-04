@@ -1,19 +1,19 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./Playlist.module.css";
 import axios from "axios";
 
 export default function Playlist() {
     //placeholder playlist
-    const { roomID, password, playlist, setPlaylist, version } = useContext(AppContext);
+    const { currentRoom, playlist, setPlaylist, version, setCurrentSong, setPlaying } = useContext(AppContext);
 
     const room = {
-        roomid: roomID,
-        password: password,
+        roomID: currentRoom._id,
+        password: currentRoom.password,
     };
 
     useEffect(() => {
-        console.log(`playlist rerendered: version is ${version}`)
+        // console.log(`playlist rerendered: version is ${version}`)
         async function fetchData() {
             await axios
                 .post("http://localhost:3000/api/playlist/getall/", room)
@@ -21,8 +21,13 @@ export default function Playlist() {
                     if (response.data.length > 0) {
                         const songs = response.data;
                         setPlaylist(songs);
+                        console.log(`Setting current song to ${songs[0]._id}...`)
+                        setCurrentSong(songs[0]);
                     } else {
+                        console.log(`Playlist is empty`)
+                        setCurrentSong();
                         setPlaylist([]);
+                        setPlaying(false);
                     }
                 })
                 .catch((error) => console.error(error.response.data));
@@ -48,7 +53,6 @@ export default function Playlist() {
                             <span className={styles.songTitle}>
                                 {song.title}
                             </span>
-                            <span className={styles.songLength}>Duration</span>
                         </div>
                     </li>
                 );

@@ -1,28 +1,28 @@
-import socketIo, { Server } from 'socket.io';
+import socketIo, { Server } from "socket.io";
 import { retrieveRoom, updateRoom } from "../rooms-data/rooms-dao";
-import { retrieveAllSongs } from "../rooms-data/songs-dao";
+import { deleteSong, retrieveAllSongs } from "../rooms-data/songs-dao";
 
 export default function createSocketIoConnection(server) {
     const io = socketIo(server);
 
     // Listen to connection events on socket
-    io.on('connection', (socket) => onConnection(socket));
+    io.on("connection", (socket) => onConnection(socket, io));
     return io;
 }
 // Callback function for connection event
-async function onConnection(socket) {
+async function onConnection(socket, io) {
     console.log(`New client connected`);
 
     // Retrieve Room ID from client handshake query
     const { roomID, password } = socket.handshake.query;
-    retrieveRoom(roomID).then(room => {
-            if(room && room.password == password) {
+    retrieveRoom(roomID)
+        .then((room) => {
+            if (room && room.password == password) {
                 socket.join(roomID);
                 console.log(`Client joined room ${roomID}`);
             }
-        }
-    ).catch(err => console.error(err));
-
+        })
+        .catch((err) => console.error(err));
 
     // WARNING: password validation logic not implemented
 
@@ -31,9 +31,9 @@ async function onConnection(socket) {
     /** Uncomment when rooms schema matches. Needs extra field: userCount
      * // Increment room user count
      * try {
-     * 
+     *
      *     // TODO: Possibly encapsulate operation into a function that also sends an update to all connected clients
-     * 
+     *
      *     const roomToUpdate = retrieveRoom(roomID);
      *     const userCount = roomToUpdate.userCount;
      *     const newUserCount = userCount + 1;
@@ -47,9 +47,8 @@ async function onConnection(socket) {
      * }
      */
 
-
     // Construct response data that will be sent to the client
-    const responseData = { 
+    const responseData = {
         // userCount: newUserCount,
         userCount: 1, //WARNING: placeholder userCount. Replace with the line above when userCount implemented
     };
@@ -57,7 +56,33 @@ async function onConnection(socket) {
     // Emit response data to client
     socket.emit("FromAPI on connect", responseData);
 
-    //Listen to disconnect events
+    // Listen to song end event
+    socket.on("song end", async (song) => {
+        // pop song once
+        console.log(`Song ended on ${song.roomID}`);
+        console.log (song)
+
+        try {
+            if (!song.roomID) {
+                throw "Room ID not in request body";
+            }
+                await retrieveRoom(song.roomID).then( async room => {
+                if (room) {
+                    if (room.password == password) {
+                        await deleteSong(song._id).then(() => {
+                            console.log(`Sending refetch event`);
+                            io.emit("FromAPI refetch");
+                        });
+                    }
+                }
+            })
+            
+        } catch (err) {
+            console.log(err);
+        }
+    });
+
+    // Listen to disconnect events
     socket.on("disconnect", () => onDisconnect(roomID));
 }
 
@@ -68,10 +93,10 @@ function onDisconnect(roomID) {
     /** Uncomment when rooms schema matches. Needs extra field: userCount
      * // Decrement room userCount
      * try {
-     * 
+     *
      *     // TODO: Possibly encapsulate operation into a function that also sends an update to all connected clients
      *     //       and check if updated userCount meets condition for room deletion
-     * 
+     *
      *     const roomToUpdate = retrieveRoom(roomID);
      *     const userCount = roomToUpdate.userCount;
      *     const newUserCount = userCount - 1;

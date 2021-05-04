@@ -14,14 +14,14 @@ const router = express.Router();
 router.post('/add/', async (req, res) => {
     const io = req.app.get('socketio');
     try{
-        if (!req.body.roomid) {
+        if (!req.body.roomID) {
             throw("Room ID not in request body");
         }
-        const room = await retrieveRoom(req.body.roomid);
+        const room = await retrieveRoom(req.body.roomID);
         if(room){
             if(room.password == req.body.password){
                 const song = {
-                    roomid: req.body.roomid,
+                    roomID: req.body.roomID,
                     title: req.body.title,
                     content: req.body.content,
                     image: req.body.image,
@@ -30,7 +30,7 @@ router.post('/add/', async (req, res) => {
                     source: req.body.source,
                     publishTime: req.body.publishTime
                 };
-                if(song.roomid&&song.title&&song.content){
+                if(song.roomID&&song.title&&song.content){
                     const newSong = await addSong(song);
                     res.status(HTTP_CREATED)
                     .json(newSong);
@@ -58,10 +58,10 @@ router.post('/add/', async (req, res) => {
 
 router.post('/getall/', async (req, res) => {
     try{
-        if (!req.body.roomid) {
+        if (!req.body.roomID) {
             throw("Room ID not in request body");
         }
-        const room = await retrieveRoom(req.body.roomid);
+        const room = await retrieveRoom(req.body.roomID);
 
         if(room){
             if(room.password == req.body.password){
@@ -83,10 +83,10 @@ router.post('/getall/', async (req, res) => {
 
 router.post('/getone/', async (req, res) => {
     try{
-        if (!req.body.roomid) {
+        if (!req.body.roomID) {
             throw("Room ID not in request body");
         }
-        const room = await retrieveRoom(req.body.roomid);
+        const room = await retrieveRoom(req.body.roomID);
 
         if(room){
             if(room.password == req.body.password){
@@ -107,15 +107,15 @@ router.post('/getone/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try{
-        if (!req.body.roomid) {
+        if (!req.body.roomID) {
             throw("Room ID not in request body");
         }
-        const room = await retrieveRoom(req.body.roomid);
+        const room = await retrieveRoom(req.body.roomID);
         if(room){
             if(room.password == req.body.password){
                 const song = {
                     _id: req.params,
-                    roomid: req.body.roomid,
+                    roomID: req.body.roomID,
                     title: req.body.title,
                     content: req.body.content,
                     image: req.body.image,
@@ -141,10 +141,10 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try{
-        if (!req.body.roomid) {
+        if (!req.body.roomID) {
             throw("Room ID not in request body");
         }
-        const room = await retrieveRoom(req.body.roomid);
+        const room = await retrieveRoom(req.body.roomID);
         if(room){
             if(room.password == req.body.password){
                 const { id } = req.params;

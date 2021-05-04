@@ -20,6 +20,7 @@ export async function updateRoom(room) {
         }
         dbRoom.description = room.description;
         dbRoom.password = room.password;
+        dbRoom.userCount = room.userCount;
 
         await dbRoom.save();
         return true;

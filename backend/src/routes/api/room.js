@@ -13,7 +13,8 @@ router.post('/create/', async (req, res) => {
         const room = {
             name: req.body.name,
             description: req.body.description,
-            password: req.body.password
+            password: req.body.password,
+            userCount: 0
         };
 
         if(room.name){
