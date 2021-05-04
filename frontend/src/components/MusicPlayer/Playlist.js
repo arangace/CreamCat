@@ -5,7 +5,7 @@ import axios from "axios";
 
 export default function Playlist() {
     //placeholder playlist
-    const { currentRoom, playlist, setPlaylist, version, setCurrentSong } = useContext(AppContext);
+    const { currentRoom, playlist, setPlaylist, version, setCurrentSong, setPlaying } = useContext(AppContext);
 
     const room = {
         roomID: currentRoom._id,
@@ -27,6 +27,7 @@ export default function Playlist() {
                         console.log(`Playlist is empty`)
                         setCurrentSong();
                         setPlaylist([]);
+                        setPlaying(false);
                     }
                 })
                 .catch((error) => console.error(error.response.data));
