@@ -1,6 +1,8 @@
 import socketIo, { Server } from "socket.io";
 import { deleteRoom, retrieveRoom, updateRoom } from "../rooms-data/rooms-dao";
 import { deleteSong, retrieveAllSongs } from "../rooms-data/songs-dao";
+import dayjs from 'dayjs';
+import { response } from "express";
 
 export default function createSocketIoConnection(server) {
     const io = socketIo(server);
@@ -25,9 +27,16 @@ async function onConnection(socket, io) {
             // Increment room user count
             const userCount = room.userCount;
             const newUserCount = userCount + 1;
-            const newRoom = { ...room, userCount: newUserCount };
+            const newRoom = {
+                _id: room._id,
+                name: room.name,
+                description: room.description,
+                password: room.password,
+                userCount: newUserCount,
+                lastActive: '2077-02-21',
+            }
             // Update database
-            updateRoom(roomID, newRoom)
+            updateRoom(newRoom)
                 .then(() => {
                     console.log(
                         `Update successful. userCount: ${userCount}->${newUserCount}`
@@ -75,25 +84,44 @@ async function onConnection(socket, io) {
 }
 
 // Callback function for disconnect events
-function onDisconnect(roomID) {
+async function onDisconnect(roomID) {
     console.log("Client disconnected");
     // Decrement room userCount
     try {
         // TODO: Possibly encapsulate operation into a function that also sends an update to all connected clients
         //       and check if updated userCount meets condition for room deletion
 
-        const roomToUpdate = retrieveRoom(roomID);
+        const roomToUpdate = await retrieveRoom(roomID);
         const userCount = roomToUpdate.userCount;
         const newUserCount = userCount - 1;
-        if (newUserCount > 0) {
-            const newRoom = { ...roomToUpdate, userCount: newUserCount };
-            updateRoom(roomID, newRoom);
+        //being able to hangout with imaginary friends is gonna be a premium function -- Kevin
+        if (newUserCount > 1) {
+            const newRoom = {
+                _id: roomToUpdate._id,
+                name: roomToUpdate.name,
+                description: roomToUpdate.description,
+                password: roomToUpdate.password,
+                userCount: newUserCount,
+                lastActive: roomToUpdate.lastActive,
+            }
+            updateRoom(newRoom);
 
             console.log(
                 `Update successful. userCount: ${userCount}->${newUserCount}`
             );
         } else {
-            deleteRoom(roomID);
+            const lastActive = dayjs();
+            const newRoom = {
+                _id: roomToUpdate._id,
+                name: roomToUpdate.name,
+                description: roomToUpdate.description,
+                password: roomToUpdate.password,
+                userCount: newUserCount,
+                lastActive: lastActive,
+                startTime: roomToUpdate.startTime
+            }
+            await updateRoom(newRoom);
+            console.log("room stale");
         }
     } catch (err) {
         console.log(`Failed to update room`);

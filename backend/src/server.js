@@ -1,6 +1,7 @@
 import express from 'express';
 import connectToDatabase from './rooms-data/db-connect';
 import path from 'path';
+import dayjs from 'dayjs';
 
 // Setup Express server
 const app = express();
@@ -15,6 +16,14 @@ app.use('/', routes);
 
 // Make the "public" folder available statically
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
+
+async function clearStaleRoom(){
+    const staleRooms = await deleteStaleRooms(dayjs().add(-1, 'hour'));
+    console.log(staleRooms);
+    // console.log(dayjs().add(-1, 'hour').format('YYYY-MM-DD HH:mm:ss'));
+}
+
+setInterval(clearStaleRoom, 60000);
 
 // When running in production mode
 if (process.env.NODE_ENV === 'production') {
@@ -34,6 +43,7 @@ import http from 'http';
 import socketIo from 'socket.io';
 import onConnection from './socket-io/socket-api';
 import createSocketIoConnection from './socket-io/socket-api';
+import { deleteStaleRooms } from './rooms-data/rooms-dao';
 const server = http.createServer(app);
 const io = createSocketIoConnection(server);
 app.set('socketio', io);

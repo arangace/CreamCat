@@ -14,7 +14,8 @@ router.post('/create/', async (req, res) => {
             name: req.body.name,
             description: req.body.description,
             password: req.body.password,
-            userCount: 0
+            userCount: 0,
+            lastActive: '2077-02-21'
         };
 
         if(room.name){
