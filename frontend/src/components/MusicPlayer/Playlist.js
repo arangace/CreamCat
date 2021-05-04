@@ -45,8 +45,8 @@ export default function Playlist() {
                 });
 
                 return (
-                    <li key={index}>
-                        <div className={styles.playlistItem} style={{color: index == 0 ? "red" : ""}}>
+                    <li key={index} className={index == 0 ? styles.highlight:""}>
+                        <div className={styles.playlistItem} >
                             <span className={styles.songNumber}>
                                 {trackNumber}
                             </span>
