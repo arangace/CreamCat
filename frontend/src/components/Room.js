@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../AppContextProvider";
 import MusicPlayer from "./MusicPlayer";
+import { useHistory } from "react-router";
 
 export default function Room() {
     // TODO: add state for userCount in AppContext
@@ -13,7 +14,17 @@ export default function Room() {
         setSocket,
         setKey
     } = useContext(AppContext);
+
+    const history = useHistory();
+
+    
+
     useEffect(() => {
+
+        if(!currentRoom){
+            history.replace(`/RoomPage`);
+        }
+        else{
         // Connect to socket on localhost server and pass roomId
         const socket = io({
             query: {
@@ -32,7 +43,7 @@ export default function Room() {
             setVersion(v => !v);
             setKey(k => k + 1);
         });
-
+    }
     }, []);
 
     function addSongCallback() {
@@ -40,10 +51,17 @@ export default function Room() {
         setVersion(v => !v);
     }
 
-    return (
-        <>
-            <div className="temp-gap"></div>
-            <MusicPlayer />
-        </>
-    );
+    if(!currentRoom){
+        history.replace(`/RoomPage`);
+        return(null);
+    }
+    else{
+        return (
+            <>
+                <div className="temp-gap"></div>
+                <MusicPlayer />
+            </>
+        );
+    }
+
 }

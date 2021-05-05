@@ -27,7 +27,7 @@ async function onConnection(socket, io) {
             // Increment room user count
             const userCount = room.userCount;
             const newUserCount = userCount + 1;
-            if(newUserCount > 1){
+            if(newUserCount > 0){
                 const newRoom = {
                 _id: room._id,
                 name: room.name,
@@ -118,7 +118,7 @@ async function onDisconnect(roomID) {
         const userCount = roomToUpdate.userCount;
         const newUserCount = userCount - 1;
         //being able to hangout with imaginary friends is gonna be a premium function -- Kevin
-        if (newUserCount > 1) {
+        if (newUserCount > 0) {
             const newRoom = {
                 _id: roomToUpdate._id,
                 name: roomToUpdate.name,
