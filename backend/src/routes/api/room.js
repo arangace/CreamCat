@@ -35,18 +35,12 @@ router.post('/start/', async (req, res) => {
 router.post('/end/', async (req, res) => {
     try{
         const roomToUpdate = await retrieveRoom(req.body.roomID);
-        if(room.endTime < room.startTime){
+        if(roomToUpdate.endTime < roomToUpdate.startTime){
             const newRoom = {
                 ...room._doc,
                 endTime: dayjs()
             };
             await updateRoom(newRoom);
-            res.sendStatus(HTTP_NO_CONTENT);
-        }
-        else{
-            const elapsedTime = dayjs().diff(roomToUpdate.startTime, 'seconds');
-            console.log(elapsedTime);
-            res.json(elapsedTime);
         }
     }catch (err) {
         console.log(err);

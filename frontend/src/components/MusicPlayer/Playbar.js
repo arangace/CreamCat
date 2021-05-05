@@ -12,12 +12,13 @@ export default function Playbar() {
     const [duration, setDuration] = useState(0);
     const [songLength, setSongLength] = useState(0);
     const [volume, setVolume] = useState(30); // Initial volume
+    const [player, setPlayer] = useState();
 
     const { socket, currentSong, key, playing, setPlaying, currentRoom } = useContext(
         AppContext
     );
 
-    let reactPlayer;
+    const ref = player => { setPlayer(player) }
 
     function currentSongContext() {
         if (currentSong) {
@@ -41,10 +42,10 @@ export default function Playbar() {
     }
 
     async function handleOnStart(e) {
-        socket.emit("Song start", currentSong);
+        //socket.emit("Song start", currentSong);
         const response = await axios.post('http://localhost:3000/api/room/start/', currentSong);
         const elapsedTime = response.data;
-        // e.seekTo(elapsedTime);
+        player.seekTo(elapsedTime);
         console.log(elapsedTime);
     }
 
@@ -55,12 +56,12 @@ export default function Playbar() {
     return (
         <>
             <ReactPlayer
-                ref={(player) => {reactPlayer = player}}
+                ref={ref}
                 url={currentSongContext()}
                 onProgress={(e) => handleOnProgress(e)}
                 onReady={() => {
                     setPlaying(true);
-                    reactPlayer.seekTo(2);
+                    // player.seekTo(2);
                 }}
                 key={key}
                 playing={playing}

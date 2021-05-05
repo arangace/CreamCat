@@ -45,9 +45,9 @@ export default function Room() {
         socket.on("Vote", (response) => voteCallback(response));
         //socket.on("Vote cancelled", (response) => voteCancelledCallback(response));
 
-        socket.on("sync", (elapsedTime) => {
-            setElapsedTime(elapsedTime);
-        });
+        // socket.on("sync", (elapsedTime) => {
+        //     player...
+        // });
 
     }, []);
 
