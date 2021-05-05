@@ -6,27 +6,14 @@ export default function Footer() {
         <>
             <div className="footer">
                 <CardGroup>
-                    <Card bg="dark" text="white">
-                        <Card.Body>
-                            <Card.Title>Placeholder information</Card.Title>
-                            <Card.Text>Optional info</Card.Text>
-                            <Card.Text>Optional info</Card.Text>
 
-                            <Button
-                                variant="secondary"
-                                size="lg"
-                                className="centered"
-                            >
-                                Link
-                            </Button>
-                        </Card.Body>
-                    </Card>
                     <Card bg="dark" text="white">
                         <Card.Body>
                             <Card.Title>About</Card.Title>
                             <Card.Text>
-                                Some about information about our software
-                                product and team
+                                <p>This project is the culmination of the work done by team CreamCat for SOFTENG750/COMPSCI732 at the University of Auckland consisting of four members
+                                </p>
+                                <p>The application is developed using a MERN stack</p>
                             </Card.Text>
                         </Card.Body>
                     </Card>
@@ -34,24 +21,16 @@ export default function Footer() {
                         <Card.Body>
                             <Card.Title>Support</Card.Title>
                             <Card.Text>
-                                Support information regarding FAQ's and helpful
-                                links to provide additional support
+                                Questions, issues or bugs should be referenced towards the github link provided.
+<p><a href="https://github.com/arangace/CreamCat">https://github.com/arangace/CreamCat</a></p>
                             </Card.Text>
                         </Card.Body>
                     </Card>
                     <Card bg="dark" text="white">
                         <Card.Body>
-                            <Card.Title>Social media</Card.Title>
+                            <Card.Title>Useful links</Card.Title>
                             <Card.Text>
                                 Useful links from team CreamCat:
-                                <Button variant="outline-dark">
-                                    <img
-                                        width="40px"
-                                        height="40px"
-                                        alt="No icon provided"
-                                        src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
-                                    ></img>
-                                </Button>
                                 <Button variant="outline-dark">
                                     <a href="https://github.com/arangace/CreamCat">
                                         <img
