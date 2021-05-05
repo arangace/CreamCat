@@ -45,8 +45,8 @@ export default function Playlist() {
                 });
 
                 return (
-                    <li key={index}>
-                        <div className={styles.playlistItem}>
+                    <li key={index} className={index == 0 ? styles.highlight:""}>
+                        <div className={styles.playlistItem} >
                             <span className={styles.songNumber}>
                                 {trackNumber}
                             </span>
