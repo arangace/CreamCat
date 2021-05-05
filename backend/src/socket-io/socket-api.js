@@ -85,7 +85,7 @@ async function onVote(io, payload) {
         `Vote received. roomID: ${roomID}. voteType: ${voteType}, vote: ${vote} `
     );
 
-    // Vote timeout in seconds
+    // Vote timeout in milliseconds
     const timeout = 15000;
     try {
         const votingRoom = await retrieveRoom(roomID);
