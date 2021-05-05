@@ -21,6 +21,10 @@ async function clearStaleRoom(){
     const staleRooms = await deleteStaleRooms(dayjs().add(-1, 'hour'));
     console.log(staleRooms);
     // console.log(dayjs().add(-1, 'hour').format('YYYY-MM-DD HH:mm:ss'));
+    // const time1 = dayjs('2021-05-05');
+    // const time2 = dayjs();
+    // const diff = time1.diff(time2, 'seconds');
+    // console.log(diff);
 }
 
 setInterval(clearStaleRoom, 60000);

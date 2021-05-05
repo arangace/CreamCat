@@ -23,15 +23,9 @@ const roomSchema = new Schema(
                 lastPassed: { type: Date, default: null },
             },
         },
+        startTime: Date,
+        endTime: Date
 
-        // playList: [{
-        //     image: String,
-        //     title: String,
-        //     artist: String,
-        //     album: String,
-        //     length: String,
-        //     source: String
-        // }]
     },
     {
         timestamps: {},

@@ -21,6 +21,8 @@ function AppContextProvider({ children }) {
     const [userCount, setUserCount] = useState(0);
     const [voteSkip, setVoteSkip] = useState(false);
 
+    const [elapsedTime, setElapsedTime] = useState(0);
+
     async function createRoom(room) {
         const response = await axios.post(
             "http://localhost:3000/api/room/create/",
@@ -73,7 +75,9 @@ function AppContextProvider({ children }) {
         voteCount,
         setVoteCount,
         voteSkip,
-        setVoteSkip
+        setVoteSkip,
+        elapsedTime,
+        setElapsedTime
     };
 
     // Wraps the given child components in a Provider for the above context.

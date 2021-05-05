@@ -9,6 +9,50 @@ const HTTP_BAD_REQUEST = 400;
 
 const router = express.Router();
 
+router.post('/start/', async (req, res) => {
+    try{
+        console.log(req.body);
+        const roomToUpdate = await retrieveRoom(req.body.roomID);
+        if(roomToUpdate.startTime < roomToUpdate.endTime){
+            const newRoom = {
+                ...roomToUpdate._doc,
+                startTime: dayjs()
+            };
+            await updateRoom(newRoom);
+            res.json(0);
+        }
+        else{
+            const elapsedTime = dayjs().diff(roomToUpdate.startTime, 'seconds');
+            console.log(elapsedTime);
+            res.json(elapsedTime);
+        }
+    }catch (err) {
+        console.log(err);
+    }
+});
+
+
+router.post('/end/', async (req, res) => {
+    try{
+        const roomToUpdate = await retrieveRoom(req.body.roomID);
+        if(room.endTime < room.startTime){
+            const newRoom = {
+                ...room._doc,
+                endTime: dayjs()
+            };
+            await updateRoom(newRoom);
+            res.sendStatus(HTTP_NO_CONTENT);
+        }
+        else{
+            const elapsedTime = dayjs().diff(roomToUpdate.startTime, 'seconds');
+            console.log(elapsedTime);
+            res.json(elapsedTime);
+        }
+    }catch (err) {
+        console.log(err);
+    }
+});
+
 router.post('/create/', async (req, res) => {
     try{
         const room = {
@@ -16,7 +60,9 @@ router.post('/create/', async (req, res) => {
             description: req.body.description,
             password: req.body.password,
             userCount: 0,
-            lastActive: dayjs()
+            lastActive: dayjs(),
+            startTime: dayjs().add(-2, 'day'),
+            endTime: dayjs().add(-1, 'day')
         };
 
         if(room.name){
@@ -71,7 +117,8 @@ router.post('/join/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try{
-        const dbroom = await retrieveRoom(req.params);
+        const { id } = req.params;
+        const dbroom = await retrieveRoom(id);
         if(dbroom){
             if(room.password == req.body.oldpassword){
                 const { id } = req.params;
@@ -98,7 +145,8 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try{
-        const room = await retrieveRoom(req.params);
+        const { id } = req.params;
+        const dbroom = await retrieveRoom(id);
         if(room){
             if(room.password == req.body.password){
                 await deleteRoom(id);

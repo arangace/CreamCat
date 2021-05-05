@@ -44,7 +44,10 @@ async function onConnection(socket, io) {
     }
 
     // Listen to song end events
-    socket.on("Song ended", (song) => onSongEnded(song));
+    socket.on("Song ended", (song) => onSongEnded(song, io));
+
+    // Listen to song start events
+    socket.on("Song start", (song) => onSongStart(song, socket));
 
     // Listen to vote events
     socket.on("Vote", (payload) => onVote(io, payload));
@@ -52,8 +55,29 @@ async function onConnection(socket, io) {
     // Listen to disconnect events
     socket.on("disconnect", () => onDisconnect(io, roomID));
 }
+
+async function onSongStart(song, socket){
+    try{
+        const roomToUpdate = await retrieveRoom(song.roomID);
+        if(roomToUpdate.startTime < roomToUpdate.endTime){
+            const newRoom = {
+                ...roomToUpdate._doc,
+                startTime: dayjs()
+            };
+            await updateRoom(newRoom);
+        }
+        else{
+            const elapsedTime = dayjs().diff(roomToUpdate.startTime, 'seconds');
+            console.log(elapsedTime);
+            socket.emit("sync", elapsedTime);
+        }
+    }catch (err) {
+        console.log(err);
+    }
+}
+
 // Callback function for add song events
-async function onSongEnded(song) {
+async function onSongEnded(song,io) {
     console.log(`Song ended on ${song.roomID}`);
     console.log(song);
 
@@ -63,12 +87,19 @@ async function onSongEnded(song) {
         }
         await retrieveRoom(song.roomID).then(async (room) => {
             if (room) {
-                if (room.password == password) {
+                // if(room.endTime < room.startTime){
+                //     const newRoom = {
+                //         ...room._doc,
+                //         endTime: dayjs()
+                //     };
+                //     await updateRoom(newRoom);
+                // }
+                // if (room.password == password) {
                     await deleteSong(song._id).then(() => {
                         console.log(`Sending refetch event`);
                         io.emit("Refetch");
                     });
-                }
+                // }
             }
         });
     } catch (err) {
