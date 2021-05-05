@@ -17,10 +17,11 @@ export async function updateRoom(room) {
     if(dbRoom) {
         if(room.name){
             dbRoom.name = room.name;
-        }
+        } 
         dbRoom.description = room.description;
         dbRoom.password = room.password;
         dbRoom.userCount = room.userCount;
+        dbRoom.lastActive = room.lastActive;
 
         await dbRoom.save();
         return true;
@@ -30,4 +31,8 @@ export async function updateRoom(room) {
 
 export async function deleteRoom(id) {
     await Room.deleteOne({_id:id});
+}
+
+export async function deleteStaleRooms(time) {
+    return await Room.deleteMany({ lastActive: {$lte: time}});
 }

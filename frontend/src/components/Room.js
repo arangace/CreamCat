@@ -21,10 +21,8 @@ export default function Room() {
                 password: currentRoom.password,
             },
         });
-        socket.on("FromAPI on connect", (data) => {
+        socket.on("FromAPI on connect", () => {
             // Parse response into AppContext
-            const { userCount } = data;
-            setUserCount(userCount);
             setSocket(socket);
         });
         socket.on("FromAPI on addSong", () => addSongCallback());

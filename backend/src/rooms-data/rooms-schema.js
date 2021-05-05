@@ -6,7 +6,8 @@ const roomSchema = new Schema({
     name: {type: String, required: true},
     description: String,
     password: String,
-    userCount: String
+    userCount: Number,
+    lastActive: Date
 
     // playList: [{
     //     image: String,
