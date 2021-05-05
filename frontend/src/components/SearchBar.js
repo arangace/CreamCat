@@ -63,6 +63,17 @@ export default function SearchBar() {
     function closeModal() {
         setIsOpen(false);
     }
+
+    function removeSpecialChar(title){
+        return (
+            title.replace(/&apos;/g, "'")
+                    .replace(/&quot;/g, '"')
+                    .replace(/&gt;/g, '>')
+                    .replace(/&lt;/g, '<')
+                    .replace(/&amp;/g, '&')
+        )
+    }
+
     useEffect(() => {
         const timeId = setTimeout(() => {
             // After 3 seconds set the show value to false
@@ -114,7 +125,7 @@ export default function SearchBar() {
                         {searchResults.map((data, index) => (
                             <li key={index}>
                                 <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-info">Add Song</Button>
-                                &emsp; {data.snippet.title}, https://www.youtube.com/watch?v={data.id.videoId}
+                                &emsp; {removeSpecialChar(data.snippet.title)}, https://www.youtube.com/watch?v={data.id.videoId}
                             </li>
                         )
                         )}
