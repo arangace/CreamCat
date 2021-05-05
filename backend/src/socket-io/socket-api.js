@@ -223,6 +223,7 @@ function voteTimeout(io, roomID, timeout, voteType, voteCount, userCount) {
         const { voting } = votingRoom;
         if (voting[voteType].count > 0) {
             const lastPassed = voting[voteType].lastPassed;
+            // Fail code if 
             if (
                 lastPassed == null ||
                 lastPassed.isBefore(dayjs().add(-timeout, "millisecond"))
@@ -249,5 +250,5 @@ function voteTimeout(io, roomID, timeout, voteType, voteCount, userCount) {
         } else {
             console.log(`Vote succeeded. Timeout cancelled.`);
         }
-    }, 15000);
+    }, timeout);
 }
