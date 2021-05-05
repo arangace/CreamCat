@@ -33,7 +33,7 @@ export default function Playbar() {
 
     function handleOnEnded(e) {
         console.log("Playing ended");
-        socket.emit("song end", currentSong);
+        socket.emit("Song ended", currentSong);
     }
     useEffect(() => {
         setVolume(0.5);

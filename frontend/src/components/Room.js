@@ -11,7 +11,10 @@ export default function Room() {
         setUserCount,
         setVersion,
         setSocket,
-        setKey
+        setKey,
+        setVoteSkip,
+        setVoteCount,
+        setVoting
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -22,23 +25,73 @@ export default function Room() {
                 password: currentRoom.password,
             },
         });
-        socket.on("FromAPI on connect", () => {
-            // Parse response into AppContext
+        socket.on("Connected", () => {
+            console.log(`connected`)
             setSocket(socket);
         });
-        socket.on("FromAPI on addSong", () => addSongCallback());
+        socket.on("Update userCount", (userCount) => {
+            console.log(`User count updated -> ${userCount}`);
+            setUserCount(userCount);
+        });
+        socket.on("Add song", () => addSongCallback());
 
-        socket.on("FromAPI refetch", () => {
+        socket.on("Refetch", () => {
             console.log(`Refetch called by API`);
-            setVersion(v =>!v);
-            setKey(k => k+1);
+            setVersion((v) => !v);
+            setKey((k) => k + 1);
         });
 
+        socket.on("Vote", (response) => voteCallback(response));
+        //socket.on("Vote cancelled", (response) => voteCancelledCallback(response));
     }, []);
 
-    function addSongCallback(){
+    function addSongCallback() {
         console.log(`New song message received from socket...`);
-            setVersion( v => !v );
+        setVersion((v) => !v);
+    }
+
+    function voteCallback(response) {
+        // action: start, update, passed, fail
+        // voteType: skip, play, pause
+        const { action, voteType, voteCount } = response;
+        console.log(response);
+        switch (action) {
+            case "start":
+                // display voting status alert
+                // display pass condition
+                switch (voteType) {
+                    case "skip":
+                        setVoteCount(voteCount);
+                        setVoting(true);
+                    default:
+
+                }
+
+                break;
+            case "update":
+                // update voting status alert
+                setVoteCount(voteCount);
+                setVoting(true);
+                break;
+            case "fail":
+                // remove voting status alert
+                // reset all states to default
+                setVoting(false);
+                setVoteSkip(false);
+                setVoteCount(0);
+                break;
+            case "passed":
+                // current song deleted from database, display passed alert, refetch playlist and play new song
+                // could implement a countdown
+                // reset all states to default
+                setVoting(false);
+                setVoteSkip(false);
+                setVoteCount(0);
+                break;
+            default:
+        }
+        // display vote alert
+        // maybe highlight skip button
     }
 
     return (

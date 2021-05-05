@@ -9,7 +9,6 @@ export async function addSong(song) {
 }
 
 export async function retrieveAllSongs(roomID) {
-    console.log(roomID);
     return await Song.find({ roomID: `${roomID}`});
 }
 

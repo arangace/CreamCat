@@ -8,8 +8,6 @@ function AppContextProvider({ children }) {
         JSON.parse(localStorage.getItem("currentRoom"))
     );
 
-    const [userCount, setUserCount] = useState(0);
-
     const [playlist, setPlaylist] = useState([]);
     const [playing, setPlaying] = useState(true);
     const [currentSong, setCurrentSong] = useState();
@@ -17,6 +15,11 @@ function AppContextProvider({ children }) {
     const [version, setVersion] = useState(false);
     const [socket, setSocket] = useState();
     const [key, setKey] = useState(0);
+
+    const [voting, setVoting] = useState(false);
+    const [voteCount, setVoteCount] = useState(0);
+    const [userCount, setUserCount] = useState(0);
+    const [voteSkip, setVoteSkip] = useState(false);
 
     async function createRoom(room) {
         const response = await axios.post(
@@ -65,6 +68,12 @@ function AppContextProvider({ children }) {
         setKey,
         playing,
         setPlaying,
+        voting,
+        setVoting,
+        voteCount,
+        setVoteCount,
+        voteSkip,
+        setVoteSkip
     };
 
     // Wraps the given child components in a Provider for the above context.
