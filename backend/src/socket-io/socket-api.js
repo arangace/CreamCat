@@ -93,7 +93,7 @@ async function onVote(io, payload) {
         const userCount = votingRoom.userCount;
 
         // action: start, update, passed, fail
-        let action, voteCount, newRoom, timer;
+        let action, voteCount, newRoom;
 
         if (votingRoom && votingRoom.password == password) {
             if (!["skip", "play", "pause"].includes(voteType)) {
@@ -112,7 +112,7 @@ async function onVote(io, payload) {
                     if (voteIsSuccessful(userCount, voteCount)) {
                         action = "passed";
                     }
-                    timer = voteTimeout(
+                    voteTimeout(
                         io,
                         roomID,
                         timeout,
@@ -133,7 +133,6 @@ async function onVote(io, payload) {
                     // Increment voting.skip on a "for" vote
                     voteCount = voting[voteType].count + 1;
                     if (voteIsSuccessful(userCount, voteCount)) {
-                        clearTimeout(timer);
                         action = "passed";
                     }
                 } else {
