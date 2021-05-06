@@ -7,9 +7,8 @@ export default function NavBar() {
             <Navbar fixed="top" bg="dark" variant="dark">
                 <Navbar.Brand href="/Home">CreamCat</Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link href="Features">Features</Nav.Link>
-                    <Nav.Link href="About">About</Nav.Link>
-                    <Nav.Link href="Support">Support</Nav.Link>
+                    <Nav.Link href="JoinRoom">Join Room</Nav.Link>
+                    <Nav.Link href="CreateRoom">Create Room</Nav.Link>
                     {/* <Nav.Link href="Login">Login</Nav.Link> */}
                 </Nav>
                 {/* <Form inline>

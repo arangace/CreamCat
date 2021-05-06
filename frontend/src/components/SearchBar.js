@@ -17,6 +17,8 @@ export default function SearchBar() {
     const [searchResults, setSearchResults] = useState([]);
     const [show, setShow] = useState(false);
     const [addedSongTitle, setAddedSongTitle] = useState();
+    const [modalIsOpen, setIsOpen] = useState(false);
+
 
     const addSong = (e) => {
         setShow(true);
@@ -54,7 +56,6 @@ export default function SearchBar() {
     }
 
 
-    const [modalIsOpen, setIsOpen] = React.useState(false);
 
     function openModal() {
         setIsOpen(true);
