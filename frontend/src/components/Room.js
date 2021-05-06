@@ -18,6 +18,7 @@ export default function Room() {
         setVoteSkip,
         setVoteCount,
         setVoting,
+        setVotingSkip,
         setElapsedTime,
         setLatency,
     } = useContext(AppContext);
@@ -112,14 +113,14 @@ export default function Room() {
                         // display voting status alert
                         // display pass condition
                         setVoteCount(voteCount);
-                        setVoteSkip(true);
+                        setVotingSkip(true);
                         setVoting(true);
 
                         break;
                     case "update":
                         // update voting status alert
                         setVoteCount(voteCount);
-                        setVoteSkip(true);
+                        setVotingSkip(true);
                         setVoting(true);
                         break;
                     case "fail":
@@ -127,15 +128,16 @@ export default function Room() {
                         // reset all states to default
                         setVoting(false);
                         setVoteSkip(false);
+                        setVotingSkip(false);
                         setVoteCount(0);
                         break;
                     case "passed":
                         // current song deleted from database, display passed alert, refetch playlist and play new song
                         // could implement a countdown
                         // reset all states to default
-                        socket.emit("Song ended", currentSong);
                         setVoting(false);
                         setVoteSkip(false);
+                        setVotingSkip(false);
                         setVoteCount(0);
                         break;
                     default:

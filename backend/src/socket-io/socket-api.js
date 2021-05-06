@@ -148,7 +148,7 @@ export default function createSocketIoConnection(server) {
         async function onVote(payload) {
             // voteType: skip, play, pause
             // vote: for vote = true, against vote = false
-            const { roomID, password, voteType, vote } = payload;
+            const { roomID, password, voteType, vote, song } = payload;
             console.log(
                 `[${dayjs().format(
                     `HH:mm:ss`
@@ -185,7 +185,7 @@ export default function createSocketIoConnection(server) {
                             if (voteIsSuccessful(userCount, voteCount)) {
                                 action = "passed";
                                 // remove voteType from votedFor on a successful vote
-                                changeVotes(votedFor, voteType, false);
+                                changeVotes(votedFor, voteType, false);                               
                             }
                             voteTimeout(
                                 roomID,
@@ -241,6 +241,7 @@ export default function createSocketIoConnection(server) {
                     if (action == "passed") {
                         newRoom.voting[voteType].count = null;
                         newRoom.voting[voteType].lastPassed = dayjs();
+                        onSongEnded(song);
                     } else {
                         newRoom.voting[voteType].count = voteCount;
                     }

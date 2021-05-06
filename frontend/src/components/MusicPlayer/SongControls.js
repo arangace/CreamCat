@@ -15,8 +15,10 @@ export default function SongControls() {
     } = useContext(AppContext);
 
     const [playButtonText, setPlayButtonText] = useState(<FaPause />);
+    console.log(`songControls voteSkip = ${voteSkip}`)
 
     function handleVoteSkip () {
+        console.log(`handleVoteSkip voteSkip = ${voteSkip}`)
         const vote = !voteSkip;
         console.log(`voteSkip set to ${vote}`)
         setVoteSkip(v => !v);
@@ -25,6 +27,7 @@ export default function SongControls() {
             password: currentRoom.password,
             voteType: "skip",
             vote: vote,
+            song: currentSong
         };
        socket.emit("Vote", payload);
     };

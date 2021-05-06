@@ -20,6 +20,7 @@ function AppContextProvider({ children }) {
     const [voteCount, setVoteCount] = useState(0);
     const [userCount, setUserCount] = useState(0);
     const [voteSkip, setVoteSkip] = useState(false);
+    const [votingSkip, setVotingSkip] = useState(false);
 
     const [elapsedTime, setElapsedTime] = useState(0);
     const [latency, setLatency] = useState(0);
@@ -66,6 +67,7 @@ function AppContextProvider({ children }) {
         voteCount, setVoteCount,
         userCount, setUserCount,
         voteSkip, setVoteSkip,
+        votingSkip, setVotingSkip,
 
         elapsedTime, setElapsedTime,
         latency, setLatency,
