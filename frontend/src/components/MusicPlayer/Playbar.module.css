@@ -14,7 +14,21 @@
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-areas: "left center right";
 }
-
+.progressBar {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.durationTime {
+  margin-top: -20px;
+  margin-bottom: -10px;
+}
+.songLengthTime {
+  margin-top: -15px;
+  margin-bottom: -10px;
+  float: right;
+}
 .songControls {
   grid-area: center;
 }
@@ -30,6 +44,7 @@
   float: right;
 }
 .songInfo {
+  margin-top: 11px;
   grid-area: left;
 }
 .songInfoText {
