@@ -26,12 +26,13 @@ export default function createSocketIoConnection(server) {
             if (roomToUpdate && roomToUpdate.password == password) {
                 socket.join(roomID);
                 console.log(`Client joined room ${roomID}`);
-
+                
                 // Increment room user count
                 const userCount = roomToUpdate.userCount;
                 const newUserCount = userCount + 1;
                 const lastActive =
                     newUserCount > 0 ? "2077-02-21" : roomToUpdate.lastActive;
+
                 const newRoom = {
                     ...roomToUpdate._doc,
                     userCount: newUserCount,
