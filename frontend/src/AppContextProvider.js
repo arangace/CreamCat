@@ -21,6 +21,9 @@ function AppContextProvider({ children }) {
     const [userCount, setUserCount] = useState(0);
     const [voteSkip, setVoteSkip] = useState(false);
 
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const [latency, setLatency] = useState(0);
+
     async function createRoom(room) {
         const response = await axios.post(
             "http://localhost:3000/api/room/create/",
@@ -50,30 +53,25 @@ function AppContextProvider({ children }) {
 
     // The context value that will be supplied to any descendants of this component.
     const context = {
-        currentRoom,
-        setCurrentRoom,
-        userCount,
-        setUserCount,
-        playlist,
-        setPlaylist,
+        currentRoom, setCurrentRoom,
+        playlist, setPlaylist,
+        playing, setPlaying,
+        currentSong, setCurrentSong,
+
+        version, setVersion,
+        socket, setSocket,    
+        key, setKey,
+        
+        voting, setVoting,
+        voteCount, setVoteCount,
+        userCount, setUserCount,
+        voteSkip, setVoteSkip,
+
+        elapsedTime, setElapsedTime,
+        latency, setLatency,
+
         createRoom,
         joinRoom,
-        version,
-        setVersion,
-        socket,
-        setSocket,
-        currentSong,
-        setCurrentSong,
-        key,
-        setKey,
-        playing,
-        setPlaying,
-        voting,
-        setVoting,
-        voteCount,
-        setVoteCount,
-        voteSkip,
-        setVoteSkip
     };
 
     // Wraps the given child components in a Provider for the above context.

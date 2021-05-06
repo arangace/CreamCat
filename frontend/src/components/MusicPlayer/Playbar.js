@@ -1,20 +1,29 @@
-import { Container, ProgressBar } from "react-bootstrap";
+import { Container, ProgressBar, Card } from "react-bootstrap";
 import styles from "./Playbar.module.css";
 import SongControls from "./SongControls";
 import SongInfo from "./SongInfo";
 import { AppContext } from "../../AppContextProvider";
 import "react-bootstrap";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
+import dayjs from "dayjs";
+//import axios from "axios";
 
 export default function Playbar() {
     const [duration, setDuration] = useState(0);
     const [songLength, setSongLength] = useState(0);
-    const [volume, setVolume] = useState(30); // Initial volume
+    const [volume, setVolume] = useState(0.3);
+    const [player, setPlayer] = useState();
 
-    const { socket, currentSong, key, playing, setPlaying } = useContext(
+    const ref = player => { setPlayer(player) }
+
+    const { socket, currentSong, key, playing, setPlaying, elapsedTime, setElapsedTime } = useContext(
         AppContext
     );
+
+    useEffect(() => {
+        setVolume(0.3);
+    }, []);
 
     function currentSongContext() {
         if (currentSong) {
@@ -25,32 +34,46 @@ export default function Playbar() {
     }
 
     function handleOnProgress(e) {
-        setDuration(e.playedSeconds.toFixed(0));
+        setDuration(e.playedSeconds);
     }
     function handleSongLengthChange(e) {
         setSongLength(e.toFixed(0) - 1);
     }
 
-    function handleOnEnded(e) {
-        console.log("Playing ended");
+    async function handleOnEnded() {
+        console.log(`Song ended ${dayjs().toString()}`);
+        setElapsedTime(0);
         socket.emit("Song ended", currentSong);
+        //await axios.post('http://localhost:3000/api/room/end/', currentSong);
     }
-    useEffect(() => {
-        setVolume(0.5);
-    }, []);
+
+    async function handleOnStart() {
+        console.log(`Song started ${dayjs().toString()}`);
+        socket.emit("Song started", currentSong);
+        //const response = await axios.post('http://localhost:3000/api/room/start/', currentSong);
+        //const elapsedTime = response.data;
+        console.log(`Setting song progress to ${elapsedTime}`)
+        player.seekTo(elapsedTime);
+
+    }
+
     return (
         <>
             <ReactPlayer
+                ref={ref}
                 url={currentSongContext()}
                 onProgress={(e) => handleOnProgress(e)}
+                progressInterval="50"
                 onReady={() => {
                     setPlaying(true);
+                    // player.seekTo(2);
                 }}
                 key={key}
                 playing={playing}
                 volume={volume}
                 onDuration={(e) => handleSongLengthChange(e)}
-                onEnded={(e) => handleOnEnded(e)}
+                onEnded={handleOnEnded}
+                onStart={handleOnStart}
                 height="0"
                 width="0"
             />
@@ -61,8 +84,8 @@ export default function Playbar() {
                         <SongInfo />
                     </div>
                     <SongControls className={styles.songControls} />
-
                     <Container className={styles.volumeControls}>
+                    <Card>{duration.toFixed(1)}</Card>
                         <input
                             type="range"
                             min={0}

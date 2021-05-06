@@ -23,6 +23,8 @@ export async function updateRoom(room) {
         dbRoom.userCount = room.userCount;
         dbRoom.lastActive = room.lastActive;
         dbRoom.voting = room.voting;
+        dbRoom.startTime = room.startTime;
+        dbRoom.endTime = room.endTime;
 
         await dbRoom.save();
         return true;
