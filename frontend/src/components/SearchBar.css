@@ -16,3 +16,10 @@
   transition-duration: 0.4s;
   cursor: pointer;
 }
+.addSongConfirmation {
+  margin-top: 20px;
+  width: 400px;
+  margin-right: 40%;
+  margin-left: 40%;
+  position: fixed;
+}

@@ -4,6 +4,8 @@ import { useContext, useEffect } from "react";
 import { AppContext } from "../AppContextProvider";
 import MusicPlayer from "./MusicPlayer";
 import dayjs from "dayjs";
+import { useHistory } from "react-router";
+
 
 export default function Room() {
     // TODO: add state for userCount in AppContext
@@ -20,7 +22,16 @@ export default function Room() {
         setLatency,
     } = useContext(AppContext);
 
+    const history = useHistory();
+
+    
+
     useEffect(() => {
+
+        if(!currentRoom){
+            history.replace(`/RoomPage`);
+        }
+        else{
         // Connect to socket on localhost server and pass roomId
         const socket = io({
             query: {
@@ -76,6 +87,7 @@ export default function Room() {
 
     function addSongCallback() {
         console.log(`New song message received from socket...`);
+
         setVersion((v) => !v);
     }
 
@@ -120,12 +132,20 @@ export default function Room() {
         }
         // display vote alert
         // maybe highlight skip button
+
+
+    if(!currentRoom){
+        history.replace(`/RoomPage`);
+        return(null);
+    }
+    else{
+        return (
+            <>
+                <div className="temp-gap"></div>
+                <MusicPlayer />
+            </>
+        );
+
     }
 
-    return (
-        <>
-            <div className="temp-gap"></div>
-            <MusicPlayer />
-        </>
-    );
 }

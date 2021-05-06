@@ -34,8 +34,9 @@
 }
 .songInfoText {
   grid-area: left;
-  width: 350px;
+  width: 500px;
   height: 100px;
+  margin-right: -200px;
 }
 .limitTextLength {
   display: block;
@@ -43,4 +44,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.titleText {
+  font-size: 15px;
 }

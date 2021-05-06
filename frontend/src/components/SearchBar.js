@@ -1,7 +1,7 @@
 import youtube from './youtubeSearch'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Modal from 'react-modal';
-import { Form, FormControl, Button } from "react-bootstrap";
+import { Form, FormControl, Button, Alert } from "react-bootstrap";
 import { AppContext } from '../AppContextProvider'
 import axios from 'axios'
 import './SearchBar.css'
@@ -15,8 +15,13 @@ export default function SearchBar() {
         search: ""
     });
     const [searchResults, setSearchResults] = useState([]);
+    const [show, setShow] = useState(false);
+    const [addedSongTitle, setAddedSongTitle] = useState();
+    const [modalIsOpen, setIsOpen] = useState(false);
+
 
     const addSong = (e) => {
+        setShow(true);
         const index = e.target.getAttribute("data-index")
         const songToAdd = {
             roomID: currentRoom._id,
@@ -24,6 +29,7 @@ export default function SearchBar() {
             title: searchResults[index].snippet.title,
             content: "https://www.youtube.com/watch?v=" + searchResults[index].id.videoId
         }
+        setAddedSongTitle((songToAdd.title));
         console.log(songToAdd)
         axios.post('http://localhost:3000/api/Playlist/add/', songToAdd)
     };
@@ -37,7 +43,7 @@ export default function SearchBar() {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault() 
+        e.preventDefault()
         console.log("start")
         const term = searchQuery.search
         const response = await youtube.get('/search', {
@@ -50,7 +56,6 @@ export default function SearchBar() {
     }
 
 
-    const [modalIsOpen, setIsOpen] = React.useState(false);
 
     function openModal() {
         setIsOpen(true);
@@ -60,10 +65,36 @@ export default function SearchBar() {
         setIsOpen(false);
     }
 
+    function removeSpecialChar(title){
+        return (
+            title.replace(/&apos;/g, "'")
+                    .replace(/&quot;/g, '"')
+                    .replace(/&gt;/g, '>')
+                    .replace(/&lt;/g, '<')
+                    .replace(/&amp;/g, '&')
+        )
+    }
+
+    useEffect(() => {
+        const timeId = setTimeout(() => {
+            // After 3 seconds set the show value to false
+            setShow(false)
+        }, 3000)
+        return () => {
+            clearTimeout(timeId)
+        }
+    }, [show]);
 
     return (
         <>
+            <div className='addSongConfirmation'>
+                <Alert show={show} variant="success">
+                    <Alert.Heading>Song Added!  </Alert.Heading>
+                    <p>{addedSongTitle}</p>
+                </Alert>
+            </div>
             <div>
+
                 <Form inline onSubmit={handleSubmit}>
                     <FormControl
                         type="text"
@@ -95,7 +126,7 @@ export default function SearchBar() {
                         {searchResults.map((data, index) => (
                             <li key={index}>
                                 <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-info">Add Song</Button>
-                                &emsp; {data.snippet.title}, https://www.youtube.com/watch?v={data.id.videoId}
+                                &emsp; {removeSpecialChar(data.snippet.title)}, https://www.youtube.com/watch?v={data.id.videoId}
                             </li>
                         )
                         )}

@@ -12,6 +12,16 @@ export default function Playlist() {
         password: currentRoom.password,
     };
 
+    function removeSpecialChar(title){
+        return (
+            title.replace(/&apos;/g, "'")
+                    .replace(/&quot;/g, '"')
+                    .replace(/&gt;/g, '>')
+                    .replace(/&lt;/g, '<')
+                    .replace(/&amp;/g, '&')
+        )
+    }
+
     useEffect(() => {
         // console.log(`playlist rerendered: version is ${version}`)
         async function fetchData() {
@@ -45,13 +55,13 @@ export default function Playlist() {
                 });
 
                 return (
-                    <li key={index}>
-                        <div className={styles.playlistItem}>
+                    <li key={index} className={index == 0 ? styles.highlight:""}>
+                        <div className={styles.playlistItem} >
                             <span className={styles.songNumber}>
                                 {trackNumber}
                             </span>
                             <span className={styles.songTitle}>
-                                {song.title}
+                                {removeSpecialChar(song.title)}
                             </span>
                         </div>
                     </li>

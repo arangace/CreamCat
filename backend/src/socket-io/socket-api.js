@@ -32,6 +32,7 @@ export default function createSocketIoConnection(server) {
                 const newUserCount = userCount + 1;
                 const lastActive =
                     newUserCount > 0 ? "2077-02-21" : roomToUpdate.lastActive;
+
                 const newRoom = {
                     ...roomToUpdate._doc,
                     userCount: newUserCount,
@@ -230,6 +231,7 @@ export default function createSocketIoConnection(server) {
                 const roomToUpdate = await retrieveRoom(roomID);
                 const userCount = roomToUpdate.userCount;
                 const newUserCount = userCount - 1;
+
 
                 //being able to hangout with imaginary friends is gonna be a premium function -- Kevin
                 const lastActive =
