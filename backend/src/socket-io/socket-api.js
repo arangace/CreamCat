@@ -12,7 +12,7 @@ export default function createSocketIoConnection(server) {
 
     // Callback function for connection event
     async function onConnection(socket) {
-        console.log(`New client connected`);
+        console.log(`[${dayjs().format(`HH:mm:ss`)}] New client connected`);
 
         socket.on("Ping", () => {
             socket.emit("Pong");
@@ -38,7 +38,7 @@ export default function createSocketIoConnection(server) {
                     lastActive: lastActive,
                 };
                 await updateRoom(newRoom);
-                console.log(`Update successful. userCount: ${newUserCount}`);
+                console.log(`[${dayjs().format(`HH:mm:ss`)}] UserCount updated: ${newUserCount}`);
                 // Emit on connect message to client
                 socket.emit("Connected");
 
@@ -78,16 +78,13 @@ export default function createSocketIoConnection(server) {
                 const roomToUpdate = await retrieveRoom(song.roomID);
                 if (roomToUpdate) {
                     if (roomToUpdate.startTime < roomToUpdate.endTime) {
-                        console.log(`\n[Song starting]`);
-                        console.log(`Song: start playing`);
-                        console.log(`[Updating startTime] start < end`);
+                        console.log(`\n[${dayjs().format(`HH:mm:ss`)}] Starting new song`);
+                        console.log(`[${dayjs().format(`HH:mm:ss`)}] StartTime updated`);
                         const newRoom = {
                             ...roomToUpdate._doc,
                             startTime: dayjs(),
                         };
                         await updateRoom(newRoom);
-                    } else {
-                        console.log(`Song: currently playing`);
                     }
                 }
             } catch (err) {
@@ -97,7 +94,7 @@ export default function createSocketIoConnection(server) {
 
         // Callback function for add song events
         async function onSongEnded(song) {
-            console.log(`[Song ended]`);
+            console.log(`[${dayjs().format(`HH:mm:ss`)}] Song ended`);
             try {
                 if (!song.roomID) {
                     throw "Room ID missing";
@@ -106,11 +103,11 @@ export default function createSocketIoConnection(server) {
                 if (roomToUpdate) {
                     const { deletedCount } = await deleteSong(song._id);
                     if (deletedCount > 0) {
-                        console.log(`[Song deleted]`)
-                        console.log(`[Broadcasting refetch]`);
+                        console.log(`[${dayjs().format(`HH:mm:ss`)}] Song deleted`)
+                        console.log(`[${dayjs().format(`HH:mm:ss`)}] Broadcasting refetch`);
                         io.emit("Refetch");
                         if (roomToUpdate.endTime < roomToUpdate.startTime) {
-                            console.log(`[Updating endTime]: end < start`);
+                            console.log(`[${dayjs().format(`HH:mm:ss`)}] EndTime updated`);
                             const newRoom = {
                                 ...roomToUpdate._doc,
                                 endTime: dayjs(),
@@ -130,7 +127,7 @@ export default function createSocketIoConnection(server) {
             // vote: for vote = true, against vote = false
             const { roomID, password, voteType, vote } = payload;
             console.log(
-                `Vote received. roomID: ${roomID}. voteType: ${voteType}, vote: ${vote} `
+                `[${dayjs().format(`HH:mm:ss`)}] Vote received. roomID: ${roomID}. voteType: ${voteType}, vote: ${vote} `
             );
 
             // Vote timeout in milliseconds

@@ -18,8 +18,11 @@ app.use('/', routes);
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
 
 async function clearStaleRoom(){
-    const staleRooms = await deleteStaleRooms(dayjs().add(-1, 'hour'));
-    console.log(staleRooms);
+    const {deletedCount} = await deleteStaleRooms(dayjs().add(-1, 'hour'));
+    if (deletedCount) {
+        console.log(`[${dayjs().format(`HH:mm:ss`)}] Removed ${deletedCount} expired rooms`);
+    }
+    
     // console.log(dayjs().add(-1, 'hour').format('YYYY-MM-DD HH:mm:ss'));
     // const time1 = dayjs('2021-05-05');
     // const time2 = dayjs();
@@ -27,7 +30,7 @@ async function clearStaleRoom(){
     // console.log(diff);
 }
 
-setInterval(clearStaleRoom, 60000);
+setInterval(clearStaleRoom, 1000);
 
 // When running in production mode
 if (process.env.NODE_ENV === 'production') {
