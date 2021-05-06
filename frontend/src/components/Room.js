@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../AppContextProvider";
 import MusicPlayer from "./MusicPlayer";
+import dayjs from "dayjs";
 
 export default function Room() {
     // TODO: add state for userCount in AppContext
@@ -15,7 +16,8 @@ export default function Room() {
         setVoteSkip,
         setVoteCount,
         setVoting,
-        setElapsedTime
+        setElapsedTime,
+        setLatency,
     } = useContext(AppContext);
 
     useEffect(() => {
@@ -26,8 +28,13 @@ export default function Room() {
                 password: currentRoom.password,
             },
         });
+
+        // Update latency every 2 seconds
+        //ping(2000);
+        
+
         socket.on("Connected", () => {
-            console.log(`connected`)
+            console.log(`connected`);
             setSocket(socket);
         });
         socket.on("Update userCount", (userCount) => {
@@ -43,12 +50,28 @@ export default function Room() {
         });
 
         socket.on("Vote", (response) => voteCallback(response));
-        //socket.on("Vote cancelled", (response) => voteCancelledCallback(response));
 
-        // socket.on("sync", (elapsedTime) => {
-        //     player...
-        // });
+        socket.on("Synchronize elapsedTime", ({ elapsedTime, emitTime }) => {
+            // Change this value to decrease/increase buffer
+            setElapsedTime(
+                elapsedTime === 0 ? 0 : (elapsedTime + dayjs().diff(emitTime, "milliseconds")/1000)
+            );
+            console.log(`Receiving elapsed time: ${elapsedTime + dayjs().diff(emitTime, "milliseconds")/1000}`);
+        });
 
+        function ping(pingInterval) {
+            let pingStart;
+            setInterval(() => {
+                pingStart = dayjs();
+                socket.emit("Ping");
+            }, pingInterval);
+
+            socket.on("Pong", () => {
+                const latency = dayjs().diff(pingStart, "milliseconds") / 2;
+                console.log(latency);
+                setLatency(latency);
+            });
+        }
     }, []);
 
     function addSongCallback() {
@@ -70,7 +93,6 @@ export default function Room() {
                         setVoteCount(voteCount);
                         setVoting(true);
                     default:
-
                 }
 
                 break;

@@ -42,5 +42,5 @@ export async function updateSong(song) {
 }
 
 export async function deleteSong(songid) {
-    await Song.deleteOne({_id:songid});
+    return await Song.deleteOne({_id:songid});
 }

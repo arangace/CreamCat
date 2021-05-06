@@ -9,44 +9,6 @@ const HTTP_BAD_REQUEST = 400;
 
 const router = express.Router();
 
-router.post('/start/', async (req, res) => {
-    try{
-        console.log(req.body);
-        const roomToUpdate = await retrieveRoom(req.body.roomID);
-        if(roomToUpdate.startTime < roomToUpdate.endTime){
-            const newRoom = {
-                ...roomToUpdate._doc,
-                startTime: dayjs()
-            };
-            await updateRoom(newRoom);
-            res.json(0);
-        }
-        else{
-            const elapsedTime = dayjs().diff(roomToUpdate.startTime, 'seconds');
-            console.log(elapsedTime);
-            res.json(elapsedTime);
-        }
-    }catch (err) {
-        console.log(err);
-    }
-});
-
-
-router.post('/end/', async (req, res) => {
-    try{
-        const roomToUpdate = await retrieveRoom(req.body.roomID);
-        if(roomToUpdate.endTime < roomToUpdate.startTime){
-            const newRoom = {
-                ...room._doc,
-                endTime: dayjs()
-            };
-            await updateRoom(newRoom);
-        }
-    }catch (err) {
-        console.log(err);
-    }
-});
-
 router.post('/create/', async (req, res) => {
     try{
         const room = {
@@ -157,5 +119,46 @@ router.delete('/:id', async (req, res) => {
         res.sendStatus(HTTP_BAD_REQUEST);
     }  
 });
+
+/* 
+// Redundant. Refactored to using socket emits
+router.post('/start/', async (req, res) => {
+    try{
+        console.log(req.body);
+        const roomToUpdate = await retrieveRoom(req.body.roomID);
+        if(roomToUpdate.startTime < roomToUpdate.endTime){
+            const newRoom = {
+                ...roomToUpdate._doc,
+                startTime: dayjs()
+            };
+            await updateRoom(newRoom);
+            res.json(0);
+        }
+        else{
+            const elapsedTime = dayjs().diff(roomToUpdate.startTime, 'seconds');
+            console.log(elapsedTime);
+            res.json(elapsedTime);
+        }
+    }catch (err) {
+        console.log(err);
+    }
+});
+
+
+router.post('/end/', async (req, res) => {
+    try{
+        const roomToUpdate = await retrieveRoom(req.body.roomID);
+        if(roomToUpdate.endTime < roomToUpdate.startTime){
+            const newRoom = {
+                ...room._doc,
+                endTime: dayjs()
+            };
+            await updateRoom(newRoom);
+        }
+    }catch (err) {
+        console.log(err);
+    }
+});
+*/
 
 export default router;
