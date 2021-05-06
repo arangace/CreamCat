@@ -26,7 +26,7 @@ export default function createSocketIoConnection(server) {
             if (roomToUpdate && roomToUpdate.password == password) {
                 socket.join(roomID);
                 console.log(`Client joined room ${roomID}`);
-                
+
                 // Increment room user count
                 const userCount = roomToUpdate.userCount;
                 const newUserCount = userCount + 1;
@@ -39,7 +39,11 @@ export default function createSocketIoConnection(server) {
                     lastActive: lastActive,
                 };
                 await updateRoom(newRoom);
-                console.log(`[${dayjs().format(`HH:mm:ss`)}] UserCount updated: ${newUserCount}`);
+                console.log(
+                    `[${dayjs().format(
+                        `HH:mm:ss`
+                    )}] UserCount updated: ${newUserCount}`
+                );
                 // Emit on connect message to client
                 socket.emit("Connected");
 
@@ -69,6 +73,8 @@ export default function createSocketIoConnection(server) {
         socket.on("Song started", (payload) => onSongStart(payload));
 
         // Listen to vote events
+        var votedFor = [];
+
         socket.on("Vote", (payload) => onVote(payload));
 
         // Listen to disconnect events
@@ -79,8 +85,14 @@ export default function createSocketIoConnection(server) {
                 const roomToUpdate = await retrieveRoom(song.roomID);
                 if (roomToUpdate) {
                     if (roomToUpdate.startTime < roomToUpdate.endTime) {
-                        console.log(`\n[${dayjs().format(`HH:mm:ss`)}] Starting new song`);
-                        console.log(`[${dayjs().format(`HH:mm:ss`)}] StartTime updated`);
+                        console.log(
+                            `\n[${dayjs().format(
+                                `HH:mm:ss`
+                            )}] Starting new song`
+                        );
+                        console.log(
+                            `[${dayjs().format(`HH:mm:ss`)}] StartTime updated`
+                        );
                         const newRoom = {
                             ...roomToUpdate._doc,
                             startTime: dayjs(),
@@ -104,11 +116,21 @@ export default function createSocketIoConnection(server) {
                 if (roomToUpdate) {
                     const { deletedCount } = await deleteSong(song._id);
                     if (deletedCount > 0) {
-                        console.log(`[${dayjs().format(`HH:mm:ss`)}] Song deleted`)
-                        console.log(`[${dayjs().format(`HH:mm:ss`)}] Broadcasting refetch`);
+                        console.log(
+                            `[${dayjs().format(`HH:mm:ss`)}] Song deleted`
+                        );
+                        console.log(
+                            `[${dayjs().format(
+                                `HH:mm:ss`
+                            )}] Broadcasting refetch`
+                        );
                         io.emit("Refetch");
                         if (roomToUpdate.endTime < roomToUpdate.startTime) {
-                            console.log(`[${dayjs().format(`HH:mm:ss`)}] EndTime updated`);
+                            console.log(
+                                `[${dayjs().format(
+                                    `HH:mm:ss`
+                                )}] EndTime updated`
+                            );
                             const newRoom = {
                                 ...roomToUpdate._doc,
                                 endTime: dayjs(),
@@ -128,37 +150,44 @@ export default function createSocketIoConnection(server) {
             // vote: for vote = true, against vote = false
             const { roomID, password, voteType, vote } = payload;
             console.log(
-                `[${dayjs().format(`HH:mm:ss`)}] Vote received. roomID: ${roomID}. voteType: ${voteType}, vote: ${vote} `
+                `[${dayjs().format(
+                    `HH:mm:ss`
+                )}] Vote received. roomID: ${roomID}. voteType: ${voteType}, vote: ${vote} `
             );
 
             // Vote timeout in milliseconds
             const timeout = 15000;
+            const voteTypes = ["skip", "play", "pause"];
             try {
                 const votingRoom = await retrieveRoom(roomID);
 
                 const userCount = votingRoom.userCount;
 
                 // action: start, update, passed, fail
-                let action, voteCount, newRoom, timer;
+                let action, voteCount, newRoom;
 
                 if (votingRoom && votingRoom.password == password) {
-                    if (!["skip", "play", "pause"].includes(voteType)) {
+                    if (!voteTypes.includes(voteType)) {
                         console.log(
                             `Unhandled vote event (outside of case). roomID: ${roomID}. voteType: ${voteType}, vote: ${vote}`
                         );
                     }
                     const { voting } = votingRoom;
-                    let timer;
                     if (!voting[voteType].count) {
                         // Initialize vote if room is not voting skip
                         action = "start";
                         if (vote) {
+                            // Add voteType to votedFor array
+                            changeVotes(votedFor, voteType, vote);
+
                             // Increment voteSkipCount on a "for" vote
                             voteCount = voting[voteType].count + 1;
                             if (voteIsSuccessful(userCount, voteCount)) {
                                 action = "passed";
+                                // remove voteType from votedFor on a successful vote
+                                changeVotes(votedFor, voteType, false);
                             }
-                            timer = voteTimeout(
+                            voteTimeout(
                                 roomID,
                                 timeout,
                                 voteType,
@@ -174,14 +203,18 @@ export default function createSocketIoConnection(server) {
                     } else {
                         // Update vote if room is voting skip
                         action = "update";
+                        // Add/remove voteType to votedFor array if voted is true/falss
                         if (vote) {
+                            changeVotes(votedFor, voteType, vote);
                             // Increment voting.skip on a "for" vote
                             voteCount = voting[voteType].count + 1;
                             if (voteIsSuccessful(userCount, voteCount)) {
-                                clearTimeout(timer);
+                                // remove voteType from votedFor on a successful vote
+                                changeVotes(votedFor, voteType, false);
                                 action = "passed";
                             }
                         } else {
+                            changeVotes(votedFor, voteType, vote);
                             // Decrement voting.skip on an "against" vote
                             voteCount = voting[voteType].count - 1;
                             // Fail vote if voteCount < 0 and set voting.skip to null
@@ -221,6 +254,17 @@ export default function createSocketIoConnection(server) {
                 console.log(`Failed to update room`);
                 console.log(err);
             }
+
+            function voteIsSuccessful(userCount, voteCount) {
+                // vote success conditions
+                // Over 75% users vote for
+                if (voteCount > userCount * 0.75) {
+                    console.log(`Vote passed: ${voteCount}/${userCount}`);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
 
         // Callback function for disconnect events
@@ -232,7 +276,7 @@ export default function createSocketIoConnection(server) {
                 const userCount = roomToUpdate.userCount;
                 const newUserCount = userCount - 1;
 
-                //being able to hangout with imaginary friends is gonna be a premium function -- Kevin
+                // Being able to hangout with imaginary friends is gonna be a premium function -- Kevin
                 const lastActive =
                     newUserCount > 0 ? roomToUpdate.lastActive : dayjs();
                 const newRoom = {
@@ -240,6 +284,16 @@ export default function createSocketIoConnection(server) {
                     userCount: newUserCount,
                     lastActive: lastActive,
                 };
+
+                // Decrease vote count for all voteTypes that exists in the votedFor array
+                votedFor.forEach((voteType) => {
+                    const voteCount = roomToUpdate.voting[voteType].count;
+                    const newVoteCount = voteCount - 1;
+                    newRoom.voting[voteType].count = newVoteCount;
+                });
+
+                console.log(newRoom);
+
                 await updateRoom(newRoom);
                 io.emit("Update userCount", newUserCount);
                 console.log(`Update successful. userCount: ${newUserCount}`);
@@ -249,17 +303,6 @@ export default function createSocketIoConnection(server) {
             } catch (err) {
                 console.log(`Failed to update room`);
                 console.log(err);
-            }
-        }
-
-        function voteIsSuccessful(userCount, voteCount) {
-            // vote success conditions
-            // Over 75% users vote for
-            if (voteCount > userCount * 0.75) {
-                console.log(`Vote passed: ${voteCount}/${userCount}`);
-                return true;
-            } else {
-                return false;
             }
         }
 
@@ -277,6 +320,7 @@ export default function createSocketIoConnection(server) {
                         )
                     ) {
                         console.log("Vote timed out");
+                        changeVotes(votedFor, voteType, false);
                         const payload = {
                             action: `fail`,
                             voteType: voteType,
@@ -299,6 +343,22 @@ export default function createSocketIoConnection(server) {
                     console.log(`Vote succeeded. Timeout cancelled.`);
                 }
             }, timeout);
+        }
+
+        function changeVotes(votedFor, voteType, vote) {
+            if (vote) {
+                //  Add voteType to array if voteType not in votedFor array
+                if (!votedFor.includes(voteType)) {
+                    votedFor.push(voteType);
+                }
+            } else {
+                //  Remove voteType from array if voteType in votedFor array
+                const index = votedFor.indexOf(voteType);
+                if (index > -1) {
+                    votedFor.splice(index, 1);
+                }
+            }
+            console.log(votedFor);
         }
     }
 }

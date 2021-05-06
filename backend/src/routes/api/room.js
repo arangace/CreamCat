@@ -40,7 +40,7 @@ router.post('/join/', async (req, res) => {
         const id = req.body._id;
         const password = req.body.password;
 
-        console.log(`Join room requested for ${id}`)
+        // console.log(`Join room requested for ${id}`)
         if(id){
             const room = await retrieveRoom(id);
             if(room){
