@@ -42,7 +42,6 @@ export default function Playbar() {
 
     async function handleOnEnded() {
         console.log(`Song ended ${dayjs().toString()}`);
-        setElapsedTime(0);
         socket.emit("Song ended", currentSong);
         //await axios.post('http://localhost:3000/api/room/end/', currentSong);
     }
@@ -54,7 +53,7 @@ export default function Playbar() {
         //const elapsedTime = response.data;
         console.log(`Setting song progress to ${elapsedTime}`)
         player.seekTo(elapsedTime);
-
+        setElapsedTime(0);
     }
 
     return (
