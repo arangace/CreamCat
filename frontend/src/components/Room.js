@@ -24,64 +24,65 @@ export default function Room() {
 
     const history = useHistory();
 
-    
+
 
     useEffect(() => {
 
-        if(!currentRoom){
+        if (!currentRoom) {
             history.replace(`/RoomPage`);
         }
-        else{
-        // Connect to socket on localhost server and pass roomId
-        const socket = io({
-            query: {
-                roomID: currentRoom._id,
-                password: currentRoom.password,
-            },
-        });
-
-        // Update latency every 2 seconds
-        //ping(2000);
-        
-
-        socket.on("Connected", () => {
-            console.log(`connected`);
-            setSocket(socket);
-        });
-        socket.on("Update userCount", (userCount) => {
-            console.log(`User count updated -> ${userCount}`);
-            setUserCount(userCount);
-        });
-        socket.on("Add song", () => addSongCallback());
-
-        socket.on("Refetch", () => {
-            console.log(`Refetch called by API`);
-            setVersion((v) => !v);
-            setKey((k) => k + 1);
-        });
-
-        socket.on("Vote", (response) => voteCallback(response));
-
-        socket.on("Synchronize elapsedTime", ({ elapsedTime, emitTime }) => {
-            // Change this value to decrease/increase buffer
-            setElapsedTime(
-                elapsedTime === 0 ? 0 : (elapsedTime + dayjs().diff(emitTime, "milliseconds")/1000)
-            );
-            console.log(`Receiving elapsed time: ${elapsedTime + dayjs().diff(emitTime, "milliseconds")/1000}`);
-        });
-
-        function ping(pingInterval) {
-            let pingStart;
-            setInterval(() => {
-                pingStart = dayjs();
-                socket.emit("Ping");
-            }, pingInterval);
-
-            socket.on("Pong", () => {
-                const latency = dayjs().diff(pingStart, "milliseconds") / 2;
-                console.log(latency);
-                setLatency(latency);
+        else {
+            // Connect to socket on localhost server and pass roomId
+            const socket = io({
+                query: {
+                    roomID: currentRoom._id,
+                    password: currentRoom.password,
+                },
             });
+
+            // Update latency every 2 seconds
+            //ping(2000);
+
+
+            socket.on("Connected", () => {
+                console.log(`connected`);
+                setSocket(socket);
+            });
+            socket.on("Update userCount", (userCount) => {
+                console.log(`User count updated -> ${userCount}`);
+                setUserCount(userCount);
+            });
+            socket.on("Add song", () => addSongCallback());
+
+            socket.on("Refetch", () => {
+                console.log(`Refetch called by API`);
+                setVersion((v) => !v);
+                setKey((k) => k + 1);
+            });
+
+            socket.on("Vote", (response) => voteCallback(response));
+
+            socket.on("Synchronize elapsedTime", ({ elapsedTime, emitTime }) => {
+                // Change this value to decrease/increase buffer
+                setElapsedTime(
+                    elapsedTime === 0 ? 0 : (elapsedTime + dayjs().diff(emitTime, "milliseconds") / 1000)
+                );
+                console.log(`Receiving elapsed time: ${elapsedTime + dayjs().diff(emitTime, "milliseconds") / 1000}`);
+            });
+
+            function ping(pingInterval) {
+                let pingStart;
+                setInterval(() => {
+                    pingStart = dayjs();
+                    socket.emit("Ping");
+                }, pingInterval);
+
+                socket.on("Pong", () => {
+                    const latency = dayjs().diff(pingStart, "milliseconds") / 2;
+                    console.log(latency);
+                    setLatency(latency);
+                });
+            }
         }
     }, []);
 
@@ -132,13 +133,13 @@ export default function Room() {
         }
         // display vote alert
         // maybe highlight skip button
-
-
-    if(!currentRoom){
-        history.replace(`/RoomPage`);
-        return(null);
     }
-    else{
+
+    if (!currentRoom) {
+        history.replace(`/RoomPage`);
+        return (null);
+    }
+    else {
         return (
             <>
                 <div className="temp-gap"></div>
@@ -147,5 +148,4 @@ export default function Room() {
         );
 
     }
-
 }
