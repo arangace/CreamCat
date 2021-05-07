@@ -241,7 +241,7 @@ export default function createSocketIoConnection(server) {
                     if (action == "passed") {
                         newRoom.voting[voteType].count = null;
                         newRoom.voting[voteType].lastPassed = dayjs();
-                        onSongEnded(song);
+                        await onSongEnded(song);
                     } else {
                         newRoom.voting[voteType].count = voteCount;
                     }
