@@ -23,6 +23,7 @@
 }
 
 .playlist li {
+  color: white;
   cursor: pointer;
   display: block;
   margin: 0;
@@ -60,6 +61,6 @@
 }
 
 .highlight {
-  color: rgb(28, 113, 241);
-  font-weight: bold;
+  text-shadow: -1px -1px 0 rgb(107, 189, 255), 1px -1px 0 rgb(107, 189, 255),
+    -1px 1px 0 rgb(107, 189, 255), 1px 1px 0 rgb(107, 189, 255);
 }

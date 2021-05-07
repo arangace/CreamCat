@@ -1,4 +1,4 @@
-import { Container, ProgressBar, Card } from "react-bootstrap";
+import { Container, ProgressBar, Card, Badge } from "react-bootstrap";
 import styles from "./Playbar.module.css";
 import SongControls from "./SongControls";
 import SongInfo from "./SongInfo";
@@ -77,14 +77,20 @@ export default function Playbar() {
                 width="0"
             />
             <Container fluid className={styles.playbar}>
-                <ProgressBar now={duration} min="0" max={songLength} />
+                <ProgressBar className={styles.progressBar} now={duration} min="0" max={songLength} />
+                <div className={styles.durationTime}>
+                    <Badge pill variant="secondary" >{new Date(duration.toFixed(1) * 1000).toISOString().substr(14, 5)}</Badge>
+                </div>
+                <div className={styles.songLengthTime}>
+                    <Badge pill variant="secondary" >{new Date(songLength.toFixed(1) * 1000).toISOString().substr(14, 5)}</Badge>
+                </div>
                 <Container fluid className={styles.playbarContainer}>
                     <div className={styles.songInfo}>
                         <SongInfo />
                     </div>
                     <SongControls className={styles.songControls} />
                     <Container className={styles.volumeControls}>
-                    <Card>{duration.toFixed(1)}</Card>
+
                         <input
                             type="range"
                             min={0}

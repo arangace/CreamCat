@@ -142,8 +142,11 @@ export default function Room() {
     else {
         return (
             <>
+
                 <div className="temp-gap"></div>
-                <MusicPlayer />
+                <div className="dark-mode">
+                    <MusicPlayer />
+                </div>
             </>
         );
 
