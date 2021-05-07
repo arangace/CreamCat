@@ -12,13 +12,13 @@ export default function Playlist() {
         password: currentRoom.password,
     };
 
-    function removeSpecialChar(title){
+    function removeSpecialChar(title) {
         return (
             title.replace(/&apos;/g, "'")
-                    .replace(/&quot;/g, '"')
-                    .replace(/&gt;/g, '>')
-                    .replace(/&lt;/g, '<')
-                    .replace(/&amp;/g, '&')
+                .replace(/&quot;/g, '"')
+                .replace(/&gt;/g, '>')
+                .replace(/&lt;/g, '<')
+                .replace(/&amp;/g, '&')
         )
     }
 
@@ -55,7 +55,7 @@ export default function Playlist() {
                 });
 
                 return (
-                    <li key={index} className={index == 0 ? styles.highlight:""}>
+                    <li key={index} className={index == 0 ? styles.highlight : ""}>
                         <div className={styles.playlistItem} >
                             <span className={styles.songNumber}>
                                 {trackNumber}

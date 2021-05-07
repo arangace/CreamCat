@@ -23,3 +23,7 @@
   margin-left: 40%;
   position: fixed;
 }
+.search-list-item {
+  margin-left: 10px;
+  list-style-type: none;
+}
