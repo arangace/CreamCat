@@ -10,15 +10,12 @@ export default function Room() {
     // TODO: add state for userCount in AppContext
     const {
         currentRoom,
-        currentSong,
         setUserCount,
         setVersion,
         setSocket,
         setKey,
-        setVoteSkip,
-        setVoteCount,
-        setVoting,
-        setVotingSkip,
+        resetVoteState,
+        setVotingFor,
         setElapsedTime,
         setLatency,
     } = useContext(AppContext);
@@ -57,21 +54,8 @@ export default function Room() {
             });
 
             socket.on("Vote", (response) => {
-                const { action, voteType, voteCount, songID } = response;
                 console.log(response);
-                switch (voteType) {
-                    case "skip":
-                        voteSkipCallback(action, voteCount, songID);
-                        break;
-                    case "play":
-                        //votePlayCallback(action, voteCount, songID);
-                        break;
-                    case "pause":
-                        //votePauseCallback(action, voteCount, songID);
-                        break;
-                    default:
-                        console.log(`Unhandled voteType received: ${voteType}`);
-                }
+                voteCallback(response);
             });
 
             socket.on(
@@ -107,38 +91,50 @@ export default function Room() {
                 });
             }
 
-            function voteSkipCallback(action, voteCount) {
+            function voteCallback(response) {
+                const { action, voteType, voteCount } = response;
                 switch (action) {
                     case "start":
                         // display voting status alert
                         // display pass condition
-                        setVoteCount(voteCount);
-                        setVotingSkip(true);
-                        setVoting(true);
-
+                        setVotingFor((vf) => {
+                            const votingFor = {...vf};
+                            votingFor[voteType] = voteCount;
+                            console.log(votingFor)
+                            return votingFor;
+                        });
                         break;
                     case "update":
                         // update voting status alert
-                        setVoteCount(voteCount);
-                        setVotingSkip(true);
-                        setVoting(true);
+                        setVotingFor((vf) => {
+                            const votingFor = {...vf};
+                            votingFor[voteType] = voteCount;
+                            console.log(votingFor);
+                            return votingFor;
+                        });
                         break;
                     case "fail":
                         // remove voting status alert
                         // reset all states to default
-                        setVoting(false);
-                        setVoteSkip(false);
-                        setVotingSkip(false);
-                        setVoteCount(0);
+                        resetVoteState(voteType);
+                        setVotingFor((vf) => {
+                            const votingFor = {...vf};
+                            delete votingFor[voteType];
+                            console.log(votingFor);
+                            return votingFor;
+                        });
                         break;
                     case "passed":
                         // current song deleted from database, display passed alert, refetch playlist and play new song
                         // could implement a countdown
                         // reset all states to default
-                        setVoting(false);
-                        setVoteSkip(false);
-                        setVotingSkip(false);
-                        setVoteCount(0);
+                        resetVoteState(voteType);
+                        setVotingFor((vf) => {
+                            const votingFor = {...vf};
+                            delete votingFor[voteType];
+                            console.log(votingFor);
+                            return votingFor;
+                        });
                         break;
                     default:
                 }

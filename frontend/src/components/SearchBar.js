@@ -55,8 +55,6 @@ export default function SearchBar() {
         openModal()
     }
 
-
-
     function openModal() {
         setIsOpen(true);
     }
