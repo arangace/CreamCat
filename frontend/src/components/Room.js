@@ -6,7 +6,6 @@ import MusicPlayer from "./MusicPlayer";
 import dayjs from "dayjs";
 import { useHistory } from "react-router";
 
-
 export default function Room() {
     // TODO: add state for userCount in AppContext
     const {
@@ -15,23 +14,18 @@ export default function Room() {
         setVersion,
         setSocket,
         setKey,
-        setVoteSkip,
-        setVoteCount,
-        setVoting,
+        resetVoteState,
+        setVotingFor,
         setElapsedTime,
         setLatency,
     } = useContext(AppContext);
 
     const history = useHistory();
 
-
-
     useEffect(() => {
-
         if (!currentRoom) {
             history.replace(`/RoomPage`);
-        }
-        else {
+        } else {
             // Connect to socket on localhost server and pass roomId
             const socket = io({
                 query: {
@@ -42,7 +36,6 @@ export default function Room() {
 
             // Update latency every 2 seconds
             //ping(2000);
-
 
             socket.on("Connected", () => {
                 console.log(`connected`);
@@ -60,15 +53,29 @@ export default function Room() {
                 setKey((k) => k + 1);
             });
 
-            socket.on("Vote", (response) => voteCallback(response));
-
-            socket.on("Synchronize elapsedTime", ({ elapsedTime, emitTime }) => {
-                // Change this value to decrease/increase buffer
-                setElapsedTime(
-                    elapsedTime === 0 ? 0 : (elapsedTime + dayjs().diff(emitTime, "milliseconds") / 1000)
-                );
-                console.log(`Receiving elapsed time: ${elapsedTime + dayjs().diff(emitTime, "milliseconds") / 1000}`);
+            socket.on("Vote", (response) => {
+                console.log(response);
+                voteCallback(response);
             });
+
+            socket.on(
+                "Synchronize elapsedTime",
+                ({ elapsedTime, emitTime }) => {
+                    // Change this value to decrease/increase buffer
+                    setElapsedTime(
+                        elapsedTime === 0
+                            ? 0
+                            : elapsedTime +
+                                  dayjs().diff(emitTime, "milliseconds") / 1000
+                    );
+                    console.log(
+                        `Receiving elapsed time: ${
+                            elapsedTime +
+                            dayjs().diff(emitTime, "milliseconds") / 1000
+                        }`
+                    );
+                }
+            );
 
             function ping(pingInterval) {
                 let pingStart;
@@ -83,6 +90,57 @@ export default function Room() {
                     setLatency(latency);
                 });
             }
+
+            function voteCallback(response) {
+                const { action, voteType, voteCount } = response;
+                switch (action) {
+                    case "start":
+                        // display voting status alert
+                        // display pass condition
+                        setVotingFor((vf) => {
+                            const votingFor = {...vf};
+                            votingFor[voteType] = voteCount;
+                            console.log(votingFor)
+                            return votingFor;
+                        });
+                        break;
+                    case "update":
+                        // update voting status alert
+                        setVotingFor((vf) => {
+                            const votingFor = {...vf};
+                            votingFor[voteType] = voteCount;
+                            console.log(votingFor);
+                            return votingFor;
+                        });
+                        break;
+                    case "fail":
+                        // remove voting status alert
+                        // reset all states to default
+                        resetVoteState(voteType);
+                        setVotingFor((vf) => {
+                            const votingFor = {...vf};
+                            delete votingFor[voteType];
+                            console.log(votingFor);
+                            return votingFor;
+                        });
+                        break;
+                    case "passed":
+                        // current song deleted from database, display passed alert, refetch playlist and play new song
+                        // could implement a countdown
+                        // reset all states to default
+                        resetVoteState(voteType);
+                        setVotingFor((vf) => {
+                            const votingFor = {...vf};
+                            delete votingFor[voteType];
+                            console.log(votingFor);
+                            return votingFor;
+                        });
+                        break;
+                    default:
+                }
+                // display vote alert
+                // maybe highlight skip button
+            }
         }
     }, []);
 
@@ -92,54 +150,10 @@ export default function Room() {
         setVersion((v) => !v);
     }
 
-    function voteCallback(response) {
-        // action: start, update, passed, fail
-        // voteType: skip, play, pause
-        const { action, voteType, voteCount } = response;
-        console.log(response);
-        switch (action) {
-            case "start":
-                // display voting status alert
-                // display pass condition
-                switch (voteType) {
-                    case "skip":
-                        setVoteCount(voteCount);
-                        setVoting(true);
-                    default:
-                }
-
-                break;
-            case "update":
-                // update voting status alert
-                setVoteCount(voteCount);
-                setVoting(true);
-                break;
-            case "fail":
-                // remove voting status alert
-                // reset all states to default
-                setVoting(false);
-                setVoteSkip(false);
-                setVoteCount(0);
-                break;
-            case "passed":
-                // current song deleted from database, display passed alert, refetch playlist and play new song
-                // could implement a countdown
-                // reset all states to default
-                setVoting(false);
-                setVoteSkip(false);
-                setVoteCount(0);
-                break;
-            default:
-        }
-        // display vote alert
-        // maybe highlight skip button
-    }
-
     if (!currentRoom) {
         history.replace(`/RoomPage`);
-        return (null);
-    }
-    else {
+        return null;
+    } else {
         return (
             <>
 
@@ -149,6 +163,5 @@ export default function Room() {
                 </div>
             </>
         );
-
     }
 }

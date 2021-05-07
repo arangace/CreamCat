@@ -11,23 +11,32 @@ export default function SongControls() {
         currentSong,
         socket,
         voteSkip,
-        setVoteSkip
+        setVoteSkip,
+        setDisplayNoCurrentSongAlert,
     } = useContext(AppContext);
 
     const [playButtonText, setPlayButtonText] = useState(<FaPause />);
+    console.log(`songControls voteSkip = ${voteSkip}`);
 
-    function handleVoteSkip () {
-        const vote = !voteSkip;
-        console.log(`voteSkip set to ${vote}`)
-        setVoteSkip(v => !v);
-        const payload = {
-            roomID: currentRoom._id,
-            password: currentRoom.password,
-            voteType: "skip",
-            vote: vote,
-        };
-       socket.emit("Vote", payload);
-    };
+    function handleVoteSkip() {
+        if (currentSong) {
+            console.log(`handleVoteSkip voteSkip = ${voteSkip}`);
+            const vote = !voteSkip;
+            console.log(`voteSkip set to ${vote}`);
+            setVoteSkip((v) => !v);
+            const payload = {
+                roomID: currentRoom._id,
+                password: currentRoom.password,
+                voteType: "skip",
+                vote: vote,
+                song: currentSong,
+            };
+            socket.emit("Vote", payload);
+        } else {
+            setDisplayNoCurrentSongAlert(true);
+            setTimeout(() => setDisplayNoCurrentSongAlert(false), 2000);
+        }
+    }
 
     const prevSong = () => {};
 
