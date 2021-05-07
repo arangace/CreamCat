@@ -65,13 +65,13 @@ export default function SearchBar() {
         setIsOpen(false);
     }
 
-    function removeSpecialChar(title){
+    function removeSpecialChar(title) {
         return (
             title.replace(/&apos;/g, "'")
-                    .replace(/&quot;/g, '"')
-                    .replace(/&gt;/g, '>')
-                    .replace(/&lt;/g, '<')
-                    .replace(/&amp;/g, '&')
+                .replace(/&quot;/g, '"')
+                .replace(/&gt;/g, '>')
+                .replace(/&lt;/g, '<')
+                .replace(/&amp;/g, '&')
         )
     }
 
@@ -124,7 +124,7 @@ export default function SearchBar() {
                     <div>
                         <br></br>
                         {searchResults.map((data, index) => (
-                            <li key={index}>
+                            <li key={index} className={"search-list-item"}>
                                 <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-info">Add Song</Button>
                                 &emsp; {removeSpecialChar(data.snippet.title)}, https://www.youtube.com/watch?v={data.id.videoId}
                             </li>
