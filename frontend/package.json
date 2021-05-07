@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "dayjs": "^1.10.4",
     "google-auth-library": "^7.0.4",
     "googleapis": "^72.0.0",
     "react": "^17.0.1",

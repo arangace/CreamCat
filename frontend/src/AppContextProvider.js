@@ -8,8 +8,6 @@ function AppContextProvider({ children }) {
         JSON.parse(localStorage.getItem("currentRoom"))
     );
 
-    const [userCount, setUserCount] = useState(0);
-
     const [playlist, setPlaylist] = useState([]);
     const [playing, setPlaying] = useState(true);
     const [currentSong, setCurrentSong] = useState();
@@ -17,6 +15,14 @@ function AppContextProvider({ children }) {
     const [version, setVersion] = useState(false);
     const [socket, setSocket] = useState();
     const [key, setKey] = useState(0);
+
+    const [voting, setVoting] = useState(false);
+    const [voteCount, setVoteCount] = useState(0);
+    const [userCount, setUserCount] = useState(0);
+    const [voteSkip, setVoteSkip] = useState(false);
+
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const [latency, setLatency] = useState(0);
 
     async function createRoom(room) {
         const response = await axios.post(
@@ -47,24 +53,25 @@ function AppContextProvider({ children }) {
 
     // The context value that will be supplied to any descendants of this component.
     const context = {
-        currentRoom,
-        setCurrentRoom,
-        userCount,
-        setUserCount,
-        playlist,
-        setPlaylist,
+        currentRoom, setCurrentRoom,
+        playlist, setPlaylist,
+        playing, setPlaying,
+        currentSong, setCurrentSong,
+
+        version, setVersion,
+        socket, setSocket,    
+        key, setKey,
+        
+        voting, setVoting,
+        voteCount, setVoteCount,
+        userCount, setUserCount,
+        voteSkip, setVoteSkip,
+
+        elapsedTime, setElapsedTime,
+        latency, setLatency,
+
         createRoom,
         joinRoom,
-        version,
-        setVersion,
-        socket,
-        setSocket,
-        currentSong,
-        setCurrentSong,
-        key,
-        setKey,
-        playing,
-        setPlaying,
     };
 
     // Wraps the given child components in a Provider for the above context.
