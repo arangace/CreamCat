@@ -81,6 +81,15 @@
   margin-top: 100px;
 }
 .dark-mode {
-  background-color: rgba(0, 0, 0, 0.808);
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+  background-color: black;
+}
+.musicPlayer-dark-mode {
+  position: absolute;
+  left: 0;
+  background-color: black;
   height: 800px;
+  width: 100%;
 }
