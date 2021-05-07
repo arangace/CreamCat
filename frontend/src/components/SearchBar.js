@@ -6,7 +6,8 @@ import { AppContext } from '../AppContextProvider'
 import axios from 'axios'
 import './SearchBar.css'
 
-Modal.setAppElement('#root')
+
+if (process.env.NODE_ENV !== 'test') {Modal.setAppElement('#root')};
 
 export default function SearchBar() {
     const { currentRoom } = useContext(AppContext)
@@ -101,11 +102,13 @@ export default function SearchBar() {
                         value={searchQuery.term}
                         onChange={handleChange}
                         placeholder="Search"
+                        data-testid="form"
                     />
 
                     <Button
                         variant="outline-info"
                         onClick={handleSubmit}
+                        data-testid="searchButton"
                     >
                         Search
                     </Button>
@@ -123,7 +126,7 @@ export default function SearchBar() {
                         <br></br>
                         {searchResults.map((data, index) => (
                             <li key={index} className={"search-list-item"}>
-                                <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-info">Add Song</Button>
+                                <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-info" >Add Song</Button>
                                 &emsp; {removeSpecialChar(data.snippet.title)}, https://www.youtube.com/watch?v={data.id.videoId}
                             </li>
                         )

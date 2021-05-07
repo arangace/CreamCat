@@ -5,10 +5,9 @@ import userEvent from '@testing-library/user-event';
 import CreateRoomPage from '../CreateRoom';
 import {AppContext} from '../../AppContextProvider';
 
-it('creates a room properly', async() =>{
+it('handles adding to form and sending data on button click', async() =>{
     const dummyCreateRoom = jest.fn();
 
-    // Test first render and effect
     render(
         <AppContext.Provider value={{createRoom: dummyCreateRoom}}>
             <CreateRoomPage />

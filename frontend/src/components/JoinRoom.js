@@ -85,6 +85,7 @@ export default function JoinRoomPage() {
                                     variant="dark"
                                     type="button"
                                     onClick={handleJoinRoom}
+                                    data-testid='join'
                                 >
                                     Join
                                 </Button>

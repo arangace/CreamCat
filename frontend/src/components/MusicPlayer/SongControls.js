@@ -63,7 +63,7 @@ export default function SongControls() {
                 <Button className={styles.playBtn} onClick={handlePlayPause}>
                     {playButtonText}
                 </Button>{" "}
-                <Button className={styles.voteSkip} onClick={handleVoteSkip}>
+                <Button className={styles.voteSkip} onClick={handleVoteSkip} data-testid="Fwd">
                     <FaStepForward />
                 </Button>
             </Container>
