@@ -21,7 +21,7 @@ export default function NavBar() {
                 <Nav className="mr-auto">
                     {!currentRoom && <Nav.Link href="JoinRoom">Join Room</Nav.Link>}
                     {!currentRoom && <Nav.Link href="CreateRoom">Create Room</Nav.Link>}
-                    {currentRoom && <Nav.Link href="Room">Current Room</Nav.Link>}
+                    {currentRoom && <Nav.Link href="Room">{currentRoom.name}</Nav.Link>}
                     {currentRoom && <Nav.Link onClick={leaveRoom}>Leave Room</Nav.Link>}
                     {/* <Nav.Link href="Login">Login</Nav.Link> */}
                 </Nav>
