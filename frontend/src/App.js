@@ -52,7 +52,7 @@ function App() {
                     <JoinRoomPage/>
                 </Route>
                 <Route path="*">
-                    <Redirect to="/RoomPage" />
+                    <Redirect to="/Home" />
                 </Route>
             </Switch>
         </div>
