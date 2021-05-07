@@ -3,7 +3,7 @@
   right: 0;
   left: 0;
   width: 100vw;
-  height: 120px;
+  height: 140px;
   bottom: 0;
   background: #343a40;
 }
@@ -30,7 +30,8 @@
   float: right;
 }
 .songControls {
-  grid-area: center;
+  grid-area: left;
+  float: left;
 }
 
 .volumeControls {
@@ -38,20 +39,21 @@
   grid-area: right;
   background: #343a40;
   margin: auto;
+  float: right;
 }
 
 .volumeSlider {
+  margin-top: 25px;
   float: right;
 }
 .songInfo {
-  margin-top: 11px;
-  grid-area: left;
-}
-.songInfoText {
+  margin-top: 10px;
   grid-area: left;
   width: 500px;
+}
+.songInfoText {
+  width: 500px;
   height: 100px;
-  margin-right: -200px;
 }
 .limitTextLength {
   display: block;
