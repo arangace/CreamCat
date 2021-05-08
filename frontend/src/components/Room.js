@@ -18,6 +18,7 @@ export default function Room() {
         setVotingFor,
         setElapsedTime,
         setLatency,
+        currentSong
     } = useContext(AppContext);
 
     const history = useHistory();
@@ -77,6 +78,7 @@ export default function Room() {
                 }
             );
 
+
             function ping(pingInterval) {
                 let pingStart;
                 setInterval(() => {
@@ -92,7 +94,7 @@ export default function Room() {
             }
 
             function voteCallback(response) {
-                const { action, voteType, voteCount } = response;
+                const { action, voteType, voteCount, song } = response;
                 switch (action) {
                     case "start":
                         // display voting status alert
@@ -129,6 +131,7 @@ export default function Room() {
                         // could implement a countdown
                         // reset all states to default
                         resetVoteState(voteType);
+                        socket.emit("Song ended", song);
                         setVotingFor((vf) => {
                             const votingFor = {...vf};
                             delete votingFor[voteType];
