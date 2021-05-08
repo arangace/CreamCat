@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FaStepBackward, FaPlay, FaPause, FaStepForward } from "react-icons/fa";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./SongControls.module.css";
@@ -7,12 +7,11 @@ export default function SongControls() {
     const {
         currentRoom,
         playing,
-        setPlaying,
-        currentSong,
         socket,
         voteSkip,
         setVoteSkip,
         setDisplayNoCurrentSongAlert,
+        currentSong
     } = useContext(AppContext);
 
     const [playButtonText, setPlayButtonText] = useState(<FaPause />);
@@ -38,14 +37,6 @@ export default function SongControls() {
         }
     }
 
-    const prevSong = () => {};
-
-    function handlePlayPause() {
-        if (currentSong) {
-            setPlaying(!playing);
-        }
-    }
-
     useEffect(() => {
         if (playing) {
             setPlayButtonText(<FaPause />);
@@ -57,15 +48,14 @@ export default function SongControls() {
     return (
         <>
             <Container className={styles.songControls}>
-                <Button className={styles.prevSong} onClick={prevSong}>
-                    <FaStepBackward />
-                </Button>{" "}
-                <Button className={styles.playBtn} onClick={handlePlayPause}>
+                <Button variant="outline-light" size="lg" className={styles.playBtn} disabled>
                     {playButtonText}
                 </Button>{" "}
-                <Button className={styles.voteSkip} onClick={handleVoteSkip}>
-                    <FaStepForward />
-                </Button>
+                <OverlayTrigger placement="top" overlay={<Tooltip>Vote Skip</Tooltip>}>
+                    <Button variant="dark" size="lg" className={styles.voteSkip} onClick={handleVoteSkip}>
+                        <FaStepForward />
+                    </Button>
+                </OverlayTrigger>
             </Container>
         </>
     );

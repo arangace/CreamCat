@@ -1,5 +1,5 @@
-import { Navbar, Tooltip, OverlayTrigger, Button } from "react-bootstrap";
-import React, { useContext, useState } from "react";
+import { Navbar, Tooltip, OverlayTrigger } from "react-bootstrap";
+import React, { useContext } from "react";
 import { AppContext } from "../../AppContextProvider";
 import SearchBar from "../SearchBar";
 import styles from "./Header.module.css";
@@ -25,7 +25,7 @@ export default function Header() {
                                 <span className="d-inline-block">
                                     <Navbar.Text >Room ID: {currentRoom._id}
                                         <div className={styles.copyClipboard}>
-                                            <FaClipboard/>
+                                            <FaClipboard />
                                         </div>
                                     </Navbar.Text>
                                 </span>

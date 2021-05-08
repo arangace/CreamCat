@@ -6,13 +6,13 @@ export default function SongInfo() {
 
     const { currentSong } = useContext(AppContext);
 
-    function removeSpecialChar(title){
+    function removeSpecialChar(title) {
         return (
             title.replace(/&apos;/g, "'")
-                    .replace(/&quot;/g, '"')
-                    .replace(/&gt;/g, '>')
-                    .replace(/&lt;/g, '<')
-                    .replace(/&amp;/g, '&')
+                .replace(/&quot;/g, '"')
+                .replace(/&gt;/g, '>')
+                .replace(/&lt;/g, '<')
+                .replace(/&amp;/g, '&')
         )
     }
 
