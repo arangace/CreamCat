@@ -58,6 +58,7 @@ export default function SearchBar() {
 
     function openModal() {
         setIsOpen(true);
+        console.log('modal is open')
     }
 
     function closeModal() {
@@ -120,6 +121,7 @@ export default function SearchBar() {
                     onRequestClose={closeModal}
                     contentLabel="Example Modal"
                     className="searchModal"
+                    data-testid="modal"
                 >
                     <button onClick={closeModal} className="close">X</button>
                     <div>

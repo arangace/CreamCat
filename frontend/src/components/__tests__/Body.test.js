@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import Body from '../Body';
 
 
-it('handles adding to form and sending data on button click', async() =>{
+it('checks everything renders and links work', async() =>{
     const dummyButton = jest.fn();
     render(<Body />)
     expect(screen.queryByText('The best collaborative music web application out there!')).not.toBe(null);

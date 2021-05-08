@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import RoomPage from '../RoomPage';
 
-it('handles adding to form and sending data on button click', async() =>{
+it('checks everything renders and links work', async() =>{
     const dummyCreateRoom = jest.fn();
 
     render(<RoomPage/>)
