@@ -50,9 +50,11 @@ export default function SongControls() {
                 <Button variant="outline-light" size="lg" className={styles.playBtn} disabled>
                     {playButtonText}
                 </Button>{" "}
-                <Button variant="dark" size="lg" className={styles.voteSkip} onClick={handleVoteSkip} active>
-                    <FaStepForward />
-                </Button>
+                <OverlayTrigger placement="top" overlay={<Tooltip>Vote Skip!</Tooltip>}>
+                    <Button variant="dark" size="lg" className={styles.voteSkip} onClick={handleVoteSkip} active>
+                        <FaStepForward />
+                    </Button>
+                </OverlayTrigger>
             </Container>
         </>
     );
