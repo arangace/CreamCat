@@ -1,103 +1,91 @@
 import React, { useState, useContext } from "react";
-import { Badge, Button, Card } from "react-bootstrap";
+import { Badge, Button, Container, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { AppContext } from '../AppContextProvider';
+import { AppContext } from "../AppContextProvider";
+import "./styles.css";
 
 export default function CreateRoomPage() {
+    const { createRoom } = useContext(AppContext);
 
-    const { createRoom } = useContext( AppContext );
+    const [roomNameInput, setRoomNameInput] = useState("");
+    const [roomDescInput, setRoomDescInput] = useState("");
+    const [passwordInput, setPasswordInput] = useState("");
 
     const [message, setMessage] = useState("");
 
     const history = useHistory();
 
-    const handleChange = (e) => {
-        const { id, value } = e.target;
-        setNewRoom((prevState) => ({
-            ...prevState,
-            [id]: value,
-        }));
-    };
+    async function handleCreateRoom() {
+        console.log(roomNameInput);
+        console.log(roomDescInput);
+        console.log(passwordInput);
 
-    const [newRoom, setNewRoom] = useState({
-        name: "",
-        description: "",
-        password: "",
-    });
+        const sessionData = {
+            name: roomNameInput,
+            description: roomDescInput,
+            password: passwordInput,
+        };
 
-    const handleCreateRoom =  async (e) => {
-        if(newRoom.name){
-            await createRoom(newRoom);
+        console.log("submitting info...");
+        console.log(sessionData);
+        if (sessionData.name) {
+            await createRoom(sessionData);
             history.replace(`/Room`);
-        }
-        else{
+        } else {
             setMessage("Room name is required!");
         }
-    };
+    }
 
     return (
         <>
-            <div className="Room2">
-                <Card className="bg-secondary text-white">
+            <div className="CreateRoom">
+                <Container className="bg-secondary text-white">
                     <Badge variant="dark" className="room-centered">
                         <h1>CreamCat</h1>
                     </Badge>
-                    <div className="card col-lg-4 mt-2 input-form">
-                        <form>
-                            <div>
-                                <label className="black-title">Room Name</label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    className="form-control pad-bot"
-                                    value={newRoom.name}
-                                    onChange={handleChange}
+                    <h1 className="centered">Create Room</h1>
+                    <div className="create-room-page ">
+                        <Form>
+                            <Form.Group controlId="roomName">
+                                <Form.Label>Room Name</Form.Label>
+                                <Form.Control
+                                    onInput={(e) =>
+                                        setRoomNameInput(e.target.value)
+                                    }
                                     placeholder="Enter room name"
                                 />
-                            </div>
-                            <div>
-                                <label className="black-title">
-                                    Description(Optional)
-                                </label>
-                                <input
-                                    type="text"
-                                    id="description"
-                                    className="form-control pad-bot"
-                                    value={newRoom.description}
-                                    onChange={handleChange}
+                            </Form.Group>
+                            <Form.Group controlId="roomDescription">
+                                <Form.Label>Description (Optional)</Form.Label>
+                                <Form.Control
+                                    onInput={(e) =>
+                                        setRoomDescInput(e.target.value)
+                                    }
                                     placeholder="Enter description"
                                 />
-                            </div>
-                            <div>
-                                <label className="black-title">Password(Optional)</label>
-                                <input
-                                    type="password"
-                                    className="form-control pad-bot"
-                                    id="password"
-                                    value={newRoom.password}
-                                    onChange={handleChange}
+                            </Form.Group>
+                            <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Password (Optional)</Form.Label>
+                                <Form.Control
+                                    onInput={(e) =>
+                                        setPasswordInput(e.target.value)
+                                    }
                                     placeholder="Enter password"
                                 />
-                            </div>
-                            <div
-                                type="submit"
-                                className="landing-page-route create-room-button"
+                            </Form.Group>
+                            <Button
+                                variant="dark"
+                                type="button"
+                                onClick={handleCreateRoom}
                             >
-                                <Button
-                                    variant="dark"
-                                    block="true"
-                                    size="lg"
-                                    onClick={handleCreateRoom}
-                                >
-                                    Create Room
-                                </Button>
-                            </div>
+                                Create Room
+                            </Button>
                             <div>
-                                <span style={{color: 'red'}}>{message}</span>
+                                <span style={{ color: "red" }}>{message}</span>
                             </div>
-                        </form>
+                        </Form>
                     </div>
-                </Card>
+                </Container>
             </div>
         </>
     );
