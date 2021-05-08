@@ -29,7 +29,7 @@ export default function Body() {
                                         size="lg"
                                         href="RoomPage"
                                     >
-                                        Login
+                                        Start
                                     </Button>
                                 </p>
                             </div>
