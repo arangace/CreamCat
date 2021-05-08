@@ -36,6 +36,33 @@ Deployment from command line:
 NOTES:
 Youtube search requires a key to search which is limited to 100 searches a day. The current key is located in the youtubeSearch.js and if more searches are required, a google dvelop account should be made.
 
+FEATURES:
+- Ability to create and join rooms for listening
+- Private rooms with the application of a password
+- Persist rooms for an hour if inactive
+- Songs and rooms deleted when inactive for storage
+- Users can join rooms and syncs the player
+- Player syncs dynamically to where the song is at 
+- Volume changed locally
+- Vote skip song
+- Add song through search bar
+- Song info shown on bottom left
+- Dynamic duration bar
+- Ability to rejoin room through the navigation bar
+- Ease of use
+   - Join room by clicking the room name
+   - Leave room button next to the room name
+   - Copies room ID upon clicking the room ID
+   - Hover tooltips for copying room ID and vote skip
+   - Confirmation message for when a song is added
+   - Vote message popup which dynamically shows how many votes
+   - Duration bar and duration times displayed
+   - Change volume dynamically per client (defaults at 30% for softer listeners)
+   - Current song playing is highlighted
+   - Messages displayed when queue empty
+
+TESTING:
+
 WARNINGS:
 Known errors: 
 
