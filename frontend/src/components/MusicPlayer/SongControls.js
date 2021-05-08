@@ -15,7 +15,6 @@ export default function SongControls() {
     } = useContext(AppContext);
 
     const [playButtonText, setPlayButtonText] = useState(<FaPause />);
-    console.log(`songControls voteSkip = ${voteSkip}`);
 
     function handleVoteSkip() {
         if (currentSong) {
