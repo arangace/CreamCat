@@ -44,3 +44,7 @@ export async function updateSong(song) {
 export async function deleteSong(songid) {
     return await Song.deleteOne({_id:songid});
 }
+
+export async function deleteSongs(roomID) {
+    return await Song.deleteMany({ roomID: roomID});
+}
