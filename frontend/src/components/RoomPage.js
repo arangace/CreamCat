@@ -8,29 +8,27 @@ export default function RoomPage() {
                     <Badge variant="dark" className="room-centered">
                         <h1>CreamCat</h1>
                     </Badge>
-                    <Card.Text>
-                        <div className="landing-page-route">
-                            <p className="centered">
-                                <Button
-                                    variant="dark"
-                                    block="true"
-                                    size="lg"
-                                    href="JoinRoom"
-                                >
-                                    Join Room
-                                </Button>
-                            </p>
-                            <p className="centered">
-                                <Button
-                                    variant="dark"
-                                    block="true"
-                                    size="lg"
-                                    href="CreateRoom"
-                                >
-                                    Create Room
-                                </Button>
-                            </p>
-                        </div>
+                    <Card.Text className="landing-page-route">
+                        <Button
+                            className="centered"
+                            variant="dark"
+                            block="true"
+                            size="lg"
+                            href="JoinRoom"
+                        >
+                            Join Room
+                        </Button>
+
+                        <Button
+                            className="centered"
+                            variant="dark"
+                            block="true"
+                            size="lg"
+                            href="CreateRoom"
+                        >
+                            Create Room
+                        </Button>
+                        <br />
                     </Card.Text>
                 </Card>
             </div>

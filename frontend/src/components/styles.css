@@ -39,6 +39,12 @@
   margin-left: 15%;
   margin-right: 15%;
 }
+.CreateRoom {
+  margin-top: 5%;
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+}
 .room-centered {
   margin-left: 25%;
   margin-right: 25%;
@@ -56,13 +62,6 @@
   align-self: center;
 }
 
-.Room2 {
-  margin-top: 5%;
-  width: 70%;
-  margin-left: 15%;
-  margin-right: 15%;
-}
-
 .black-title {
   color: black;
   font-size: 1.5em;
@@ -72,6 +71,13 @@
 }
 
 .join-room-page {
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 40%;
+  height: 400px;
+}
+
+.create-room-page {
   margin-left: 30%;
   margin-right: 30%;
   width: 40%;
