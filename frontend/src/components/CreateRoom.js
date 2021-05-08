@@ -77,6 +77,7 @@ export default function CreateRoomPage() {
                                 variant="dark"
                                 type="button"
                                 onClick={handleCreateRoom}
+                                data-testid='create'
                             >
                                 Create Room
                             </Button>

@@ -22,8 +22,10 @@ it('handles adding to form and sending data on button click', async() =>{
     const pass = screen.getByPlaceholderText('Enter password');
     userEvent.type(pass, 'Test password')
 
-    const createButton = screen.getByText('Create Room');
+    act(()=>{
+    const createButton = screen.getByTestId('create');
     fireEvent.click(createButton);
+    })
 
     expect(dummyCreateRoom).toHaveBeenCalledTimes(1);
     const room = dummyCreateRoom.mock.calls[0][0];
