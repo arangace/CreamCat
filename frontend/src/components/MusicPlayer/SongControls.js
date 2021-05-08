@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Button, Container, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, Container, OverlayTrigger, Tooltip, Alert } from "react-bootstrap";
 import { FaStepBackward, FaPlay, FaPause, FaStepForward } from "react-icons/fa";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./SongControls.module.css";
@@ -51,11 +51,9 @@ export default function SongControls() {
                 <Button variant="outline-light" size="lg" className={styles.playBtn} disabled>
                     {playButtonText}
                 </Button>{" "}
-                <OverlayTrigger placement="top" overlay={<Tooltip>Vote Skip</Tooltip>}>
-                    <Button variant="dark" size="lg" className={styles.voteSkip} onClick={handleVoteSkip}>
-                        <FaStepForward />
-                    </Button>
-                </OverlayTrigger>
+                <Button variant="dark" size="lg" className={styles.voteSkip} onClick={handleVoteSkip} active>
+                    <FaStepForward />
+                </Button>
             </Container>
         </>
     );
