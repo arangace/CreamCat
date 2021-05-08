@@ -104,7 +104,7 @@ export default function SearchBar() {
                     />
 
                     <Button
-                        variant="outline-info"
+                        variant="outline-light"
                         onClick={handleSubmit}
                     >
                         Search
@@ -123,7 +123,7 @@ export default function SearchBar() {
                         <br></br>
                         {searchResults.map((data, index) => (
                             <li key={index} className={"search-list-item"}>
-                                <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-info">Add Song</Button>
+                                <Button key={index} data-index={index} onClick={addSong} className="button" variant="outline-dark">Add Song</Button>
                                 &emsp; {removeSpecialChar(data.snippet.title)}, https://www.youtube.com/watch?v={data.id.videoId}
                             </li>
                         )

@@ -20,3 +20,8 @@
 .highlight {
   background-color: yellow;
 }
+.voteOverlay {
+  margin-top: -30px;
+  width: 250px;
+  position: fixed;
+}

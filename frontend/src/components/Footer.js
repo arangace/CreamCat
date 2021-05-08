@@ -6,14 +6,20 @@ export default function Footer() {
         <>
             <div className="footer">
                 <CardGroup>
-
                     <Card bg="dark" text="white">
                         <Card.Body>
                             <Card.Title>About</Card.Title>
                             <Card.Text>
-                                <p>This project is the culmination of the work done by team CreamCat for SOFTENG750/COMPSCI732 at the University of Auckland consisting of four members
+                                <p>
+                                    This project is the culmination of the work
+                                    done by team CreamCat for
+                                    SOFTENG750/COMPSCI732 at the University of
+                                    Auckland consisting of four members
                                 </p>
-                                <p>The application is developed using a MERN stack</p>
+                                <p>
+                                    The application is developed using a MERN
+                                    stack
+                                </p>
                             </Card.Text>
                         </Card.Body>
                     </Card>
@@ -21,8 +27,12 @@ export default function Footer() {
                         <Card.Body>
                             <Card.Title>Support</Card.Title>
                             <Card.Text>
-                                Questions, issues or bugs should be referenced towards the github link provided.
-<p><a href="https://github.com/arangace/CreamCat">https://github.com/arangace/CreamCat</a></p>
+                                Questions, issues or bugs should be referenced
+                                towards the github link provided.
+                                <br />
+                                <a href="https://github.com/arangace/CreamCat">
+                                    https://github.com/arangace/CreamCat
+                                </a>
                             </Card.Text>
                         </Card.Body>
                     </Card>
