@@ -17,28 +17,8 @@ export async function retrieveSong(songid) {
 }
 
 export async function updateSong(song) {
-    const dbSong = await Song.findById(song._id);
-    if(dbSong) {
-        if(song.roomID){
-            dbSong.roomID = song.roomID;
-        }
-        if(song.title){
-            dbSong.title = song.title;
-        }
-        if(song.content){
-            dbSong.content = song.content;
-        }
-        
-        dbSong.image = song.image;
-        dbSong.description = song.description;
-        dbSong.publishTime = song.publishTime;
-        dbSong.channelTitle = song.channelTitle;
-        dbSong.source = song.source;
-
-        await dbSong.save();
-        return true;
-    }
-    return false;
+    const result = await Song.findByIdAndUpdate(song._id, song, { new: true, useFindAndModify: false });
+    return(result ? true : false);
 }
 
 export async function deleteSong(songid) {
