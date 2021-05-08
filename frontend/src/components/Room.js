@@ -18,6 +18,7 @@ export default function Room() {
         setVotingFor,
         setElapsedTime,
         setLatency,
+        currentSong
     } = useContext(AppContext);
 
     const history = useHistory();
@@ -76,6 +77,10 @@ export default function Room() {
                     );
                 }
             );
+
+            socket.on("Vote passed", (song) => {
+                socket.emit("Song ended", song);
+            });
 
             function ping(pingInterval) {
                 let pingStart;
