@@ -158,9 +158,14 @@ export default function Room() {
             <>
 
                 <div className="temp-gap"></div>
-                <div className="dark-mode">
-                    <MusicPlayer />
+                <div className="musicPlayer-dark-mode">
                 </div>
+                <div className="dark-mode">
+
+                    <MusicPlayer />
+
+                </div>
+
             </>
         );
     }

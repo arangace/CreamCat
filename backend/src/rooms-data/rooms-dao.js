@@ -21,6 +21,6 @@ export async function deleteRoom(id) {
     await Room.deleteOne({_id:id});
 }
 
-export async function deleteStaleRooms(time) {
-    return await Room.deleteMany({ lastActive: {$lte: time}});
+export async function retrieveStaleRooms(time) {
+    return await Room.find({ lastActive: {$lte: time}});
 }

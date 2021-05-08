@@ -18,10 +18,16 @@ app.use('/', routes);
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
 
 async function clearStaleRoom(){
-    const {deletedCount} = await deleteStaleRooms(dayjs().add(-1, 'hour'));
-    if (deletedCount) {
-        console.log(`[${dayjs().format(`HH:mm:ss`)}] Removed ${deletedCount} expired rooms`);
+    const roomsToBeDeleted = await retrieveStaleRooms(dayjs().add(-1, 'hour'));
+    if(roomsToBeDeleted){
+        roomsToBeDeleted.forEach( async room => {
+            await deleteSongs(room._id);
+            await deleteRoom(room._id);
+        });
     }
+    // if (deletedCount) {
+    //     console.log(`[${dayjs().format(`HH:mm:ss`)}] Removed ${deletedCount} expired rooms`);
+    // }
     
     // console.log(dayjs().add(-1, 'hour').format('YYYY-MM-DD HH:mm:ss'));
     // const time1 = dayjs('2021-05-05');
@@ -30,7 +36,7 @@ async function clearStaleRoom(){
     // console.log(diff);
 }
 
-setInterval(clearStaleRoom, 1000);
+setInterval(clearStaleRoom, 60000);
 
 // When running in production mode
 if (process.env.NODE_ENV === 'production') {
@@ -50,7 +56,8 @@ import http from 'http';
 import socketIo from 'socket.io';
 import onConnection from './socket-io/socket-api';
 import createSocketIoConnection from './socket-io/socket-api';
-import { deleteStaleRooms } from './rooms-data/rooms-dao';
+import { deleteRoom, retrieveStaleRooms } from './rooms-data/rooms-dao';
+import { deleteSongs } from './rooms-data/songs-dao';
 const server = http.createServer(app);
 const io = createSocketIoConnection(server);
 app.set('socketio', io);

@@ -52,8 +52,14 @@ export default function Playbar() {
         //const response = await axios.post('http://localhost:3000/api/room/start/', currentSong);
         //const elapsedTime = response.data;
         console.log(`Setting song progress to ${elapsedTime}`)
-        player.seekTo(elapsedTime);
-        setElapsedTime(0);
+        if (elapsedTime > songLength) {
+            setElapsedTime(0);
+            socket.emit("Song ended", currentSong);
+        }
+        else {
+            player.seekTo(elapsedTime);
+            setElapsedTime(0);
+        }
     }
 
     return (
@@ -77,30 +83,35 @@ export default function Playbar() {
                 width="0"
             />
             <Container fluid className={styles.playbar}>
-                <ProgressBar className={styles.progressBar} now={duration} min="0" max={songLength} />
-                <div className={styles.durationTime}>
-                    <Badge pill variant="secondary" >{new Date(duration.toFixed(1) * 1000).toISOString().substr(14, 5)}</Badge>
-                </div>
-                <div className={styles.songLengthTime}>
-                    <Badge pill variant="secondary" >{new Date(songLength.toFixed(1) * 1000).toISOString().substr(14, 5)}</Badge>
+                <div>
+                    <ProgressBar className={styles.progressBar} now={duration} min="0" max={songLength} />
+                    <div className={styles.durationTime}>
+                        <Badge pill variant="secondary" >{new Date(duration.toFixed(1) * 1000).toISOString().substr(14, 5)}</Badge>
+                    </div>
+                    <div className={styles.songLengthTime}>
+                        <Badge pill variant="secondary" >{new Date(songLength.toFixed(1) * 1000).toISOString().substr(14, 5)}</Badge>
+                    </div>
                 </div>
                 <Container fluid className={styles.playbarContainer}>
+                    <SongControls className={styles.songControls} />
                     <div className={styles.songInfo}>
                         <SongInfo />
                     </div>
-                    <SongControls className={styles.songControls} />
-                    <Container className={styles.volumeControls}>
 
-                        <input
-                            type="range"
-                            min={0}
-                            max={1}
-                            step={0.02}
-                            value={volume}
-                            onChange={(event) => {
-                                setVolume(event.target.valueAsNumber);
-                            }}
-                        />
+                    <Container className={styles.volumeControls}>
+                        <div className={styles.volumeSlider}>
+                            <input
+                                type="range"
+                                min={0}
+                                max={1}
+                                step={0.02}
+                                value={volume}
+                                onChange={(event) => {
+                                    setVolume(event.target.valueAsNumber);
+                                }}
+
+                            />
+                        </div>
                     </Container>
                 </Container>
             </Container>
