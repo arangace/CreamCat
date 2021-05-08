@@ -14,7 +14,7 @@ export default function Playbar() {
     const [songLength, setSongLength] = useState(0);
     const [volume, setVolume] = useState(0.3);
     const [player, setPlayer] = useState();
-
+    const playbarRenderTime = 500;
     const ref = player => { setPlayer(player) }
 
     const { socket, currentSong, key, playing, setPlaying, elapsedTime, setElapsedTime } = useContext(
@@ -68,7 +68,7 @@ export default function Playbar() {
                 ref={ref}
                 url={currentSongContext()}
                 onProgress={(e) => handleOnProgress(e)}
-                progressInterval="50"
+                progressInterval={playbarRenderTime}
                 onReady={() => {
                     setPlaying(true);
                     // player.seekTo(2);

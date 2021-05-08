@@ -17,16 +17,18 @@ export default function MusicPlayer() {
             return voteTypes.map((voteType, index) => {
                 const voteCount = votingFor[voteType];
                 return (
-                    <Alert variant="dark">
-                        <Alert.Heading>
-                            Vote {voteType}: {voteCount}/{userCount}
-                        </Alert.Heading>
-                        <p>
-                            {getVoteState(voteType)
-                                ? "You have voted yes."
-                                : "You have not voted."}
-                        </p>
-                    </Alert>
+                    <div className={styles.voteOverlay}>
+                        <Alert variant="dark">
+                            <Alert.Heading>
+                                Vote {voteType}: {voteCount}/{userCount}
+                            </Alert.Heading>
+                            <p>
+                                {getVoteState(voteType)
+                                    ? "You have voted yes."
+                                    : "You have not voted."}
+                            </p>
+                        </Alert>
+                    </div>
                 );
             });
         } else {
@@ -36,11 +38,13 @@ export default function MusicPlayer() {
     function NoCurrentSongAlert() {
         if (displayNoCurrentSongAlert) {
             return (
-                <Alert variant="dark">
-                    <Alert.Heading>
-                         Please add a song before starting a vote.
+                <div className={styles.voteOverlay}>
+                    <Alert variant="dark">
+                        <Alert.Heading>
+                            Please add a song before starting a vote.
                     </Alert.Heading>
-                </Alert>
+                    </Alert>
+                </div>
             );
         } else {
             return null;
