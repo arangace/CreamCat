@@ -22,7 +22,7 @@ beforeAll(async done => {
 
 });
 
-afterAll(async done => {
+afterAll( done => {
     server.close(async () => {
         await mongoose.disconnect();
         await mongod.stop();
