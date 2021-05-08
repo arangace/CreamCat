@@ -16,10 +16,10 @@ function AppContextProvider({ children }) {
     const [socket, setSocket] = useState();
     const [key, setKey] = useState(0);
 
-    const [voting, setVoting] = useState(false);
-    const [voteCount, setVoteCount] = useState(0);
     const [userCount, setUserCount] = useState(0);
     const [voteSkip, setVoteSkip] = useState(false);
+    const [votingFor, setVotingFor] = useState({});
+    const [displayNoCurrentSongAlert, setDisplayNoCurrentSongAlert] = useState(false);
 
     const [elapsedTime, setElapsedTime] = useState(0);
     const [latency, setLatency] = useState(0);
@@ -51,27 +51,76 @@ function AppContextProvider({ children }) {
         }
     }
 
+    function resetVoteState(voteType) {
+        // voteType: skip, play, pause
+        switch (voteType) {
+            case "skip":
+                setVoteSkip(false);
+                break;
+            case "play":
+                //setVotePlay(false);
+                break;
+            case "pause":
+                //setVotePause(false);
+                break;
+            default:
+                console.log(`Unhandled voteType`);
+        }
+    }
+
+    function getVoteState(voteType) {
+        // voteType: skip, play, pause
+        switch (voteType) {
+            case "skip":
+                return voteSkip;
+            case "play":
+                //return votePlay;
+                break;
+            case "pause":
+                //return votePause;
+                break;
+            default:
+                console.log(`Unhandled voteType`);
+        }
+    }
+
     // The context value that will be supplied to any descendants of this component.
     const context = {
-        currentRoom, setCurrentRoom,
-        playlist, setPlaylist,
-        playing, setPlaying,
-        currentSong, setCurrentSong,
+        currentRoom,
+        setCurrentRoom,
+        playlist,
+        setPlaylist,
+        playing,
+        setPlaying,
+        currentSong,
+        setCurrentSong,
 
-        version, setVersion,
-        socket, setSocket,    
-        key, setKey,
-        
-        voting, setVoting,
-        voteCount, setVoteCount,
-        userCount, setUserCount,
-        voteSkip, setVoteSkip,
+        version,
+        setVersion,
+        socket,
+        setSocket,
+        key,
+        setKey,
 
-        elapsedTime, setElapsedTime,
-        latency, setLatency,
+        userCount,
+        setUserCount,
+        voteSkip,
+        setVoteSkip,
+        votingFor,
+        setVotingFor,
+        displayNoCurrentSongAlert,
+        setDisplayNoCurrentSongAlert, 
+
+        elapsedTime,
+        setElapsedTime,
+        latency,
+        setLatency,
 
         createRoom,
         joinRoom,
+        resetVoteState,
+        getVoteState,
+        
     };
 
     // Wraps the given child components in a Provider for the above context.

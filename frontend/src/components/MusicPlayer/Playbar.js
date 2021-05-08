@@ -52,8 +52,14 @@ export default function Playbar() {
         //const response = await axios.post('http://localhost:3000/api/room/start/', currentSong);
         //const elapsedTime = response.data;
         console.log(`Setting song progress to ${elapsedTime}`)
-        player.seekTo(elapsedTime);
-        setElapsedTime(0);
+        if (elapsedTime > songLength) {
+            setElapsedTime(0);
+            socket.emit("Song ended", currentSong);
+        }
+        else {
+            player.seekTo(elapsedTime);
+            setElapsedTime(0);
+        }
     }
 
     return (
