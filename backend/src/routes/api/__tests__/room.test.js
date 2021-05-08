@@ -5,7 +5,6 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import express from 'express';
 import axios from 'axios';
 import { Room } from '../../../rooms-data/rooms-schema';
-import dayjs from 'dayjs';
 
 let mongod, app, server;
 let room1, room2, room3, room4;
@@ -23,11 +22,10 @@ beforeAll(async done => {
 
 });
 
-afterAll(done => {
+afterAll(async done => {
     server.close(async () => {
         await mongoose.disconnect();
         await mongod.stop();
-
         done();
     });
 });
