@@ -36,7 +36,7 @@ router.post('/add/', async (req, res) => {
 
                     // broadcast new song
                     console.log(`\n Broadcasting new song...`);
-                    io.emit("Add song", newSong);
+                    io.sockets.in(req.body.roomID).emit("Add song", newSong);
 
                 }
                 else{
