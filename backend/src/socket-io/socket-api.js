@@ -80,6 +80,7 @@ export default function createSocketIoConnection(server) {
         // Listen to disconnect events
         socket.on("disconnect", () => onDisconnect(roomID));
 
+        // Callback function for song start events
         async function onSongStart(song) {
             try {
                 const roomToUpdate = await retrieveRoom(song.roomID);
@@ -185,7 +186,7 @@ export default function createSocketIoConnection(server) {
                             if (voteIsSuccessful(userCount, voteCount)) {
                                 action = "passed";
                                 // remove voteType from votedFor on a successful vote
-                                changeVotes(votedFor, voteType, false);                               
+                                changeVotes(votedFor, voteType, false);
                             }
                             voteTimeout(
                                 roomID,
@@ -203,7 +204,7 @@ export default function createSocketIoConnection(server) {
                     } else {
                         // Update vote if room is voting skip
                         action = "update";
-                        // Add/remove voteType to votedFor array if voted is true/falss
+                        // Add/remove voteType to votedFor array if voted is true/false
                         if (vote) {
                             changeVotes(votedFor, voteType, vote);
                             // Increment voting.skip on a "for" vote
@@ -229,9 +230,8 @@ export default function createSocketIoConnection(server) {
                         voteType: voteType,
                         voteCount: voteCount,
                         userCount: userCount,
-                        song: song
+                        song: song,
                     };
-                    console.log(payload);
 
                     // Room object with updated voting.skip
                     newRoom = {
@@ -258,7 +258,7 @@ export default function createSocketIoConnection(server) {
             }
 
             function voteIsSuccessful(userCount, voteCount) {
-                // vote success conditions
+                // Vote success conditions
                 // Over 75% users vote for
                 if (voteCount > userCount * 0.75) {
                     console.log(`Vote passed: ${voteCount}/${userCount}`);
@@ -272,8 +272,8 @@ export default function createSocketIoConnection(server) {
         // Callback function for disconnect events
         async function onDisconnect(roomID) {
             console.log("Client disconnected");
-            // Decrement room userCount
             try {
+                // Decrement room userCount
                 const roomToUpdate = await retrieveRoom(roomID);
                 const userCount = roomToUpdate.userCount;
                 const newUserCount = userCount - 1;
@@ -294,8 +294,6 @@ export default function createSocketIoConnection(server) {
                     newRoom.voting[voteType].count = newVoteCount;
                 });
 
-                console.log(newRoom);
-
                 await updateRoom(newRoom);
                 io.sockets.in(roomID).emit("Update userCount", newUserCount);
                 console.log(`Update successful. userCount: ${newUserCount}`);
@@ -308,13 +306,14 @@ export default function createSocketIoConnection(server) {
             }
         }
 
+        // Timeout timer called at the beginning of a start vote event
         function voteTimeout(roomID, timeout, voteType, voteCount, userCount) {
             setTimeout(async () => {
                 const votingRoom = await retrieveRoom(roomID);
                 const { voting } = votingRoom;
                 if (voting[voteType].count > 0) {
                     const lastPassed = voting[voteType].lastPassed;
-                    // Fail code if
+                    // Fail condition
                     if (
                         lastPassed == null ||
                         lastPassed.isBefore(
@@ -347,6 +346,7 @@ export default function createSocketIoConnection(server) {
             }, timeout);
         }
 
+        // Helper function to add/remove voteType from the votedFor list
         function changeVotes(votedFor, voteType, vote) {
             if (vote) {
                 //  Add voteType to array if voteType not in votedFor array
@@ -360,7 +360,6 @@ export default function createSocketIoConnection(server) {
                     votedFor.splice(index, 1);
                 }
             }
-            console.log(votedFor);
         }
     }
 }

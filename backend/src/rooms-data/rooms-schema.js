@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
+// MongoDB room schema definition
 const roomSchema = new Schema(
     {
         name: { type: String, required: true },
@@ -24,8 +25,7 @@ const roomSchema = new Schema(
             },
         },
         startTime: Date,
-        endTime: Date
-
+        endTime: Date,
     },
     {
         timestamps: {},

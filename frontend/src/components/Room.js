@@ -1,10 +1,10 @@
-import "react-bootstrap";
-import { io } from "socket.io-client";
+import dayjs from "dayjs";
 import { useContext, useEffect } from "react";
+import "react-bootstrap";
+import { useHistory } from "react-router";
+import { io } from "socket.io-client";
 import { AppContext } from "../AppContextProvider";
 import MusicPlayer from "./MusicPlayer";
-import dayjs from "dayjs";
-import { useHistory } from "react-router";
 
 export default function Room() {
     // TODO: add state for userCount in AppContext
@@ -39,23 +39,19 @@ export default function Room() {
             //ping(2000);
 
             socket.on("Connected", () => {
-                console.log(`connected`);
                 setSocket(socket);
             });
             socket.on("Update userCount", (userCount) => {
-                console.log(`User count updated -> ${userCount}`);
                 setUserCount(userCount);
             });
             socket.on("Add song", () => addSongCallback());
 
             socket.on("Refetch", () => {
-                console.log(`Refetch called by API`);
                 setVersion((v) => !v);
                 setKey((k) => k + 1);
             });
 
             socket.on("Vote", (response) => {
-                console.log(response);
                 voteCallback(response);
             });
 
@@ -69,29 +65,8 @@ export default function Room() {
                             : elapsedTime +
                                   dayjs().diff(emitTime, "milliseconds") / 1000
                     );
-                    console.log(
-                        `Receiving elapsed time: ${
-                            elapsedTime +
-                            dayjs().diff(emitTime, "milliseconds") / 1000
-                        }`
-                    );
                 }
             );
-
-
-            function ping(pingInterval) {
-                let pingStart;
-                setInterval(() => {
-                    pingStart = dayjs();
-                    socket.emit("Ping");
-                }, pingInterval);
-
-                socket.on("Pong", () => {
-                    const latency = dayjs().diff(pingStart, "milliseconds") / 2;
-                    console.log(latency);
-                    setLatency(latency);
-                });
-            }
 
             function voteCallback(response) {
                 const { action, voteType, voteCount, song } = response;
@@ -102,7 +77,6 @@ export default function Room() {
                         setVotingFor((vf) => {
                             const votingFor = {...vf};
                             votingFor[voteType] = voteCount;
-                            console.log(votingFor)
                             return votingFor;
                         });
                         break;
@@ -111,7 +85,6 @@ export default function Room() {
                         setVotingFor((vf) => {
                             const votingFor = {...vf};
                             votingFor[voteType] = voteCount;
-                            console.log(votingFor);
                             return votingFor;
                         });
                         break;
@@ -122,7 +95,6 @@ export default function Room() {
                         setVotingFor((vf) => {
                             const votingFor = {...vf};
                             delete votingFor[voteType];
-                            console.log(votingFor);
                             return votingFor;
                         });
                         break;
@@ -135,7 +107,6 @@ export default function Room() {
                         setVotingFor((vf) => {
                             const votingFor = {...vf};
                             delete votingFor[voteType];
-                            console.log(votingFor);
                             return votingFor;
                         });
                         break;
@@ -148,8 +119,6 @@ export default function Room() {
     }, []);
 
     function addSongCallback() {
-        console.log(`New song message received from socket...`);
-
         setVersion((v) => !v);
     }
 

@@ -1,7 +1,5 @@
 import { Song } from "./songs-schema";
 
-
-
 export async function addSong(song) {
     const dbSong = new Song(song);
     await dbSong.save();
@@ -9,7 +7,7 @@ export async function addSong(song) {
 }
 
 export async function retrieveAllSongs(roomID) {
-    return await Song.find({ roomID: `${roomID}`});
+    return await Song.find({ roomID: `${roomID}` });
 }
 
 export async function retrieveSong(songid) {
@@ -17,14 +15,17 @@ export async function retrieveSong(songid) {
 }
 
 export async function updateSong(song) {
-    const result = await Song.findByIdAndUpdate(song._id, song, { new: true, useFindAndModify: false });
-    return(result ? true : false);
+    const result = await Song.findByIdAndUpdate(song._id, song, {
+        new: true,
+        useFindAndModify: false,
+    });
+    return result ? true : false;
 }
 
 export async function deleteSong(songid) {
-    return await Song.deleteOne({_id:songid});
+    return await Song.deleteOne({ _id: songid });
 }
 
 export async function deleteSongs(roomID) {
-    return await Song.deleteMany({ roomID: roomID});
+    return await Song.deleteMany({ roomID: roomID });
 }
