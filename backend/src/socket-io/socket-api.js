@@ -59,7 +59,7 @@ export default function createSocketIoConnection(server) {
                     });
                 }
                 // Update userCount
-                io.emit("Update userCount", newUserCount);
+                io.sockets.in(roomID).emit("Update userCount", newUserCount);
             }
         } catch (err) {
             console.log(`Failed to update room`);
@@ -125,7 +125,7 @@ export default function createSocketIoConnection(server) {
                                 `HH:mm:ss`
                             )}] Broadcasting refetch`
                         );
-                        io.emit("Refetch");
+                        io.sockets.in(song.roomID).emit("Refetch");
                         if (roomToUpdate.endTime < roomToUpdate.startTime) {
                             console.log(
                                 `[${dayjs().format(
@@ -250,7 +250,7 @@ export default function createSocketIoConnection(server) {
                     await updateRoom(newRoom);
                     console.log(`Update successful`);
 
-                    io.emit("Vote", payload);
+                    io.sockets.in(roomID).emit("Vote", payload);
                 }
             } catch (err) {
                 console.log(`Failed to update room`);
@@ -295,7 +295,7 @@ export default function createSocketIoConnection(server) {
                 });
 
                 await updateRoom(newRoom);
-                io.emit("Update userCount", newUserCount);
+                io.sockets.in(roomID).emit("Update userCount", newUserCount);
                 console.log(`Update successful. userCount: ${newUserCount}`);
                 if (newUserCount < 1) {
                     console.log(`Room ${roomID} is inactive`);
@@ -338,7 +338,7 @@ export default function createSocketIoConnection(server) {
 
                         await updateRoom(newRoom);
                         console.log(`Update successful`);
-                        io.emit("Vote", payload);
+                        io.sockets.in(roomID).emit("Vote", payload);
                     }
                 } else {
                     console.log(`Vote succeeded. Timeout cancelled.`);

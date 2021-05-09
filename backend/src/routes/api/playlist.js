@@ -35,8 +35,11 @@ router.post("/add/", async (req, res) => {
 
                     // broadcast new song
                     console.log(`\n Broadcasting new song...`);
-                    io.emit("Add song", newSong);
-                } else {
+
+                    io.sockets.in(req.body.roomID).emit("Add song", newSong);
+
+                }
+                else{
                     res.sendStatus(HTTP_BAD_REQUEST);
                 }
             } else {
