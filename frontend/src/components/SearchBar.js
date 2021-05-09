@@ -1,10 +1,10 @@
-import youtube from './youtubeSearch'
-import React, { useContext, useState, useEffect } from 'react'
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Form, FormControl } from "react-bootstrap";
 import Modal from 'react-modal';
-import { Form, FormControl, Button, Alert } from "react-bootstrap";
-import { AppContext } from '../AppContextProvider'
-import axios from 'axios'
-import './SearchBar.css'
+import { AppContext } from '../AppContextProvider';
+import './SearchBar.css';
+import youtube from './youtubeSearch';
 
 
 if (process.env.NODE_ENV !== 'test') {Modal.setAppElement('#root')};
@@ -20,7 +20,7 @@ export default function SearchBar() {
     const [addedSongTitle, setAddedSongTitle] = useState();
     const [modalIsOpen, setIsOpen] = useState(false);
 
-
+    //adds seached song to database
     const addSong = (e) => {
         setShow(true);
         const index = e.target.getAttribute("data-index")
@@ -31,10 +31,10 @@ export default function SearchBar() {
             content: "https://www.youtube.com/watch?v=" + searchResults[index].id.videoId
         }
         setAddedSongTitle((songToAdd.title));
-        console.log(songToAdd)
         axios.post('http://localhost:3000/api/Playlist/add/', songToAdd)
     };
 
+    //handles input into the form
     const handleChange = (e) => {
         const { id, value } = e.target;
         setSearchQuery((prevState) => ({
@@ -43,9 +43,9 @@ export default function SearchBar() {
         }));
     }
 
+    //when the submit button is pressed, the function will search youtube 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log("start")
         const term = searchQuery.search
         const response = await youtube.get('/search', {
             params: {
@@ -58,13 +58,13 @@ export default function SearchBar() {
 
     function openModal() {
         setIsOpen(true);
-        console.log('modal is open')
     }
 
     function closeModal() {
         setIsOpen(false);
     }
 
+    //refactors song title so it converts all xml special characters e.g. &amp to &
     function removeSpecialChar(title) {
         return (
             title.replace(/&apos;/g, "'")
