@@ -10,16 +10,12 @@ export default function Footer() {
                         <Card.Body>
                             <Card.Title>About</Card.Title>
                             <Card.Text>
-                                <p>
-                                    This project is the culmination of the work
-                                    done by team CreamCat for
-                                    SOFTENG750/COMPSCI732 at the University of
-                                    Auckland consisting of four members
-                                </p>
-                                <p>
-                                    The application is developed using a MERN
-                                    stack
-                                </p>
+                                This project is the culmination of the work done
+                                by team CreamCat for SOFTENG750/COMPSCI732 at
+                                the University of Auckland consisting of four
+                                members
+                                <br />
+                                The application is developed using a MERN stack
                             </Card.Text>
                         </Card.Body>
                     </Card>

@@ -82,7 +82,7 @@ export default function Playbar() {
                 height="0"
                 width="0"
             />
-            <Container fluid className={styles.playbar}>
+            <Container fluid className={styles.playbar} data-testid='playbar'>
                 <div>
                     <ProgressBar className={styles.progressBar} now={duration} min="0" max={songLength} />
                     <div className={styles.durationTime}>

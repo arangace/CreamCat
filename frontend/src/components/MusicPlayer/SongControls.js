@@ -47,10 +47,10 @@ export default function SongControls() {
     return (
         <>
             <Container className={styles.songControls}>
-                <Button variant="outline-light" size="lg" className={styles.playBtn} disabled>
+                <Button variant="outline-light" size="lg" className={styles.playBtn} disabled data-testid='play'>
                     {playButtonText}
                 </Button>{" "}
-                <Button variant="dark" size="lg" className={styles.voteSkip} onClick={handleVoteSkip} active>
+                <Button variant="dark" size="lg" className={styles.voteSkip} onClick={handleVoteSkip} active data-testid='skip'>
                     <FaStepForward />
                 </Button>
             </Container>

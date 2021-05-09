@@ -6,7 +6,8 @@ import { AppContext } from '../AppContextProvider'
 import axios from 'axios'
 import './SearchBar.css'
 
-Modal.setAppElement('#root')
+
+if (process.env.NODE_ENV !== 'test') {Modal.setAppElement('#root')};
 
 export default function SearchBar() {
     const { currentRoom } = useContext(AppContext)
@@ -57,6 +58,7 @@ export default function SearchBar() {
 
     function openModal() {
         setIsOpen(true);
+        console.log('modal is open')
     }
 
     function closeModal() {
@@ -101,11 +103,13 @@ export default function SearchBar() {
                         value={searchQuery.term}
                         onChange={handleChange}
                         placeholder="Search"
+                        data-testid="form"
                     />
 
                     <Button
                         variant="outline-light"
                         onClick={handleSubmit}
+                        data-testid="searchButton"
                     >
                         Search
                     </Button>
@@ -117,6 +121,7 @@ export default function SearchBar() {
                     onRequestClose={closeModal}
                     contentLabel="Example Modal"
                     className="searchModal"
+                    data-testid="modal"
                 >
                     <button onClick={closeModal} className="close">X</button>
                     <div>

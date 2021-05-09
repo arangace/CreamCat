@@ -46,6 +46,7 @@ export default function JoinRoomPage() {
                     <Badge variant="dark" className="room-centered">
                         <h1>CreamCat</h1>
                     </Badge>
+
                     <h1 className="centered">Join Room</h1>
                     <div className="join-room-page ">
                         <Form>
