@@ -1,6 +1,7 @@
 import express from 'express';
+import connectToDatabase from './rooms-data/db-connect';
 import path from 'path';
-import mongoose from 'mongoose';
+import dayjs from 'dayjs';
 
 // Setup Express server
 const app = express();
@@ -11,11 +12,22 @@ app.use(express.json());
 
 // Setup routes
 import routes from './routes';
-import connectToDatabase from './rooms-data/db-connect';
 app.use('/', routes);
 
 // Make the "public" folder available statically
 app.use(express.static(path.join(__dirname, '../../frontend/public')));
+
+async function clearStaleRoom(){
+    const roomsToBeDeleted = await retrieveStaleRooms(dayjs().add(-1, 'hour'));
+    if(roomsToBeDeleted){
+        roomsToBeDeleted.forEach( async room => {
+            await deleteSongs(room._id);
+            await deleteRoom(room._id);
+        });
+    }
+}
+
+setInterval(clearStaleRoom, 60000);
 
 // When running in production mode
 if (process.env.NODE_ENV === 'production') {
@@ -30,7 +42,15 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
+// Setup socket.io server
+import http from 'http';
+import createSocketIoConnection from './socket-io/socket-api';
+import { deleteRoom, retrieveStaleRooms } from './rooms-data/rooms-dao';
+import { deleteSongs } from './rooms-data/songs-dao';
+const server = http.createServer(app);
+const io = createSocketIoConnection(server);
+app.set('socketio', io);
+
 // Start the DB running. Then, once it's connected, start the server.
 connectToDatabase()
-    .then(() => app.listen(port, () => console.log(`App server listening on port ${port}!`)));
-//app.listen(port, () => console.log(`App server listening on port ${port}!`));
+    .then(() => server.listen(port, () => console.log(`App server listening on port ${port}!`)));
