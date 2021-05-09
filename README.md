@@ -61,6 +61,8 @@ FEATURES:
    - Current song playing is highlighted
    - Messages displayed when queue empty
 
+COLLABORATIVE TESTING:
+- Testing collaborative features consisted of opening a new instance of the client in another browser and joining the same room, validating all the collaborative functionality. 
 TESTING:
 
 WARNINGS:
