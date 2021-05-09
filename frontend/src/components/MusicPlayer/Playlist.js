@@ -1,10 +1,9 @@
+import axios from "axios";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./Playlist.module.css";
-import axios from "axios";
 
 export default function Playlist() {
-    //placeholder playlist
     const { currentRoom, playlist, setPlaylist, version, setCurrentSong, setPlaying } = useContext(AppContext);
 
     const room = {
@@ -12,6 +11,7 @@ export default function Playlist() {
         password: currentRoom.password,
     };
 
+    //Removes the escaped characters from the title for better UX
     function removeSpecialChar(title) {
         return (
             title.replace(/&apos;/g, "'")
@@ -21,21 +21,18 @@ export default function Playlist() {
                 .replace(/&amp;/g, '&')
         )
     }
-
+    //Fetches playlist data everytime the version of the playlist is changed, making it dynamically fetch the new playlists
     useEffect(() => {
-        // console.log(`playlist rerendered: version is ${version}`)
+
         async function fetchData() {
             await axios
                 .post("http://localhost:3000/api/playlist/getall/", room)
                 .then((response) => {
                     if (response.data.length > 0) {
                         const songs = response.data;
-                        console.log(`Playlist contains ${songs.length} songs`);
                         setPlaylist(songs);
-                        console.log(`Setting current song to ${songs[0]._id}...`)
                         setCurrentSong(songs[0]);
                     } else {
-                        console.log(`Playlist is empty`)
                         setCurrentSong();
                         setPlaylist([]);
                         setPlaying(false);
@@ -45,7 +42,7 @@ export default function Playlist() {
         }
         fetchData();
     }, [version]);
-
+    //Constructs the playlist on the page based on the playlist data, if no songs are present then a message is displayed
     function buildPlaylist() {
         if (playlist && playlist.length > 0) {
             return playlist.map((song, index) => {
