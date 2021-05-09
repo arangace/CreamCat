@@ -1,6 +1,5 @@
 .navRoom {
   margin-top: 50px;
-  background-color: red;
 }
 .navPlaceholder {
   height: 50px;
@@ -16,9 +15,6 @@
 .RoomIDCopy:hover {
   cursor: pointer;
   user-select: none;
-}
-.highlight {
-  background-color: yellow;
 }
 .voteOverlay {
   margin-top: -30px;
