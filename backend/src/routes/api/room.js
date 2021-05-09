@@ -46,7 +46,6 @@ router.post("/join/", async (req, res) => {
                         res.header("Location", `/${room._id}`).json(room);
                     } else {
                         res.json("Password incorrect!");
-                        console.log();
                     }
                 } else {
                     res.header("Location", `/${room._id}`).json(room);

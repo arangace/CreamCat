@@ -232,7 +232,6 @@ export default function createSocketIoConnection(server) {
                         userCount: userCount,
                         song: song,
                     };
-                    console.log(payload);
 
                     // Room object with updated voting.skip
                     newRoom = {
@@ -294,8 +293,6 @@ export default function createSocketIoConnection(server) {
                     const newVoteCount = voteCount - 1;
                     newRoom.voting[voteType].count = newVoteCount;
                 });
-
-                console.log(newRoom);
 
                 await updateRoom(newRoom);
                 io.emit("Update userCount", newUserCount);
@@ -363,7 +360,6 @@ export default function createSocketIoConnection(server) {
                     votedFor.splice(index, 1);
                 }
             }
-            console.log(votedFor);
         }
     }
 }

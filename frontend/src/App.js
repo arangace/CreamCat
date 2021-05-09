@@ -13,7 +13,7 @@ function App() {
 
     const { setCurrentRoom } = useContext(AppContext);
 
-    //Check if the pre-joined room still exisit, if not, leave the room
+    //Check if the pre-joined room still exist, if not, leave the room
     async function checkRoomExist() {
         const localStorageCurrentRoom = JSON.parse(localStorage.getItem("currentRoom"));
         if (localStorageCurrentRoom) {
