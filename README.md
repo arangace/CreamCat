@@ -64,6 +64,7 @@ FEATURES:
 COLLABORATIVE TESTING:
 - Testing collaborative features consisted of opening a new instance of the client in another browser and joining the same room, validating all the collaborative functionality. 
 TESTING:
+- Collaborative features are tested extensively locally that validates our functionality of a collaborative environment.
 
 WARNINGS:
 Known errors: 
