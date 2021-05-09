@@ -25,15 +25,6 @@ async function clearStaleRoom(){
             await deleteRoom(room._id);
         });
     }
-    // if (deletedCount) {
-    //     console.log(`[${dayjs().format(`HH:mm:ss`)}] Removed ${deletedCount} expired rooms`);
-    // }
-    
-    // console.log(dayjs().add(-1, 'hour').format('YYYY-MM-DD HH:mm:ss'));
-    // const time1 = dayjs('2021-05-05');
-    // const time2 = dayjs();
-    // const diff = time1.diff(time2, 'seconds');
-    // console.log(diff);
 }
 
 setInterval(clearStaleRoom, 60000);
@@ -53,8 +44,6 @@ if (process.env.NODE_ENV === 'production') {
 
 // Setup socket.io server
 import http from 'http';
-import socketIo from 'socket.io';
-import onConnection from './socket-io/socket-api';
 import createSocketIoConnection from './socket-io/socket-api';
 import { deleteRoom, retrieveStaleRooms } from './rooms-data/rooms-dao';
 import { deleteSongs } from './rooms-data/songs-dao';
@@ -65,4 +54,3 @@ app.set('socketio', io);
 // Start the DB running. Then, once it's connected, start the server.
 connectToDatabase()
     .then(() => server.listen(port, () => console.log(`App server listening on port ${port}!`)));
-//app.listen(port, () => console.log(`App server listening on port ${port}!`));

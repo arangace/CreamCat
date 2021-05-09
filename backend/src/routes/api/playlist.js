@@ -1,7 +1,6 @@
 import express from 'express';
-import { Error } from 'mongoose';
 import { retrieveRoom } from '../../rooms-data/rooms-dao';
-import { addSong, retrieveAllSongs, retrieveSong, updateSong,deleteSong } from '../../rooms-data/songs-dao';
+import { addSong, retrieveAllSongs } from '../../rooms-data/songs-dao';
 
 const HTTP_CREATED = 201;
 const HTTP_NOT_FOUND = 404;
@@ -81,87 +80,6 @@ router.post('/getall/', async (req, res) => {
 });
 
 
-router.post('/getone/', async (req, res) => {
-    try{
-        if (!req.body.roomID) {
-            throw("Room ID not in request body");
-        }
-        const room = await retrieveRoom(req.body.roomID);
-
-        if(room){
-            if(room.password == req.body.password){
-                const song = await retrieveSong(req.body.id);
-                res.json(song);
-            }
-            else{
-                res.status(HTTP_UNAUTHORIZED).json('invalid password!');
-            }
-        }
-        else{
-            res.status(HTTP_NOT_FOUND).json('room not found!');
-        }
-    }catch(err){
-        res.status(HTTP_BAD_REQUEST).json(err);
-    }
-});
-
-router.put('/:id', async (req, res) => {
-    try{
-        if (!req.body.roomID) {
-            throw("Room ID not in request body");
-        }
-        const room = await retrieveRoom(req.body.roomID);
-        if(room){
-            if(room.password == req.body.password){
-                const song = {
-                    _id: req.params,
-                    roomID: req.body.roomID,
-                    title: req.body.title,
-                    content: req.body.content,
-                    image: req.body.image,
-                    description: req.body.description,
-                    channelTitle: req.body.channelTitle,
-                    source: req.body.source
-                };
-
-                const success = await updateSong(song);
-                res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
-            }
-            else{
-                res.status(HTTP_UNAUTHORIZED).json('invalid password!');
-            }
-        }
-        else{
-            res.status(HTTP_NOT_FOUND).json('room not found!');
-        }
-    }catch(err){
-        res.status(HTTP_BAD_REQUEST).json(err);
-    }
-});
-
-router.delete('/:id', async (req, res) => {
-    try{
-        if (!req.body.roomID) {
-            throw("Room ID not in request body");
-        }
-        const room = await retrieveRoom(req.body.roomID);
-        if(room){
-            if(room.password == req.body.password){
-                const { id } = req.params;
-                await deleteSong(id);
-                res.sendStatus(HTTP_NO_CONTENT);
-            }
-            else{
-                res.status(HTTP_UNAUTHORIZED).json('invalid password!');
-            }
-        }
-        else{
-            res.status(HTTP_NOT_FOUND).json('room not found!');
-        }
-    }catch(err){
-        res.status(HTTP_BAD_REQUEST).json(err);
-    }
-});
 
 export default router;
 

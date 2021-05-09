@@ -1,6 +1,6 @@
-import socketIo, { Server } from "socket.io";
-import { deleteRoom, retrieveRoom, updateRoom } from "../rooms-data/rooms-dao";
-import { deleteSong, retrieveAllSongs } from "../rooms-data/songs-dao";
+import socketIo from "socket.io";
+import { retrieveRoom, updateRoom } from "../rooms-data/rooms-dao";
+import { deleteSong } from "../rooms-data/songs-dao";
 import dayjs from "dayjs";
 
 export default function createSocketIoConnection(server) {
