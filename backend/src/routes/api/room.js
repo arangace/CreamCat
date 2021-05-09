@@ -38,7 +38,6 @@ router.post("/join/", async (req, res) => {
     try {
         const id = req.body._id;
         const password = req.body.password;
-s
         if (id) {
             const room = await retrieveRoom(id);
             if (room) {
