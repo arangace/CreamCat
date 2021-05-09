@@ -67,6 +67,15 @@ COLLABORATIVE TESTING:
 - Collaborative features are tested extensively locally that validates our functionality of a collaborative environment.
 
 TESTING:
+Our testing consisted of using the react testing library and functional tests
+   FrontEnd Testing
+      1. cd frontend
+      2. npm test
+
+   BackEnd Testing
+      1. cd backend
+      2. npm test
+
 
 WARNINGS:
 Known errors: 
