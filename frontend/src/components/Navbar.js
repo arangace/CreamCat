@@ -18,7 +18,7 @@ export default function NavBar() {
     return (
         <>
             <Navbar fixed="top" bg="dark" variant="dark">
-                <Navbar.Brand href="/Home">CreamCat</Navbar.Brand>
+                <Navbar.Brand href="/Home"><img src="/head-icon.jpg" height="20px" width="20px" alt=""></img>CreamCat</Navbar.Brand>
                 <Nav className="mr-auto">
                     {!currentRoom && <Nav.Link href="JoinRoom">Join Room</Nav.Link>}
                     {!currentRoom && <Nav.Link href="CreateRoom">Create Room</Nav.Link>}
