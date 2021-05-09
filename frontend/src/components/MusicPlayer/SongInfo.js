@@ -1,11 +1,11 @@
-import { Card } from "react-bootstrap";
 import React, { useContext } from "react";
+import { Card } from "react-bootstrap";
 import { AppContext } from '../../AppContextProvider';
 import styles from "./Playbar.module.css";
 export default function SongInfo() {
 
     const { currentSong } = useContext(AppContext);
-
+    //Remove escaped characters from the title when displaying on the song information
     function removeSpecialChar(title) {
         return (
             title.replace(/&apos;/g, "'")

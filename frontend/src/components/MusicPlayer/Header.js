@@ -1,17 +1,16 @@
-import { Navbar, Tooltip, OverlayTrigger } from "react-bootstrap";
 import React, { useContext } from "react";
+import { Navbar, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { FaClipboard } from "react-icons/fa";
 import { AppContext } from "../../AppContextProvider";
 import SearchBar from "../SearchBar";
 import styles from "./Header.module.css";
-import { FaClipboard } from "react-icons/fa";
 
 export default function Header() {
     const { currentRoom } = useContext(AppContext);
     function handleClick(RoomIDCopiedValue) {
-        console.log(RoomIDCopiedValue);
         navigator.clipboard.writeText(RoomIDCopiedValue)
     }
-
+    //Renders new navigation bar when inside the room for room functionalities.
     return (
         <>
             <div className={styles.navRoom}>
@@ -32,14 +31,6 @@ export default function Header() {
                             </OverlayTrigger>
                         </div>
                     </Navbar.Collapse>
-                    {/*<Form inline>
-                        <FormControl
-                            type="text"
-                            placeholder="Search"
-                            className="mr-sm-2"
-                        />
-                        <Button variant="outline-info" onClick={handleSearch}>Search</Button>
-                    </Form>*/}
                     <SearchBar />
                 </Navbar>
             </div>

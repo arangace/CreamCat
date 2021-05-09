@@ -1,13 +1,11 @@
-import { Container, ProgressBar, Card, Badge } from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import "react-bootstrap";
+import { Badge, Container, ProgressBar } from "react-bootstrap";
+import ReactPlayer from "react-player";
+import { AppContext } from "../../AppContextProvider";
 import styles from "./Playbar.module.css";
 import SongControls from "./SongControls";
 import SongInfo from "./SongInfo";
-import { AppContext } from "../../AppContextProvider";
-import "react-bootstrap";
-import React, { useContext, useEffect, useState } from "react";
-import ReactPlayer from "react-player";
-import dayjs from "dayjs";
-//import axios from "axios";
 
 export default function Playbar() {
     const [duration, setDuration] = useState(0);
@@ -20,38 +18,33 @@ export default function Playbar() {
     const { socket, currentSong, key, playing, setPlaying, elapsedTime, setElapsedTime } = useContext(
         AppContext
     );
-
+    //Sets default volume on joining room to 30% of max
     useEffect(() => {
         setVolume(0.3);
     }, []);
 
+    //If there is a current song, return the content of the song i.e. url and title
     function currentSongContext() {
         if (currentSong) {
             return currentSong.content;
-        } else {
-            console.log(`No current song!`);
         }
     }
-
+    //Send the duration of the song to the context
     function handleOnProgress(e) {
         setDuration(e.playedSeconds);
     }
+    //Send the song length to the context
     function handleSongLengthChange(e) {
         setSongLength(e.toFixed(0) - 1);
     }
-
+    //Once the songs ended, emit to the server so every client gets the message
     async function handleOnEnded() {
-        console.log(`Song ended ${dayjs().toString()}`);
         socket.emit("Song ended", currentSong);
-        //await axios.post('http://localhost:3000/api/room/end/', currentSong);
     }
-
+    //Once the songs started, emit to the server so every client gets the message
     async function handleOnStart() {
-        console.log(`Song started ${dayjs().toString()}`);
         socket.emit("Song started", currentSong);
-        //const response = await axios.post('http://localhost:3000/api/room/start/', currentSong);
-        //const elapsedTime = response.data;
-        console.log(`Setting song progress to ${elapsedTime}`)
+
         if (elapsedTime > songLength) {
             setElapsedTime(0);
             socket.emit("Song ended", currentSong);
@@ -71,7 +64,6 @@ export default function Playbar() {
                 progressInterval={playbarRenderTime}
                 onReady={() => {
                     setPlaying(true);
-                    // player.seekTo(2);
                 }}
                 key={key}
                 playing={playing}
