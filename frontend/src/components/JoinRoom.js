@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
+import { Badge, Button, Container, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { Badge, Button, Form, Container } from "react-bootstrap";
 import { AppContext } from "../AppContextProvider";
 import "./styles.css";
 
@@ -8,26 +8,19 @@ export default function JoinRoomPage() {
     const { joinRoom } = useContext(AppContext);
 
     const [roomIdInput, setRoomIdInput] = useState("");
-    // const [ nameInput, setNameInput ] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
 
     const [message, setMessage] = useState("");
 
     const history = useHistory();
 
+    //sends user to the room page and sends information to the database
     async function handleJoinRoom() {
-        console.log(roomIdInput);
-        // console.log(nameInput);
-        console.log(passwordInput);
-
         const sessionData = {
             _id: roomIdInput,
-            // name: nameInput,
             password: passwordInput,
         };
 
-        console.log("submitting info...");
-        console.log(sessionData);
         if (sessionData._id) {
             const response = await joinRoom(sessionData);
             if (response === "forward") {
@@ -53,7 +46,6 @@ export default function JoinRoomPage() {
                             <Form.Group controlId="RoomID">
                                 <Form.Label>Room ID</Form.Label>
                                 <Form.Control
-                                    // value={roomID}
                                     onInput={(e) =>
                                         setRoomIdInput(e.target.value)
                                     }
@@ -63,7 +55,6 @@ export default function JoinRoomPage() {
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password (Optional)</Form.Label>
                                 <Form.Control
-                                    // value={password}
                                     onInput={(e) =>
                                         setPasswordInput(e.target.value)
                                     }

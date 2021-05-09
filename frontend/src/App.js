@@ -1,26 +1,27 @@
+import axios from 'axios';
+import { useContext } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { AppContext } from "./AppContextProvider";
 import CreateRoomPage from "./components/CreateRoom";
-import Room from "./components/Room";
 import HomePage from "./components/HomePage";
 import JoinRoomPage from "./components/JoinRoom";
 import NavBar from "./components/Navbar";
+import Room from "./components/Room";
 import RoomPage from "./components/RoomPage";
-import axios from 'axios';
-import { useContext } from "react";
-import { AppContext } from "./AppContextProvider";
 
 function App() {
 
     const { setCurrentRoom } = useContext(AppContext);
 
-    async function checkRoomExist(){
+    //Check if the pre-joined room still exist, if not, leave the room
+    async function checkRoomExist() {
         const localStorageCurrentRoom = JSON.parse(localStorage.getItem("currentRoom"));
-        if(localStorageCurrentRoom){
+        if (localStorageCurrentRoom) {
             const response = await axios.post(
                 "http://localhost:3000/api/room/join/",
                 localStorageCurrentRoom
             );
-            if(!response.data.name){
+            if (!response.data.name) {
                 localStorage.removeItem("currentRoom");
                 setCurrentRoom("");
             }
@@ -36,20 +37,20 @@ function App() {
             </div>
             <Switch>
                 <Route path="/Home">
-                    <HomePage/>
+                    <HomePage />
                 </Route>
                 <Route path="/Features"></Route>
                 <Route path="/RoomPage">
-                    <RoomPage/>
+                    <RoomPage />
                 </Route>
                 <Route path="/CreateRoom">
-                    <CreateRoomPage/>
+                    <CreateRoomPage />
                 </Route>
                 <Route path="/Room">
-                    <Room/>
+                    <Room />
                 </Route>
                 <Route path="/JoinRoom">
-                    <JoinRoomPage/>
+                    <JoinRoomPage />
                 </Route>
                 <Route path="*">
                     <Redirect to="/Home" />

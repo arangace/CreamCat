@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
-import { FaPlay, FaPause, FaStepForward } from "react-icons/fa";
+import { FaPause, FaPlay, FaStepForward } from "react-icons/fa";
 import { AppContext } from "../../AppContextProvider";
 import styles from "./SongControls.module.css";
 export default function SongControls() {
@@ -15,12 +15,10 @@ export default function SongControls() {
     } = useContext(AppContext);
 
     const [playButtonText, setPlayButtonText] = useState(<FaPause />);
-
+    //Upon click of vote skip send the vote to the backend through the socket and emit it to other users so they're aware of the vote count
     function handleVoteSkip() {
         if (currentSong) {
-            console.log(`handleVoteSkip voteSkip = ${voteSkip}`);
             const vote = !voteSkip;
-            console.log(`voteSkip set to ${vote}`);
             setVoteSkip((v) => !v);
             const payload = {
                 roomID: currentRoom._id,
@@ -35,7 +33,7 @@ export default function SongControls() {
             setTimeout(() => setDisplayNoCurrentSongAlert(false), 2000);
         }
     }
-
+    //When the playling value changes, the button look is changed
     useEffect(() => {
         if (playing) {
             setPlayButtonText(<FaPause />);

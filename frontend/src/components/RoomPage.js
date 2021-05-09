@@ -1,5 +1,6 @@
 import { Badge, Button, Card } from "react-bootstrap";
 
+// buttons to link to pages createRoomPage and JoinRoomPage  
 export default function RoomPage() {
     return (
         <>
