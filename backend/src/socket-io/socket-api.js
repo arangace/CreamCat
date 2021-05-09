@@ -185,7 +185,7 @@ export default function createSocketIoConnection(server) {
                             if (voteIsSuccessful(userCount, voteCount)) {
                                 action = "passed";
                                 // remove voteType from votedFor on a successful vote
-                                changeVotes(votedFor, voteType, false);                               
+                                changeVotes(votedFor, voteType, false);
                             }
                             voteTimeout(
                                 roomID,
@@ -229,7 +229,7 @@ export default function createSocketIoConnection(server) {
                         voteType: voteType,
                         voteCount: voteCount,
                         userCount: userCount,
-                        song: song
+                        song: song,
                     };
                     console.log(payload);
 
@@ -292,16 +292,6 @@ export default function createSocketIoConnection(server) {
                     const voteCount = roomToUpdate.voting[voteType].count;
                     const newVoteCount = voteCount - 1;
                     newRoom.voting[voteType].count = newVoteCount;
-                    
-                    const payload = {
-                        action: "update",
-                        voteType: voteType,
-                        voteCount: newVoteCount,
-                        userCount: newUserCount,
-                        song: ""
-                    };
-
-                    io.sockets.in(roomID).emit("Vote", payload);
                 });
 
                 await updateRoom(newRoom);
@@ -325,9 +315,10 @@ export default function createSocketIoConnection(server) {
                     // Fail code if
                     if (
                         lastPassed == null ||
-                        (lastPassed && lastPassed.isBefore(
-                            dayjs().add(-timeout, "millisecond"))
-                        )
+                        (lastPassed &&
+                            lastPassed.isBefore(
+                                dayjs().add(-timeout, "millisecond")
+                            ))
                     ) {
                         console.log("Vote timed out");
                         changeVotes(votedFor, voteType, false);
