@@ -30,6 +30,27 @@ Deployment from command line:
    7. Run npm install in the terminal
    8. Run npm start or click on the start - backend under NPM SCRIPTS, backend\package.json
 
+Deployment from VSCode:
+
+   1. Click File -> Open folder...
+   2. Navigate to the folder where CreamCat is located
+   3. Click open folder
+   4. Frontend and backend folders should be present in working directory
+   
+   Frontend deployment
+
+   1. Open a new terminal window
+   2. type "cd frontend"
+   3. Run npm install in the terminal (type: "npm install")
+   4. Run "npm start" or click on the start - frontend under NPM SCRIPTS, frontend\package.json
+
+   Backend deployment
+
+   5. Open a new terminal window
+   6. type "cd backend"
+   7. Run npm install in the terminal
+   8. Run npm start or click on the start - backend under NPM SCRIPTS, backend\package.json
+
 (NOTE: if the NPM SRIPTS don't show in the bottom lefthand corner, click package.json once)
 (NOTE: if running in development mode, run nodemon - backend instead)
 
