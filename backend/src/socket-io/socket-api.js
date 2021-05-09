@@ -316,9 +316,10 @@ export default function createSocketIoConnection(server) {
                     // Fail condition
                     if (
                         lastPassed == null ||
-                        lastPassed.isBefore(
-                            dayjs().add(-timeout, "millisecond")
-                        )
+                        (lastPassed &&
+                            lastPassed.isBefore(
+                                dayjs().add(-timeout, "millisecond")
+                            ))
                     ) {
                         console.log("Vote timed out");
                         changeVotes(votedFor, voteType, false);
