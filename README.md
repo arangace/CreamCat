@@ -42,10 +42,11 @@ FEATURES:
 - Persist rooms for an hour if inactive
 - Songs and rooms deleted when inactive for storage
 - Users can join rooms and syncs the player
-- Player syncs dynamically to where the song is at 
+- Player duration syncs dynamically to where the song is at 
 - Volume changed locally
-- Vote skip song
-- Add song through search bar
+- Vote skip song dynamically shown to all users with updated information
+- Dark theme for less eye strain
+- Add song or songs through search bar and playlist updates dynamically
 - Song info shown on bottom left
 - Dynamic duration bar
 - Ability to rejoin room through the navigation bar
