@@ -292,9 +292,17 @@ export default function createSocketIoConnection(server) {
                     const voteCount = roomToUpdate.voting[voteType].count;
                     const newVoteCount = voteCount - 1;
                     newRoom.voting[voteType].count = newVoteCount;
-                });
+                    
+                    const payload = {
+                        action: "update",
+                        voteType: voteType,
+                        voteCount: newVoteCount,
+                        userCount: newUserCount,
+                        song: ""
+                    };
 
-                console.log(newRoom);
+                    io.sockets.in(roomID).emit("Vote", payload);
+                });
 
                 await updateRoom(newRoom);
                 io.emit("Update userCount", newUserCount);
@@ -317,8 +325,8 @@ export default function createSocketIoConnection(server) {
                     // Fail code if
                     if (
                         lastPassed == null ||
-                        lastPassed.isBefore(
-                            dayjs().add(-timeout, "millisecond")
+                        (lastPassed && lastPassed.isBefore(
+                            dayjs().add(-timeout, "millisecond"))
                         )
                     ) {
                         console.log("Vote timed out");
