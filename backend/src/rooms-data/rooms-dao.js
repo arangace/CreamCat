@@ -1,7 +1,5 @@
 import { Room } from "./rooms-schema";
 
-
-
 export async function createRoom(room) {
     const dbRoom = new Room(room);
     await dbRoom.save();
@@ -13,14 +11,17 @@ export async function retrieveRoom(id) {
 }
 
 export async function updateRoom(room) {
-    const result = await Room.findByIdAndUpdate(room._id, room, { new: true, useFindAndModify: false });
-    return(result ? true : false);
+    const result = await Room.findByIdAndUpdate(room._id, room, {
+        new: true,
+        useFindAndModify: false,
+    });
+    return result ? true : false;
 }
 
 export async function deleteRoom(id) {
-    await Room.deleteOne({_id:id});
+    await Room.deleteOne({ _id: id });
 }
 
 export async function retrieveStaleRooms(time) {
-    return await Room.find({ lastActive: {$lte: time}});
+    return await Room.find({ lastActive: { $lte: time } });
 }

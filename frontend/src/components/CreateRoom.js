@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Badge, Button, Container, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { AppContext } from "../AppContextProvider";
@@ -15,10 +15,8 @@ export default function CreateRoomPage() {
 
     const history = useHistory();
 
+    //creates room in the database and sends user to the roomPage
     async function handleCreateRoom() {
-        console.log(roomNameInput);
-        console.log(roomDescInput);
-        console.log(passwordInput);
 
         const sessionData = {
             name: roomNameInput,
@@ -26,8 +24,6 @@ export default function CreateRoomPage() {
             password: passwordInput,
         };
 
-        console.log("submitting info...");
-        console.log(sessionData);
         if (sessionData.name) {
             await createRoom(sessionData);
             history.replace(`/Room`);
